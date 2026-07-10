@@ -1150,6 +1150,9 @@
       .two-col {
         grid-template-columns: 1fr;
       }
+      .exp-two-col {
+        flex-direction: column;
+      }
       .track-preview {
         grid-template-columns: 1fr;
       }
@@ -1157,13 +1160,20 @@
         height: 300px;
         border-left: none;
         border-top: 1px solid var(--border);
-        order: -1;
       }
       .track-cta {
         bottom: 14px;
         right: 14px;
         padding: 10px 20px;
         font-size: 13px;
+      }
+      .portfolio-heading h1 {
+        padding: 16px 28px;
+        letter-spacing: 0.07em;
+      }
+      .section-label span {
+        padding: 8px 20px;
+        letter-spacing: 0.07em;
       }
     }
 
@@ -1178,6 +1188,20 @@
       }
       .track-image {
         height: 220px;
+      }
+      .track-preview--wide .track-text {
+        padding-right: 110px;
+      }
+      .featured-card {
+        flex: 0 0 92%;
+      }
+      .portfolio-heading h1 {
+        padding: 14px 18px;
+        letter-spacing: 0.05em;
+      }
+      .section-label span {
+        padding: 7px 14px;
+        letter-spacing: 0.05em;
       }
     }
     /* ===== DETAILS MODAL ===== */
