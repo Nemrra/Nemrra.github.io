@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Active Filter Design — David Shmail</title>
+  <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep:       #0a0a0e;
+      --bg-image:      #0c0c10;
+      --text-primary:  #e8e8ec;
+      --text-secondary:#a8a8b0;
+      --text-muted:    #78788a;
+      --border:        rgba(255,255,255,0.04);
+      --blue:          #5b9cf6;
+      --green-border:  rgba(118,190,0,0.2);
+      --green-dim:     rgba(118,190,0,0.03);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-deep);
+      background-image: radial-gradient(circle, rgba(91,156,246,0.028) 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      padding-bottom: 100px;
+    }
+
+    .page-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 20px clamp(20px, 5vw, 80px);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .page-nav a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+    .page-nav a:hover { color: var(--blue); }
+    .nav-sep { color: var(--text-muted); }
+    .nav-current { color: var(--text-primary); }
+
+    .project-wrap {
+      width: min(92%, 1080px);
+      margin: 0 auto;
+    }
+
+    .project-hero { padding: 52px 0 36px; }
+    .project-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .project-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(22px, 2.8vw, 38px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.18;
+      margin-bottom: 18px;
+    }
+    .project-intro {
+      font-size: clamp(13px, 1vw, 15px);
+      color: var(--text-secondary);
+      line-height: 1.72;
+      margin-bottom: 16px;
+    }
+    .project-tech {
+      font-size: clamp(11px, 0.85vw, 13px);
+      color: #c0c0ca;
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 11px 15px;
+      background: var(--green-dim);
+      line-height: 1.6;
+    }
+
+    .project-body { border-top: 1px solid var(--border); padding-top: 8px; }
+    .project-section { padding-top: 32px; margin-bottom: 8px; }
+    .section-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(91,156,246,0.2);
+    }
+    .project-section ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .project-section ul li {
+      font-size: clamp(12px, 0.9vw, 13.5px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      padding-left: 22px;
+      position: relative;
+    }
+    .project-section ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+      opacity: 0.55;
+    }
+
+    .project-gallery {
+      margin-top: 52px;
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--blue);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-deep);
+      position: relative;
+    }
+    .slide-viewport {
+      height: clamp(280px, 52vh, 600px);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-deep);
+    }
+    .slide { display: none; width: 100%; height: 100%; align-items: center; justify-content: center; padding: 20px 60px; box-sizing: border-box; }
+    .slide.active { display: flex; }
+    .slide img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 5px; flex-shrink: 1; }
+    .slide-pause-icon {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(9,9,14,0.72); border: 1px solid var(--border);
+      color: var(--text-primary); font-size: 22px;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; opacity: 0; transition: opacity 0.25s ease; z-index: 3;
+    }
+    .slide-viewport.paused .slide-pause-icon { opacity: 1; }
+    .slide-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(14,14,18,0.82); border: 1px solid var(--border);
+      color: var(--text-primary); width: 40px; height: 40px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 16px; transition: all 0.2s ease; z-index: 5;
+    }
+    .slide-nav:hover { background: var(--blue); color: #09090e; border-color: var(--blue); }
+    .slide-prev { left: 12px; }
+    .slide-next { right: 12px; }
+    .slide-footer { padding: 10px 16px 12px; display: flex; align-items: center; gap: 12px; }
+    .slide-counter { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--text-muted); letter-spacing: 1px; white-space: nowrap; }
+    .slide-progress-track { flex: 1; height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; }
+    .slide-progress-fill { height: 100%; background: var(--blue); border-radius: 1px; width: 0%; }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="index.html">Portfolio</a>
+    <span class="nav-sep">/</span>
+    <a href="signal.html">Signal Processing &amp; Machine Learning</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-current">Active Filter Design</span>
+  </nav>
+
+  <div class="project-wrap">
+
+    <div class="project-hero">
+      <div class="project-tag">Signal Processing</div>
+      <h1 class="project-title">Active Filter Design &mdash; Frequency-Response Analysis and Hardware-Validated Signal Processing</h1>
+      <p class="project-intro">A pair of active-filter design studies: analogue low-pass, high-pass and band-stop filters derived from first-principles circuit analysis, characterised across three independent domains &mdash; analytical, simulated, and hardware-measured &mdash; and applied to remove an unknown noise tone from a real corrupted audio recording, closing with an open-ended investigation into the design&rsquo;s underlying performance ceiling.</p>
+      <div class="project-tech">MATLAB/Simulink (Bode Plot &amp; Discrete Transfer Fcn blocks, Audio Toolbox, c2d discretisation) &middot; Digilent Analog Discovery 2 / WaveForms (Network Analyzer, Wavegen, oscilloscope, spectrum analyser) &middot; breadboard op-amp circuit prototyping &middot; FFT-based audio spectral analysis</div>
+    </div>
+
+    <div class="project-body">
+
+      <div class="project-section">
+        <div class="section-title">Filter Synthesis &amp; Transfer-Function Derivation</div>
+        <ul>
+          <li>Derived first- and second-order active low-pass and high-pass filter transfer functions from op-amp circuit topologies via nodal analysis, expressing passband gain and cutoff frequency as independently tunable design parameters.</li>
+          <li>Derived the dual high-pass response of a second-order filter by swapping its resistive and capacitive elements, re-deriving the full transfer function from scratch and confirming filter type from the circuit&rsquo;s low- and high-frequency limiting behaviour rather than by inspection.</li>
+          <li>Extracted the design&rsquo;s quality factor from its characteristic polynomial, correctly identifying a critically-damped, repeated-pole response and connecting a classical circuits result to formal pole-placement theory.</li>
+        </ul>
+      </div>
+
+      <div class="project-section">
+        <div class="section-title">Frequency-Domain Characterisation &amp; Cross-Validation</div>
+        <ul>
+          <li>Characterised each filter&rsquo;s frequency response three independent ways &mdash; closed-form derivation, Simulink&rsquo;s Bode Plot tooling, and a manually swept hardware measurement &mdash; confirming close agreement across all three and validating the design from theory through to a physical breadboard build.</li>
+          <li>Explained subtler Bode-plot features (asymptotic slopes, corner-frequency magnitude offsets, phase behaviour at repeated poles and zeros) directly from pole-zero structure rather than treating them as simulation artefacts.</li>
+          <li>Diagnosed the modest gap between hardware measurement and theory by systematically ranking real-world contributors &mdash; component manufacturing tolerance, op-amp bandwidth limitations, breadboard parasitics, and instrument noise floor &mdash; by expected significance.</li>
+          <li>Applied Fourier/LTI superposition reasoning to predict and verify the filtered output for a non-sinusoidal square-wave input, correctly reconciling the measured response against a naive prediction by accounting for the waveform&rsquo;s harmonic content.</li>
+        </ul>
+      </div>
+
+      <div class="project-section">
+        <div class="section-title">Band-Stop Filter Design &amp; Digital Signal Processing</div>
+        <ul>
+          <li>Identified an unknown noise tone corrupting a recorded audio signal via FFT-based spectral analysis, then used the measured frequency &mdash; rather than an assumed one &mdash; to directly drive a hardware filter design.</li>
+          <li>Synthesised a parallel low-pass/high-pass/summing-amplifier band-stop filter targeting the measured noise frequency, balancing the centre-frequency design constraint against the need to preserve nearby voice content, and sized all passive components against real, kit-available values.</li>
+          <li>Discretised the continuous filter design to run in real time against a full audio stream in Simulink, correctly handling the mismatch between continuous-time design and discrete-time execution.</li>
+          <li>Cross-validated the resulting digital filter across simulated frequency response, spectral (FFT) comparison of filtered versus unfiltered audio, and physical hardware measurement &mdash; and derived an original insight into why the design&rsquo;s centre frequency proved more robust to component tolerance than its bandwidth.</li>
+        </ul>
+      </div>
+
+      <div class="project-section">
+        <div class="section-title">Root-Cause Diagnosis &amp; Design Trade-offs</div>
+        <ul>
+          <li>Diagnosed the filter&rsquo;s incomplete noise rejection as an architectural limitation rather than a build defect: because each parallel branch has a fixed roll-off, notch depth and stopband width are inherently coupled, and no amount of component tuning alone could deepen the notch without encroaching on the voice band.</li>
+          <li>Identified a subtler underlying mechanism &mdash; that rejection actually arises from phase cancellation between the two branches rather than pure amplitude subtraction &mdash; explaining why hardware measurements underperformed simulation by more than component tolerance alone would predict.</li>
+          <li>Proposed and critically compared two alternative redesigns against the diagnosed root causes: a true notch-filter topology that decouples depth from bandwidth at the cost of added complexity, versus cascading repeated filter stages that trades duplicated components for compounding but imperfect attenuation &mdash; selecting between them based on the specific nature of the measured disturbance.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="project-gallery">
+      <div class="slide-viewport" id="sns-slide-viewport">
+        <div class="slide active"><img src="assets/SNS_portfolio/SNS_portfolio_filtering_topology.png" alt="Filter topology"></div>
+        <div class="slide"><img src="assets/SNS_portfolio/SNS_portfolio_filtering_TF.png" alt="Transfer function derivation"></div>
+        <div class="slide"><img src="assets/SNS_portfolio/SNS_portfolio_filtering_bode.png" alt="Bode plot 1"></div>
+        <div class="slide"><img src="assets/SNS_portfolio/SNS_portfolio_filtering_bode2.png" alt="Bode plot 2"></div>
+        <div class="slide"><img src="assets/SNS_portfolio/SNS_portfolio_filtering_bode3.png" alt="Bode plot 3"></div>
+        <div class="slide"><img src="assets/SNS_portfolio/SNS_portfolio_filtering_result_comparison.png" alt="Result comparison"></div>
+        <div class="slide-pause-icon">&#9646;&#9646;</div>
+      </div>
+      <button class="slide-nav slide-prev" id="sns-prev">&#8592;</button>
+      <button class="slide-nav slide-next" id="sns-next">&#8594;</button>
+      <div class="slide-footer">
+        <span class="slide-counter" id="sns-counter">1 / 6</span>
+        <div class="slide-progress-track">
+          <div class="slide-progress-fill" id="sns-progress"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      const viewport = document.getElementById('sns-slide-viewport');
+      const slides   = viewport.querySelectorAll('.slide');
+      const prevBtn  = document.getElementById('sns-prev');
+      const nextBtn  = document.getElementById('sns-next');
+      const counter  = document.getElementById('sns-counter');
+      const progress = document.getElementById('sns-progress');
+
+      const SLIDE_MS = 4000, TICK_MS = 40;
+      let slideIdx = 0, elapsed = 0, paused = false;
+
+      function goToSlide(n) {
+        slides[slideIdx].classList.remove('active');
+        slideIdx = (n + slides.length) % slides.length;
+        slides[slideIdx].classList.add('active');
+        counter.textContent = (slideIdx + 1) + ' / ' + slides.length;
+        elapsed = 0;
+        progress.style.transition = 'none';
+        progress.style.width = '0%';
+      }
+
+      setInterval(() => {
+        if (paused) return;
+        elapsed += TICK_MS;
+        progress.style.transition = 'none';
+        progress.style.width = Math.min((elapsed / SLIDE_MS) * 100, 100) + '%';
+        if (elapsed >= SLIDE_MS) goToSlide(slideIdx + 1);
+      }, TICK_MS);
+
+      viewport.addEventListener('click', () => {
+        paused = !paused;
+        viewport.classList.toggle('paused', paused);
+      });
+      prevBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx - 1); });
+      nextBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx + 1); });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft')  goToSlide(slideIdx - 1);
+        if (e.key === 'ArrowRight') goToSlide(slideIdx + 1);
+      });
+    }());
+  </script>
+
+</body>
+</html>

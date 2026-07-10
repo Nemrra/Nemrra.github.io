@@ -1,0 +1,23 @@
+PID-Controlled Drone Platform — Attitude Regulation & Test-Rig-Driven Tuning
+
+Tech stack: embedded C/C++ flight control, IMU sensor filtering, 
+MATLAB (transfer-function & closed-loop stability analysis), 
+custom single-axis tuning stand / test rig
+
+A PID-controlled drone platform built and tuned for stable attitude 
+regulation under actuator saturation and disturbance inputs — with a 
+dedicated tuning stand designed to make the process measurable and safe: 
+isolating axes, validating sign conventions, and capturing clean step 
+responses for iterative gain tuning, rather than tuning by crash.
+
+Control Systems Skills:
+    - Applied frequency- and time-domain methods (transfer functions, 
+      Laplace-domain modelling, closed-loop stability analysis) to predict 
+      system behaviour before flight, then verified against measured step 
+      responses.
+    - Refined the controller through root-locus / Bode intuition and 
+      gain/phase-margin reasoning, with practical compensations layered in: 
+      derivative filtering, anti-windup, and setpoint ramping.
+    - Handled the discrete-time realities of an embedded controller — 
+      sampling effects, sensor filtering, and robust tuning for repeatable 
+      behaviour across operating conditions.

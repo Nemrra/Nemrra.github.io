@@ -1,0 +1,50 @@
+Planetary Rover Science Payload — Precision Gantry & ISRU Instrument 
+Integration (Unimelb Rover Team)
+
+Co-developed the science-payload motion and integration hardware for a 
+planetary-analogue rover: a precision gantry providing stable linear 
+translation and repeatable positioning for a spectrometer, focused imaging 
+module, and regolith-preparation brush and drill. Engineered through the 
+late-design and manufacturing stages of the 2025–26 development cycle, 
+under strict mass, volume, and competition-rule constraints — where 
+positioning repeatability and vibration isolation directly bound 
+measurement quality for in-situ resource analysis.
+
+Tech stack: Onshape (collaborative parametric CAD, part-based modelling), 
+SOLIDWORKS, first-order FEA validation, FDM additive-manufacturing 
+iteration pipeline, workshop manufacturing workflows (Telstra Creator 
+Space)
+
+Mechanical Design & Integration Skills:
+  - Precision linear-motion design under coupled constraints — stable 
+    translation and repeatable instrument alignment traded against a hard 
+    mass and packaging envelope.
+  - Stiffness-to-weight-driven structural design of framing and gantry 
+    members, validated with first-order FEA rather than section-guessing.
+  - Tolerance control across mating interfaces so that as-manufactured 
+    assemblies preserve the alignment repeatability the instruments 
+    require.
+  - Mounting-interface design for vibration-sensitive instrumentation, 
+    managing transmitted vibration for measurement reliability.
+  - Subsystem integration within a shared rover architecture — packaging 
+    the gantry, drilling, and water-extraction processing units against 
+    interfaces owned by other subteams.
+  - Design-for-manufacture iteration: rapid FDM print-test-revise loops 
+    enabling frequent design turns through the manufacturing stage.
+
+Subsystem Contributions:
+  - Precision Gantry:
+      Linear-translation stage carrying the spectrometer, focused imaging 
+      module, and regolith-preparation tooling — designed for repeatable 
+      re-positioning between sample-preparation and measurement 
+      operations, where alignment error and structural compliance appear 
+      directly as measurement degradation.
+  - Structural Framing & Instrument Mounts:
+      Load-bearing framing and mounting interfaces for sensitive 
+      instrumentation, balancing stiffness-to-weight efficiency against 
+      the payload mass budget and rover packaging envelope.
+  - ISRU Processing Integration:
+      Integration of drilling and water-extraction processing enclosures 
+      into the rover architecture for in-situ resource analysis — 
+      interface definition, packaging, and access for sample flow between 
+      preparation and analysis stages.

@@ -1,0 +1,47 @@
+Custom Numerical Methods & Solver Library
+
+Tech stack: MATLAB, Python, C++ (structured, parameterised numerical implementations)
+
+A personal multi-purpose numerical toolkit, built once so root-finders, integrators, and 
+interpolation routines don't get reimplemented from scratch on every project that needs 
+them. The library covers root-finding methods, a generalised Runge-Kutta family for 
+IVP/BVP integration, interpolation routines, quadrature, and numerical differentiation, 
+most of it built with configurable tolerances, selectable method variants, explicit 
+convergence criteria, structured input validation, and data-structure/memory choices made 
+on purpose rather than left to defaults.
+
+Numerical Methods & Software Engineering Skills:
+    - Implemented classical root-finding (bisection, Newton-Raphson, secant) with 
+      configurable tolerance and iteration-cap convergence criteria, plus input validation 
+      for bracket failure and ill-conditioning.
+    - Built the Runge-Kutta family around a generic Butcher-tableau stepper (c, A, b 
+      coefficients), so explicit Euler, Heun/RK2, and classical RK4 all instantiate the 
+      same core routine instead of being hand-coded separately. Adding a new scheme just 
+      means adding a coefficient table.
+    - Added embedded adaptive step-size control (higher/lower-order pairs, RK45-style): 
+      estimated local truncation error from the two embedded solutions per step, applied a 
+      safety-factored step-update rule, and rejected and retried steps that exceeded 
+      tolerance.
+    - Checked each scheme's convergence order empirically against its theoretical order by 
+      halving step size and confirming the error ratio scaled the way it should (roughly 
+      2^p for a pth-order method). That kind of test catches bugs a single test case won't, 
+      like an order-4 method quietly behaving like order-3 because a stage weight is off.
+    - Ran into stiffness directly: explicit RK's bounded stability region forced 
+      impractically small steps on stiff test systems, which is what pushed adding an 
+      implicit option (backward Euler / implicit trapezoidal), solving the per-step 
+      nonlinear stage equations with the library's own Newton-Raphson root-finder.
+    - Handled vector-valued state (systems of ODEs) the same way as the scalar case, and 
+      built dense output between accepted steps using the library's own interpolation 
+      routines instead of a separate code path.
+
+Applied Across:
+    - Dynamic system & control-loop modelling: the RK stepper drove motor/inertia 
+      ramp-sizing and closed-loop thermal-control logic through a full ramp/steady/dwell 
+      duty cycle on a compound-drivetrain electromechanical system, where step-size and 
+      stiffness sensitivity affected which solver made sense.
+    - Finite-element & field-computation contexts: supported flux/potential quadrature and 
+      piecewise field-solution work across canonical electromagnetic geometries, checked 
+      against closed-form and commercial-solver results.
+    - Simulation post-processing: general-purpose interpolation, differentiation, and 
+      convergence-checking utilities reused across bench and simulation datasets instead 
+      of rebuilt per project.

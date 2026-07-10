@@ -1,0 +1,99 @@
+Active Filter Design — Frequency-Response Analysis and Hardware-
+Validated Signal Processing
+
+Tech stack: MATLAB/Simulink (Bode Plot & Discrete Transfer Fcn blocks,
+Audio Toolbox, c2d discretisation), Digilent Analog Discovery 2/
+WaveForms (Network Analyzer, Wavegen, oscilloscope, spectrum analyser),
+breadboard op-amp circuit prototyping, FFT-based audio spectral analysis
+
+A pair of active-filter design studies: analogue low-pass, high-pass
+and band-stop filters derived from first-principles circuit analysis,
+characterised across three independent domains — analytical, simulated,
+and hardware-measured — and applied to remove an unknown noise tone
+from a real corrupted audio recording, closing with an open-ended
+investigation into the design's underlying performance ceiling.
+
+FILTER SYNTHESIS & TRANSFER-FUNCTION DERIVATION
+
+- Derived first- and second-order active low-pass and high-pass filter
+  transfer functions from op-amp circuit topologies via nodal analysis,
+  expressing passband gain and cutoff frequency as independently
+  tunable design parameters.
+
+- Derived the dual high-pass response of a second-order filter by
+  swapping its resistive and capacitive elements, re-deriving the full
+  transfer function from scratch and confirming filter type from the
+  circuit's low- and high-frequency limiting behaviour rather than by
+  inspection.
+
+- Extracted the design's quality factor from its characteristic
+  polynomial, correctly identifying a critically-damped, repeated-pole
+  response and connecting a classical circuits result to formal pole-
+  placement theory.
+
+FREQUENCY-DOMAIN CHARACTERISATION & CROSS-VALIDATION
+
+- Characterised each filter's frequency response three independent
+  ways — closed-form derivation, Simulink's Bode Plot tooling, and a
+  manually swept hardware measurement — confirming close agreement
+  across all three and validating the design from theory through to a
+  physical breadboard build.
+
+- Explained subtler Bode-plot features (asymptotic slopes, corner-
+  frequency magnitude offsets, phase behaviour at repeated poles and
+  zeros) directly from pole-zero structure rather than treating them
+  as simulation artefacts.
+
+- Diagnosed the modest gap between hardware measurement and theory by
+  systematically ranking real-world contributors — component
+  manufacturing tolerance, op-amp bandwidth limitations, breadboard
+  parasitics, and instrument noise floor — by expected significance.
+
+- Applied Fourier/LTI superposition reasoning to predict and verify the
+  filtered output for a non-sinusoidal square-wave input, correctly
+  reconciling the measured response against a naive prediction by
+  accounting for the waveform's harmonic content.
+
+BAND-STOP FILTER DESIGN & DIGITAL SIGNAL PROCESSING
+
+- Identified an unknown noise tone corrupting a recorded audio signal
+  via FFT-based spectral analysis, then used the measured frequency —
+  rather than an assumed one — to directly drive a hardware filter
+  design.
+
+- Synthesised a parallel low-pass/high-pass/summing-amplifier band-stop
+  filter targeting the measured noise frequency, balancing the centre-
+  frequency design constraint against the need to preserve nearby voice
+  content, and sized all passive components against real, kit-available
+  values.
+
+- Discretised the continuous filter design to run in real time against
+  a full audio stream in Simulink, correctly handling the mismatch
+  between continuous-time design and discrete-time execution.
+
+- Cross-validated the resulting digital filter across simulated
+  frequency response, spectral (FFT) comparison of filtered versus
+  unfiltered audio, and physical hardware measurement — and derived an
+  original insight into why the design's centre frequency proved more
+  robust to component tolerance than its bandwidth.
+
+ROOT-CAUSE DIAGNOSIS & DESIGN TRADE-OFFS
+
+- Diagnosed the filter's incomplete noise rejection as an architectural
+  limitation rather than a build defect: because each parallel branch
+  has a fixed roll-off, notch depth and stopband width are inherently
+  coupled, and no amount of component tuning alone could deepen the
+  notch without encroaching on the voice band.
+
+- Identified a subtler underlying mechanism — that rejection actually
+  arises from phase cancellation between the two branches rather than
+  pure amplitude subtraction — explaining why hardware measurements
+  underperformed simulation by more than component tolerance alone
+  would predict.
+
+- Proposed and critically compared two alternative redesigns against
+  the diagnosed root causes: a true notch-filter topology that
+  decouples depth from bandwidth at the cost of added complexity, versus
+  cascading repeated filter stages that trades duplicated components
+  for compounding but imperfect attenuation — selecting between them
+  based on the specific nature of the measured disturbance.

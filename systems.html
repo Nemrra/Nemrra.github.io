@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>System Architecture — David Shmail</title>
+  <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep:       #0a0a0e;
+      --bg-card:       #131317;
+      --bg-card-hover: #17171c;
+      --bg-image:      #0c0c10;
+      --bg-panel:      #141418;
+      --text-primary:  #e8e8ec;
+      --text-secondary:#a8a8b0;
+      --text-muted:    #78788a;
+      --border:        rgba(255,255,255,0.04);
+      --border-hover:  rgba(255,255,255,0.08);
+      --border-subtle: rgba(255,255,255,0.08);
+      --blue:          #5b9cf6;
+      --blue-dim:      rgba(91,156,246,0.08);
+      --blue-border:   rgba(91,156,246,0.22);
+      --green:         #76be00;
+      --green-border:  rgba(118,190,0,0.2);
+      --green-dim:     rgba(118,190,0,0.03);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-deep);
+      background-image: radial-gradient(circle, rgba(91,156,246,0.028) 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    /* PAGE NAV */
+    .page-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 20px clamp(20px, 5vw, 80px);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .page-nav a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+    .page-nav a:hover { color: var(--blue); }
+    .nav-sep { color: var(--text-muted); }
+    .nav-current { color: var(--text-primary); }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 52px clamp(20px, 5vw, 80px) 44px;
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+    .page-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .page-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(26px, 3.2vw, 44px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.13;
+      max-width: 720px;
+      margin-bottom: 16px;
+    }
+    .page-desc {
+      font-size: clamp(13px, 1vw, 15px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 640px;
+    }
+
+    /* PROJECTS GRID */
+    .projects-section {
+      padding: 0 clamp(20px, 5vw, 80px);
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+
+    .projects-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+    }
+
+    /* FEATURED CARD */
+    .featured-card {
+      flex: 0 0 calc(50% - 14px);
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 0.35s ease;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+    .featured-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+
+    .fc-info {
+      height: 50%;
+      flex-shrink: 0;
+      overflow: clip;
+      box-sizing: border-box;
+      padding: 14px 18px 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: rgba(14,14,18,0.85);
+    }
+    .fc-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(13px, 1.35vw, 18px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+    .fc-summary {
+      font-size: clamp(11px, 1vw, 14px);
+      color: var(--text-secondary);
+      line-height: 1.55;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.25) transparent;
+      flex: 1;
+      min-height: 0;
+    }
+    .fc-summary::-webkit-scrollbar { width: 3px; }
+    .fc-summary::-webkit-scrollbar-track { background: transparent; }
+    .fc-summary::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 2px; }
+    .fc-tech {
+      font-size: clamp(10px, 0.75vw, 12px);
+      color: #c0c0ca;
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      background: var(--green-dim);
+      line-height: 1.5;
+      flex-shrink: 0;
+    }
+    .fc-dot { color: #cc3333; margin: 0 3px; font-size: 1.1em; }
+
+    .fc-collage {
+      height: 50%;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-image);
+    }
+    .fc-img {
+      position: absolute;
+      object-fit: cover;
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.55);
+    }
+
+    /* MSD collage — 3×3 grid for 9 images */
+    .fc-img-m1 { width: 31%; top:  1%; left:  1%; }
+    .fc-img-m2 { width: 31%; top:  3%; left: 34%; }
+    .fc-img-m3 { width: 31%; top:  2%; left: 67%; }
+    .fc-img-m4 { width: 31%; top: 35%; left:  2%; }
+    .fc-img-m5 { width: 31%; top: 37%; left: 35%; }
+    .fc-img-m6 { width: 31%; top: 36%; left: 68%; }
+    .fc-img-m7 { width: 31%; top: 69%; left:  1%; }
+    .fc-img-m8 { width: 31%; top: 71%; left: 34%; }
+    .fc-img-m9 { width: 31%; top: 70%; left: 67%; }
+
+    /* URT collage — 4 images, equal columns */
+    .fc-img-u1 { width: 22%; height: 90%; top: 5%; left:  1%; }
+    .fc-img-u2 { width: 22%; height: 90%; top: 5%; left: 26%; }
+    .fc-img-u3 { width: 22%; height: 90%; top: 5%; left: 51%; }
+    .fc-img-u4 { width: 22%; height: 90%; top: 5%; left: 76%; }
+
+    /* "See Work" button */
+    .fc-details {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      padding: 10px 22px;
+      border-radius: 8px;
+      background: var(--blue);
+      border: 1px solid var(--blue);
+      color: #09090e;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+      z-index: 10;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    .fc-details::after { content: '→'; margin-left: 8px; font-size: 14px; }
+    .featured-card:hover .fc-details {
+      background: #74aeff;
+      border-color: #74aeff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(91,156,246,0.3);
+    }
+
+    @media (max-width: 900px) {
+      .featured-card { flex: 0 0 min(520px, 80%); }
+    }
+    @media (max-width: 600px) {
+      .featured-card { flex: 0 0 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="index.html">Portfolio</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-current">System Architecture</span>
+  </nav>
+
+  <header class="page-header">
+    <div class="page-tag">Category 03</div>
+    <h1 class="page-title">System Architecture, Drivetrain Design &amp; Embedded Integration</h1>
+    <p class="page-desc">End-to-end design from mechanism topology through machine-element sizing, embedded safety, and subsystem integration — each project driven by a concrete performance requirement and verified against it.</p>
+  </header>
+
+  <section class="projects-section">
+    <div class="projects-grid">
+
+      <!-- MSD Card -->
+      <a href="msd.html" class="featured-card">
+        <div class="fc-info">
+          <div class="fc-title">Autonomous Tri-spoke Amusement Ride &mdash; 180:1 Spur Compound Drivetrain, Machine-Element Design &amp; Safety-Critical Embedded Thermal Control</div>
+          <p class="fc-summary">A scaled semi-autonomous amusement ride: a 6000 rpm DC motor stepped to 33.3 rpm through a three-stage compound spur reduction (5:1 &times; 6:1 &times; 6:1 = 180:1), driving three arms through a pre-programmed ride cycle with dual independent safety interlocks. Concept selected by weighted Pugh trade-study, then reversed mid-project on A/B test evidence &mdash; the prototyped stepper/planetary architecture was replaced with a DC compound drivetrain when measured motion quality, vibration, and power draw failed the design intent.</p>
+          <div class="fc-tech">SOLIDWORKS<span class="fc-dot">·</span>MATLAB (interference verification)<span class="fc-dot">·</span>Arduino C<span class="fc-dot">·</span>L293D H-bridge<span class="fc-dot">·</span>laser cutting (MDF, acrylic)<span class="fc-dot">·</span>FDM printing (PLA)</div>
+        </div>
+        <div class="fc-collage">
+          <img class="fc-img fc-img-m1" src="assets/MSD_portfolio/Screenshot%202026-02-27%20165743.png" alt="">
+          <img class="fc-img fc-img-m2" src="assets/MSD_portfolio/Screenshot%202026-07-07%20002938.png" alt="">
+          <img class="fc-img fc-img-m3" src="assets/MSD_portfolio/Screenshot%202026-07-07%20003009.png" alt="">
+          <img class="fc-img fc-img-m4" src="assets/MSD_portfolio/Screenshot%202026-02-27%20165912.png" alt="">
+          <img class="fc-img fc-img-m5" src="assets/MSD_portfolio/Screenshot%202026-07-07%20003049.png" alt="">
+          <img class="fc-img fc-img-m6" src="assets/MSD_portfolio/Screenshot%202026-07-07%20003236.png" alt="">
+          <img class="fc-img fc-img-m7" src="assets/MSD_portfolio/Screenshot%202026-02-27%20165826.png" alt="">
+          <img class="fc-img fc-img-m8" src="assets/MSD_portfolio/Screenshot%202026-02-27%20165843.png" alt="">
+          <img class="fc-img fc-img-m9" src="assets/MSD_portfolio/Screenshot%202026-07-07%20003316.png" alt="">
+        </div>
+        <div class="fc-details">See Work</div>
+      </a>
+
+      <!-- URT Card -->
+      <a href="urt.html" class="featured-card">
+        <div class="fc-info">
+          <div class="fc-title">Planetary Rover Science Payload &mdash; Precision Gantry &amp; ISRU Instrument Integration (Unimelb Rover Team)</div>
+          <p class="fc-summary">Co-developed the science-payload motion and integration hardware for a planetary-analogue rover: a precision gantry providing stable linear translation and repeatable positioning for a spectrometer, focused imaging module, and regolith-preparation brush and drill. Engineered through the late-design and manufacturing stages of the 2025&ndash;26 development cycle, under strict mass, volume, and competition-rule constraints &mdash; where positioning repeatability and vibration isolation directly bound measurement quality for in-situ resource analysis.</p>
+          <div class="fc-tech">Onshape (collaborative parametric CAD, part-based modelling)<span class="fc-dot">·</span>SOLIDWORKS<span class="fc-dot">·</span>first-order FEA validation<span class="fc-dot">·</span>FDM additive-manufacturing iteration pipeline<span class="fc-dot">·</span>workshop manufacturing workflows (Telstra Creator Space)</div>
+        </div>
+        <div class="fc-collage">
+          <img class="fc-img fc-img-u1" src="assets/URT_portfolio/IMG_7320.jpg" alt="">
+          <img class="fc-img fc-img-u2" src="assets/URT_portfolio/sai_urt1_asset.jpg" alt="">
+          <img class="fc-img fc-img-u3" src="assets/URT_portfolio/Screenshot%202026-02-27%20155726.png" alt="">
+          <img class="fc-img fc-img-u4" src="assets/URT_portfolio/Screenshot%202026-02-27%20171647.png" alt="">
+        </div>
+        <div class="fc-details">See Work</div>
+      </a>
+
+    </div>
+  </section>
+
+</body>
+</html>

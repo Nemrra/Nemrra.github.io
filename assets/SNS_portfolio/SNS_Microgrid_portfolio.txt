@@ -1,0 +1,83 @@
+Stochastic Microgrid Energy Management — State-Space Battery Modelling,
+Simulink Co-Simulation & Techno-Economic Optimisation
+
+Tech stack: MATLAB/Simulink (State-Space & Bode Plot blocks, MATLAB
+Function blocks, model callbacks/InitFcn), stochastic signal modelling,
+rule-based finite-state energy dispatch, techno-economic and
+sensitivity/design-space analysis, market-data literature benchmarking
+
+A closed-loop PV–battery–grid–load microgrid modelled end to end, from
+first-principles battery circuit dynamics through to dollar-denominated
+system economics: a hand-derived state-space battery model, driven by
+stochastic generation and demand profiles, dispatched by a rule-based
+controller, and evaluated for cost, payback, and sizing under both
+grid-tied and fully-islanded configurations — benchmarked throughout
+against real market pricing rather than the workshop's simplified
+cost assumptions.
+
+STATE-SPACE MODELLING & FREQUENCY-DOMAIN ANALYSIS
+
+- Derived a fourth-order state-space model of the battery subsystem by
+  hand from its equivalent circuit and cascaded sensor-filter dynamics,
+  capturing both the true and measured versions of each internal state.
+
+- Extracted and interpreted the system's frequency response, correctly
+  distinguishing the battery's fast electrical dynamics (a textbook
+  low-pass response) from its slow energy-accounting dynamics (a pure-
+  integrator signature), explaining each from underlying circuit and
+  battery-physics reasoning.
+
+- Characterised the time-domain step response with closed-form checks
+  against the circuit's steady-state gain and dominant time constant,
+  and correctly recognised that conventional step-response metrics
+  don't apply to the integrator-governed state, substituting an
+  appropriate alternative characterisation instead.
+
+SIMULINK ARCHITECTURE, STOCHASTIC SIMULATION & RULE-BASED DISPATCH
+
+- Built the full closed-loop microgrid block diagram around a provided
+  controller shell, wiring measured internal states into a function-
+  block controller for hardware-representative closed-loop operation.
+
+- Modelled solar generation and residential load as realistic daily
+  profiles corrupted by independent random disturbances, and modelled
+  grid cost settlement as a filtered, integrated economic signal — with
+  careful attention to unit consistency across the mixed electrical,
+  energy, and financial timescales involved.
+
+- Implemented a threshold-switching, rule-based charge/discharge
+  controller that bounds requested battery power against its physical
+  maximum-power-transfer limit, correctly handling distinct charge-
+  priority, minimum-current, and discharge-limited operating regimes.
+
+- Diagnosed a transient effect of initial battery state on operating
+  cost, correctly attributing it to controller-threshold-crossing
+  timing rather than any steady-state difference, and extended the
+  system to support bidirectional grid export under an asymmetric
+  feed-in tariff.
+
+TECHNO-ECONOMIC OPTIMISATION & SUSTAINABILITY ANALYSIS
+
+- Quantified the battery's return on investment against a grid-only
+  baseline, establishing a payback period of a few months under the
+  workshop's cost assumptions — then substantially revised this
+  estimate once realistic current-day solar and battery market pricing
+  was substituted in.
+
+- Ran a full factorial design-space sweep over battery capacity and
+  controller thresholds to jointly optimise total cost of ownership,
+  correctly identifying and explaining a short-evaluation-horizon bias
+  that favoured smaller batteries, then extrapolating to find the true
+  break-even point favouring larger capacity over a longer service life.
+
+- Sized a fully-islanded (off-grid) PV-and-battery system from first
+  principles against worst-case seasonal generation and multi-day
+  autonomy requirements, then benchmarked the workshop's simplified
+  cost assumptions against live current-day market data to produce a
+  defensible, literature-grounded long-term cost-of-ownership comparison
+  between off-grid and grid-tied hybrid systems.
+
+- Synthesised findings into a broader techno-economic argument for
+  grid-coordinated distributed energy resources over individual off-
+  grid adoption, properly citing and attributing external industry and
+  market sources throughout.

@@ -1,0 +1,36 @@
+Engineering Algorithms & Data Structures — Complexity-Driven Python Implementations
+
+Tech stack: Python (from-scratch implementations, no library calls), empirical 
+benchmarking, asymptotic time & memory complexity analysis
+
+A deliberate implementation track through the core algorithm families behind 
+engineering computation — hashing, sorting, graph traversal, shortest-path, 
+and dynamic programming — building each from scratch to understand its 
+mechanics rather than calling it from a library. The through-line is 
+complexity: how time and memory behaviour is constructed theoretically, and 
+how data-structure choice ends up shaping application performance. Nothing was 
+taken at face value: each implementation was benchmarked empirically against 
+its theoretical predictions.
+
+Algorithm & Data Structure Skills:
+    - Designed and compared three hash functions (hashcode and compression 
+      stages kept separate) for a structured alphanumeric key format, then 
+      built a double-hashing hashtable and measured average collision rates 
+      across 100/200/500-record and full-dataset scales — explaining why the 
+      schemes diverged the way they did.
+    - Implemented merge sort from first principles and picked it apart through 
+      the divide-and-conquer lens; matched sorting algorithms to input 
+      structure — random, nearly-sorted, and reverse-ordered data — arguing 
+      from adaptivity, worst-case behaviour, and stability rather than 
+      headline O(n log n) alone.
+    - Solved Euler-walk existence and construction on adjacency-list graphs: 
+      degree-parity and connectivity checks to decide existence, 
+      Hierholzer-style traversal to recover the path, with a graphical 
+      correctness argument.
+    - Implemented shortest-path search (Dijkstra's) and dynamic-programming 
+      formulations (Knapsack, numerical optimal control), connecting DP 
+      state-space structure to the discretised control problems that show up 
+      in mechatronic systems.
+    - Worked linked lists, stacks, trees, and graphs as implementation 
+      substrates, weighing the memory-layout and access-pattern consequences 
+      of each choice on algorithm performance.

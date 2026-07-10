@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signal Processing & Machine Learning — David Shmail</title>
+  <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep:       #0a0a0e;
+      --bg-card:       #131317;
+      --bg-card-hover: #17171c;
+      --bg-image:      #0c0c10;
+      --bg-panel:      #141418;
+      --text-primary:  #e8e8ec;
+      --text-secondary:#a8a8b0;
+      --text-muted:    #78788a;
+      --border:        rgba(255,255,255,0.04);
+      --border-hover:  rgba(255,255,255,0.08);
+      --blue:          #5b9cf6;
+      --green-border:  rgba(118,190,0,0.2);
+      --green-dim:     rgba(118,190,0,0.03);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-deep);
+      background-image: radial-gradient(circle, rgba(91,156,246,0.028) 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    .page-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 20px clamp(20px, 5vw, 80px);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .page-nav a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+    .page-nav a:hover { color: var(--blue); }
+    .nav-sep { color: var(--text-muted); }
+    .nav-current { color: var(--text-primary); }
+
+    .page-header {
+      padding: 52px clamp(20px, 5vw, 80px) 44px;
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+    .page-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .page-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(26px, 3.2vw, 44px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.13;
+      max-width: 720px;
+      margin-bottom: 16px;
+    }
+    .page-desc {
+      font-size: clamp(13px, 1vw, 15px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 640px;
+    }
+
+    .projects-section {
+      padding: 0 clamp(20px, 5vw, 80px);
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+    .projects-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+    }
+
+    .featured-card {
+      flex: 0 0 calc(50% - 14px);
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 0.35s ease;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+    .featured-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+
+    .fc-info {
+      height: 50%;
+      flex-shrink: 0;
+      overflow: clip;
+      box-sizing: border-box;
+      padding: 14px 18px 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: rgba(14,14,18,0.85);
+    }
+    .fc-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(13px, 1.35vw, 18px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+    .fc-summary {
+      font-size: clamp(11px, 1vw, 14px);
+      color: var(--text-secondary);
+      line-height: 1.55;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.25) transparent;
+      flex: 1;
+      min-height: 0;
+    }
+    .fc-summary::-webkit-scrollbar { width: 3px; }
+    .fc-summary::-webkit-scrollbar-track { background: transparent; }
+    .fc-summary::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 2px; }
+    .fc-tech {
+      font-size: clamp(10px, 0.75vw, 12px);
+      color: #c0c0ca;
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      background: var(--green-dim);
+      line-height: 1.5;
+      flex-shrink: 0;
+    }
+    .fc-dot { color: #cc3333; margin: 0 3px; font-size: 1.1em; }
+
+    .fc-collage {
+      height: 50%;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-image);
+    }
+    .fc-img {
+      position: absolute;
+      object-fit: cover;
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.55);
+    }
+
+    /* SNS filtering collage — 3×2 grid for 6 images */
+    .fc-img-s1 { width: 31%; top:  1%; left:  1%; }
+    .fc-img-s2 { width: 31%; top:  3%; left: 34%; }
+    .fc-img-s3 { width: 31%; top:  2%; left: 67%; }
+    .fc-img-s4 { width: 31%; top: 51%; left:  1%; }
+    .fc-img-s5 { width: 31%; top: 53%; left: 34%; }
+    .fc-img-s6 { width: 31%; top: 52%; left: 67%; }
+
+    /* Microgrid collage — 3 top + 4 bottom for 7 images */
+    .fc-img-g1 { width: 31%; top:  1%; left:  1%; }
+    .fc-img-g2 { width: 31%; top:  3%; left: 34%; }
+    .fc-img-g3 { width: 31%; top:  2%; left: 67%; }
+    .fc-img-g4 { width: 22%; top: 52%; left:  1%; }
+    .fc-img-g5 { width: 22%; top: 54%; left: 26%; }
+    .fc-img-g6 { width: 22%; top: 53%; left: 51%; }
+    .fc-img-g7 { width: 22%; top: 52%; left: 76%; }
+
+    .fc-details {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      padding: 10px 22px;
+      border-radius: 8px;
+      background: var(--blue);
+      border: 1px solid var(--blue);
+      color: #09090e;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+      z-index: 10;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    .fc-details::after { content: '→'; margin-left: 8px; font-size: 14px; }
+    .featured-card:hover .fc-details {
+      background: #74aeff;
+      border-color: #74aeff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(91,156,246,0.3);
+    }
+
+    @media (max-width: 900px) {
+      .featured-card { flex: 0 0 min(520px, 80%); }
+    }
+    @media (max-width: 600px) {
+      .featured-card { flex: 0 0 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="index.html">Portfolio</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-current">Signal Processing &amp; Machine Learning</span>
+  </nav>
+
+  <header class="page-header">
+    <div class="page-tag">Category 06</div>
+    <h1 class="page-title">Signal Processing &amp; Machine Learning</h1>
+    <p class="page-desc">Active filter synthesis, frequency-domain characterisation, and hardware-validated digital signal processing &mdash; extended into machine learning and data-driven methods.</p>
+  </header>
+
+  <section class="projects-section">
+    <div class="projects-grid">
+
+      <!-- SNS Filtering Card -->
+      <a href="sns-filtering.html" class="featured-card">
+        <div class="fc-info">
+          <div class="fc-title">Active Filter Design &mdash; Frequency-Response Analysis and Hardware-Validated Signal Processing</div>
+          <p class="fc-summary">A pair of active-filter design studies: analogue low-pass, high-pass and band-stop filters derived from first-principles circuit analysis, characterised across three independent domains &mdash; analytical, simulated, and hardware-measured &mdash; and applied to remove an unknown noise tone from a real corrupted audio recording, closing with an open-ended investigation into the design&rsquo;s underlying performance ceiling.</p>
+          <div class="fc-tech">MATLAB/Simulink (Bode Plot, Audio Toolbox, c2d discretisation)<span class="fc-dot">·</span>Digilent Analog Discovery 2 / WaveForms<span class="fc-dot">·</span>breadboard op-amp circuit prototyping</div>
+        </div>
+        <div class="fc-collage">
+          <img class="fc-img fc-img-s1" src="assets/SNS_portfolio/SNS_portfolio_filtering_bode.png" alt="">
+          <img class="fc-img fc-img-s2" src="assets/SNS_portfolio/SNS_portfolio_filtering_bode2.png" alt="">
+          <img class="fc-img fc-img-s3" src="assets/SNS_portfolio/SNS_portfolio_filtering_bode3.png" alt="">
+          <img class="fc-img fc-img-s4" src="assets/SNS_portfolio/SNS_portfolio_filtering_topology.png" alt="">
+          <img class="fc-img fc-img-s5" src="assets/SNS_portfolio/SNS_portfolio_filtering_TF.png" alt="">
+          <img class="fc-img fc-img-s6" src="assets/SNS_portfolio/SNS_portfolio_filtering_result_comparison.png" alt="">
+        </div>
+        <div class="fc-details">See Work</div>
+      </a>
+
+      <!-- Microgrid Card -->
+      <a href="sns-microgrid.html" class="featured-card">
+        <div class="fc-info">
+          <div class="fc-title">Stochastic Microgrid Energy Management &mdash; State-Space Battery Modelling, Simulink Co-Simulation &amp; Techno-Economic Optimisation</div>
+          <p class="fc-summary">A closed-loop PV&ndash;battery&ndash;grid&ndash;load microgrid modelled end to end, from first-principles battery circuit dynamics through to dollar-denominated system economics: a hand-derived state-space battery model, driven by stochastic generation and demand profiles, dispatched by a rule-based controller, and evaluated for cost, payback, and sizing under both grid-tied and fully-islanded configurations &mdash; benchmarked throughout against real market pricing.</p>
+          <div class="fc-tech">MATLAB/Simulink (State-Space &amp; Bode Plot blocks, MATLAB Function blocks, model callbacks)<span class="fc-dot">·</span>stochastic signal modelling<span class="fc-dot">·</span>rule-based finite-state energy dispatch<span class="fc-dot">·</span>techno-economic &amp; design-space analysis</div>
+        </div>
+        <div class="fc-collage">
+          <img class="fc-img fc-img-g1" src="assets/SNS_portfolio/SNS_portfolio_grid_block.png" alt="">
+          <img class="fc-img fc-img-g2" src="assets/SNS_portfolio/SNS_portfolio_grid_bode.png" alt="">
+          <img class="fc-img fc-img-g3" src="assets/SNS_portfolio/SNS_portfolio_grid_eq.png" alt="">
+          <img class="fc-img fc-img-g4" src="assets/SNS_portfolio/SNS_portfolio_grid_simulink.png" alt="">
+          <img class="fc-img fc-img-g5" src="assets/SNS_portfolio/SNS_portfolio_grid_simulink2.png" alt="">
+          <img class="fc-img fc-img-g6" src="assets/SNS_portfolio/SNS_portfolio_grid_simulink3.png" alt="">
+          <img class="fc-img fc-img-g7" src="assets/SNS_portfolio/SNS_portfolio_grid_table.png" alt="">
+        </div>
+        <div class="fc-details">See Work</div>
+      </a>
+
+    </div>
+  </section>
+
+</body>
+</html>

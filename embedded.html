@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Embedded & Real-Time Systems — David Shmail</title>
+  <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep:       #0a0a0e;
+      --bg-card:       #131317;
+      --bg-card-hover: #17171c;
+      --bg-image:      #0c0c10;
+      --bg-panel:      #141418;
+      --text-primary:  #e8e8ec;
+      --text-secondary:#a8a8b0;
+      --text-muted:    #78788a;
+      --border:        rgba(255,255,255,0.04);
+      --border-hover:  rgba(255,255,255,0.08);
+      --blue:          #5b9cf6;
+      --green-border:  rgba(118,190,0,0.2);
+      --green-dim:     rgba(118,190,0,0.03);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-deep);
+      background-image: radial-gradient(circle, rgba(91,156,246,0.028) 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    .page-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 20px clamp(20px, 5vw, 80px);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .page-nav a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+    .page-nav a:hover { color: var(--blue); }
+    .nav-sep { color: var(--text-muted); }
+    .nav-current { color: var(--text-primary); }
+
+    .page-header {
+      padding: 52px clamp(20px, 5vw, 80px) 44px;
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+    .page-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .page-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(26px, 3.2vw, 44px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.13;
+      max-width: 720px;
+      margin-bottom: 16px;
+    }
+    .page-desc {
+      font-size: clamp(13px, 1vw, 15px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 640px;
+    }
+
+    .projects-section {
+      padding: 0 clamp(20px, 5vw, 80px);
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+    .projects-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+    }
+
+    .featured-card {
+      flex: 0 0 calc(50% - 14px);
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 0.35s ease;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+    .featured-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+
+    .fc-info {
+      height: 50%;
+      flex-shrink: 0;
+      overflow: clip;
+      box-sizing: border-box;
+      padding: 14px 18px 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: rgba(14,14,18,0.85);
+    }
+    .fc-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(13px, 1.35vw, 18px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+    .fc-summary {
+      font-size: clamp(11px, 1vw, 14px);
+      color: var(--text-secondary);
+      line-height: 1.55;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.25) transparent;
+      flex: 1;
+      min-height: 0;
+    }
+    .fc-summary::-webkit-scrollbar { width: 3px; }
+    .fc-summary::-webkit-scrollbar-track { background: transparent; }
+    .fc-summary::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 2px; }
+    .fc-tech {
+      font-size: clamp(10px, 0.75vw, 12px);
+      color: #c0c0ca;
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      background: var(--green-dim);
+      line-height: 1.5;
+      flex-shrink: 0;
+    }
+    .fc-dot { color: #cc3333; margin: 0 3px; font-size: 1.1em; }
+
+    .fc-collage {
+      height: 50%;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-image);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .fc-collage-placeholder {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0.4;
+    }
+    .fc-img {
+      position: absolute;
+      object-fit: cover;
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.55);
+    }
+
+    /* ALARM collage — portrait board left, two landscape right */
+    .fc-img-a1 { width: 44%; top: 1%; left: 1%; }
+    .fc-img-a2 { width: 52%; top: 1%; left: 47%; }
+    .fc-img-a3 { width: 52%; top: 52%; left: 47%; }
+
+    .fc-details {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      padding: 10px 22px;
+      border-radius: 8px;
+      background: var(--blue);
+      border: 1px solid var(--blue);
+      color: #09090e;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+      z-index: 10;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    .fc-details::after { content: '→'; margin-left: 8px; font-size: 14px; }
+    .featured-card:hover .fc-details {
+      background: #74aeff;
+      border-color: #74aeff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(91,156,246,0.3);
+    }
+
+    .featured-card.fc-full { aspect-ratio: unset; }
+    .featured-card.fc-full .fc-info {
+      height: auto;
+      flex: none;
+      border-bottom: none;
+      padding-bottom: 56px;
+    }
+
+    @media (max-width: 900px) {
+      .featured-card { flex: 0 0 min(520px, 80%); }
+    }
+    @media (max-width: 600px) {
+      .featured-card { flex: 0 0 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="index.html">Portfolio</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-current">Embedded &amp; Real-Time Systems</span>
+  </nav>
+
+  <header class="page-header">
+    <div class="page-tag">Category 05</div>
+    <h1 class="page-title">Embedded &amp; Real-Time Systems Architecture</h1>
+    <p class="page-desc">Distributed embedded systems and performance-oriented C++ architectures &mdash; integrating hardware control, real-time communication pipelines, and structured software design from firmware through to GUI.</p>
+  </header>
+
+  <section class="projects-section">
+    <div class="projects-grid">
+
+      <!-- Chess Engine Card -->
+      <a href="chess-engine.html" class="featured-card fc-full">
+        <div class="fc-info">
+          <div class="fc-title">C++ Chess Engine with OpenGL GUI</div>
+          <p class="fc-summary">A performant chess engine built around an early interest in low-level systems programming and object-oriented design. Implements full rule-complete logic &mdash; castling, en passant, promotion, and legal move validation &mdash; with structured state representation, deterministic update handling, modular class hierarchies, RAII-based resource management, and strong type separation. Paired with a responsive OpenGL GUI that cleanly separates rendering, game state, and input handling.</p>
+          <div class="fc-tech">C++<span class="fc-dot">·</span>OpenGL<span class="fc-dot">·</span>GLFW<span class="fc-dot">·</span>ImGui<span class="fc-dot">·</span>CMake</div>
+        </div>
+        <div class="fc-details">See Work</div>
+      </a>
+
+      <!-- Project ALARM Card -->
+      <a href="alarm.html" class="featured-card">
+        <div class="fc-info">
+          <div class="fc-title">Project ALARM &mdash; Covert Audio Surveillance System &nbsp;|&nbsp; Spy-o-T Hackathon</div>
+          <p class="fc-summary">A distributed embedded keyword-detection security system packaged within a custom-designed digital clock enclosure. Streams live audio from ESP32-based sensor nodes to a Python backend via WebSockets, where AI-based keyword spotting triggers automated alert protocols via Telegram. Enclosure designed and fabricated to integrate dual ESP32 boards, power distribution, passive cooling, and structured mounting within strict geometric constraints.</p>
+          <div class="fc-tech">ESP32 (C++, I2S)<span class="fc-dot">·</span>SolidWorks<span class="fc-dot">·</span>React.js<span class="fc-dot">·</span>Python (FastAPI, WebSockets, Telegram API)</div>
+        </div>
+        <div class="fc-collage">
+          <img class="fc-img fc-img-a1" src="assets/SPY_portfolio/Screenshot%202025-07-14%20214851.png" alt="">
+          <img class="fc-img fc-img-a2" src="assets/SPY_portfolio/Screenshot%202025-07-15%20160217.png" alt="">
+          <img class="fc-img fc-img-a3" src="assets/SPY_portfolio/Screenshot%202026-07-08%20162822.png" alt="">
+        </div>
+        <div class="fc-details">See Work</div>
+      </a>
+
+    </div>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autonomous Amusement Ride — David Shmail</title>
+  <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep:       #0a0a0e;
+      --bg-card:       #131317;
+      --bg-image:      #0c0c10;
+      --bg-panel:      #141418;
+      --text-primary:  #e8e8ec;
+      --text-secondary:#a8a8b0;
+      --text-muted:    #78788a;
+      --border:        rgba(255,255,255,0.04);
+      --border-subtle: rgba(255,255,255,0.08);
+      --blue:          #5b9cf6;
+      --blue-border:   rgba(91,156,246,0.22);
+      --green-border:  rgba(118,190,0,0.2);
+      --green-dim:     rgba(118,190,0,0.03);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-deep);
+      background-image: radial-gradient(circle, rgba(91,156,246,0.028) 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      padding-bottom: 100px;
+    }
+
+    /* NAV */
+    .page-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 20px clamp(20px, 5vw, 80px);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .page-nav a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+    .page-nav a:hover { color: var(--blue); }
+    .nav-sep { color: var(--text-muted); }
+    .nav-current { color: var(--text-primary); }
+
+    /* MAIN WRAPPER */
+    .project-wrap {
+      width: min(92%, 1080px);
+      margin: 0 auto;
+    }
+
+    /* HERO */
+    .project-hero {
+      padding: 52px 0 36px;
+    }
+    .project-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .project-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(22px, 2.8vw, 38px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.18;
+      margin-bottom: 18px;
+    }
+    .project-intro {
+      font-size: clamp(13px, 1vw, 15px);
+      color: var(--text-secondary);
+      line-height: 1.72;
+      margin-bottom: 16px;
+    }
+    .project-tech {
+      font-size: clamp(11px, 0.85vw, 13px);
+      color: #c0c0ca;
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 11px 15px;
+      background: var(--green-dim);
+      line-height: 1.6;
+    }
+
+    /* CONTENT SECTIONS */
+    .project-body {
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+    }
+    .project-section {
+      padding-top: 32px;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(91,156,246,0.2);
+    }
+    .project-section ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .project-section ul li {
+      font-size: clamp(12px, 0.9vw, 13.5px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      padding-left: 22px;
+      position: relative;
+    }
+    .project-section ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+      opacity: 0.55;
+    }
+
+    /* SUBSECTIONS */
+    .subsections-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .project-subsection {
+      padding: 20px 0 20px 20px;
+      border-left: 2px solid rgba(91,156,246,0.22);
+      margin-bottom: 4px;
+    }
+    .subsection-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(15px, 1.1vw, 19px);
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      font-weight: 400;
+    }
+    .project-subsection p {
+      font-size: clamp(12px, 0.9vw, 13.5px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* GALLERY */
+    .project-gallery {
+      margin-top: 52px;
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--blue);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-deep);
+      position: relative;
+    }
+
+    .slide-viewport {
+      height: clamp(280px, 52vh, 600px);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-deep);
+    }
+    .slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 60px;
+      box-sizing: border-box;
+    }
+    .slide.active { display: flex; }
+    .slide img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 5px;
+      flex-shrink: 1;
+    }
+    .slide-pause-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(9,9,14,0.72);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      z-index: 3;
+    }
+    .slide-viewport.paused .slide-pause-icon { opacity: 1; }
+    .slide-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(14,14,18,0.82);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.2s ease;
+      z-index: 5;
+    }
+    .slide-nav:hover { background: var(--blue); color: #09090e; border-color: var(--blue); }
+    .slide-prev { left: 12px; }
+    .slide-next { right: 12px; }
+    .slide-footer {
+      padding: 10px 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .slide-counter {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    .slide-progress-track {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+    .slide-progress-fill {
+      height: 100%;
+      background: var(--blue);
+      border-radius: 1px;
+      width: 0%;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="index.html">Portfolio</a>
+    <span class="nav-sep">/</span>
+    <a href="systems.html">Systems</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-current">Amusement Ride</span>
+  </nav>
+
+  <div class="project-wrap">
+
+    <div class="project-hero">
+      <div class="project-tag">Machine Design &amp; Mechatronics</div>
+      <h1 class="project-title">Autonomous Tri-spoke Amusement Ride &mdash; 180:1 Spur Compound Drivetrain, Machine-Element Design &amp; Safety-Critical Embedded Thermal Control</h1>
+      <p class="project-intro">A scaled semi-autonomous amusement ride: a 6000 rpm DC motor stepped to 33.3 rpm through a three-stage compound spur reduction (5:1 &times; 6:1 &times; 6:1 = 180:1), driving three arms through a pre-programmed ride cycle with dual independent safety interlocks. Concept selected by weighted Pugh trade-study, then reversed mid-project on A/B test evidence &mdash; the prototyped stepper/planetary architecture was replaced with a DC compound drivetrain when measured motion quality, vibration, and power draw failed the design intent. Every gear mesh cleared against interference/undercut limits and Lewis bending stress; final build measured at 2.43&thinsp;W steady-state against a 2.5&thinsp;W budget and survived five minutes of continuous full-load operation.</p>
+      <div class="project-tech">SOLIDWORKS (parametric assemblies, gear-profile generation, dimensioned drawings, exploded views) &middot; MATLAB (interference verification) &middot; Arduino C &middot; L293D H-bridge &middot; laser cutting (MDF, acrylic) &middot; FDM printing (PLA) &middot; GW Instek bench-supply characterisation &middot; Tinkercad</div>
+    </div>
+
+    <div class="project-body">
+
+      <div class="project-section">
+        <div class="section-title">Machine Design &amp; Mechatronics Skills</div>
+        <ul>
+          <li>Spur-gear design from standard tooth data &mdash; module 1.5, 20&deg; full-depth, addendum/dedendum, centre distances &mdash; with per-mesh interference/undercut checks (pinion N<sub>min</sub> / gear N<sub>max</sub>) in scripted MATLAB workflow.</li>
+          <li>Lewis bending face-width sizing: interpolated form factors, K<sub>v</sub>&thinsp;=&thinsp;1.3, K<sub>f</sub>&thinsp;=&thinsp;1.5, 8&thinsp;MPa MDF allowable at FoS&thinsp;3.</li>
+          <li>Cantilever arm sizing from FBD and method of sections &mdash; combined distributed self-weight and point load into &sigma;&thinsp;=&thinsp;Mc/I against UTS for timber/MDF/acrylic.</li>
+          <li>Shaft torsion checks: &tau;&thinsp;=&thinsp;Tr/J (2.97&thinsp;MPa against material allowables) and &theta;&thinsp;=&thinsp;TL/JG twist (0.19&deg;&ndash;2.0&deg; across aluminium, acrylic, MDF, PLA).</li>
+          <li>DC motor modelling from datasheet primitives: linear torque&ndash;speed line, operating point, ramp sizing against rotational inertia.</li>
+          <li>Embedded control with hardware safety: analogue thermal cutoff plus an independent digital kill path.</li>
+          <li>DFM and reuse: monolithic laser-cut parts, dovetail joints, interference-fit shafts, flange/grub-screw retention.</li>
+        </ul>
+      </div>
+
+      <div class="project-section">
+        <div class="section-title">Subsystems</div>
+        <div class="subsections-wrap">
+
+          <div class="project-subsection">
+            <div class="subsection-title">Compound Gear Train</div>
+            <p>20T pinions driving 100T/120T/120T gears across three stages, each mesh independently cleared for undercutting at 20&deg; full depth. Early MDF teeth at module 0.8/1.0 sheared under load &mdash; module escalated to 1.5; when the first-stage pinion sheared again at the motor interface, it was re-fabricated in PLA while the remaining stages stayed MDF. Passed the five-minute continuous-durability requirement with no tooth failure or loss of shaft fit.</p>
+          </div>
+
+          <div class="project-subsection">
+            <div class="subsection-title">Motor &amp; Drive Dynamics</div>
+            <p>M260 operating point modelled on the linear torque&ndash;speed line &mdash; &tau;&thinsp;&asymp;&thinsp;3.2&thinsp;&times;&thinsp;10<sup>&minus;4</sup>&thinsp;N&middot;m at 6000&thinsp;rpm against a 3.5&thinsp;&times;&thinsp;10<sup>&minus;3</sup>&thinsp;N&middot;m stall limit &mdash; with a 2.5&thinsp;s linear ramp sized against the rotating inertia (J&thinsp;=&thinsp;0.040&thinsp;kg&middot;m&sup2;, &alpha;&thinsp;=&thinsp;1.40&thinsp;rad/s&sup2;) to keep acceleration torque clear of stall. Stepper baseline rejected after same-shaft A/B testing: perceptible cogging, higher idle draw, no functional need for angular indexing.</p>
+          </div>
+
+          <div class="project-subsection">
+            <div class="subsection-title">Power Verification</div>
+            <p>Bench-supply V&ndash;I sweep through the V<sub>IN</sub>&ndash;GND node into a P&ndash;V curve; identified the efficient mid-range region, confirmed 2.43&thinsp;W steady-state at nominal 9&thinsp;V, and tuned PWM duty to 60/255 against speed, gear wear, and driver heating.</p>
+          </div>
+
+          <div class="project-subsection">
+            <div class="subsection-title">Embedded Control &amp; Safety</div>
+            <p>Single control script running a 10&thinsp;s ramp / 10&thinsp;s steady / 10&thinsp;s ramp-down / 20&thinsp;s dwell cycle. H-bridge thermal throttling diagnosed under load, then closed-loop mitigated: averaged-ADC temperature sensing cuts motor supply above 50&thinsp;&deg;C, with a pushbutton kill shorting the drive as a second, fully independent path.</p>
+          </div>
+
+          <div class="project-subsection">
+            <div class="subsection-title">Structural Refinement</div>
+            <p>Spider plate and three arms re-cut as one monolithic MDF part &mdash; A/B showed less play and smoother rotation from deleting bolted-joint compliance at the arm roots. Redundant mid-height bearing blocks removed after base-and-roof constraint proved sufficient; Iglidur flanged bushings press-fit in when specified ball bearings were unavailable.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="project-gallery">
+      <div class="slide-viewport" id="msd-slide-viewport">
+        <div class="slide active"><img src="assets/MSD_portfolio/Screenshot%202026-02-27%20165743.png" alt="MSD 1"></div>
+        <div class="slide"><img src="assets/MSD_portfolio/Screenshot%202026-02-27%20165826.png" alt="MSD 2"></div>
+        <div class="slide"><img src="assets/MSD_portfolio/Screenshot%202026-02-27%20165843.png" alt="MSD 3"></div>
+        <div class="slide"><img src="assets/MSD_portfolio/Screenshot%202026-02-27%20165855.png" alt="MSD 4"></div>
+        <div class="slide"><img src="assets/MSD_portfolio/Screenshot%202026-02-27%20165912.png" alt="MSD 5"></div>
+        <div class="slide"><img src="assets/MSD_portfolio/Screenshot%202026-02-27%20165938.png" alt="MSD 6"></div>
+        <div class="slide"><img src="assets/MSD_portfolio/Screenshot%202026-07-07%20002938.png" alt="MSD 7"></div>
+        <div class="slide"><img src="assets/MSD_portfolio/Screenshot%202026-07-07%20003009.png" alt="MSD 8"></div>
+        <div class="slide"><img src="assets/MSD_portfolio/Screenshot%202026-07-07%20003049.png" alt="MSD 9"></div>
+        <div class="slide"><img src="assets/MSD_portfolio/Screenshot%202026-07-07%20003236.png" alt="MSD 10"></div>
+        <div class="slide"><img src="assets/MSD_portfolio/Screenshot%202026-07-07%20003316.png" alt="MSD 11"></div>
+        <div class="slide-pause-icon">&#9646;&#9646;</div>
+      </div>
+      <button class="slide-nav slide-prev" id="msd-prev">&#8592;</button>
+      <button class="slide-nav slide-next" id="msd-next">&#8594;</button>
+      <div class="slide-footer">
+        <span class="slide-counter" id="msd-counter">1 / 11</span>
+        <div class="slide-progress-track">
+          <div class="slide-progress-fill" id="msd-progress"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      const viewport = document.getElementById('msd-slide-viewport');
+      const slides   = viewport.querySelectorAll('.slide');
+      const prevBtn  = document.getElementById('msd-prev');
+      const nextBtn  = document.getElementById('msd-next');
+      const counter  = document.getElementById('msd-counter');
+      const progress = document.getElementById('msd-progress');
+
+      const SLIDE_MS = 4000;
+      const TICK_MS  = 40;
+      let slideIdx   = 0;
+      let elapsed    = 0;
+      let paused     = false;
+      let slideTimer = null;
+
+      function goToSlide(n) {
+        slides[slideIdx].classList.remove('active');
+        slideIdx = (n + slides.length) % slides.length;
+        slides[slideIdx].classList.add('active');
+        counter.textContent = (slideIdx + 1) + ' / ' + slides.length;
+        elapsed = 0;
+        progress.style.transition = 'none';
+        progress.style.width = '0%';
+      }
+
+      slideTimer = setInterval(() => {
+        if (paused) return;
+        elapsed += TICK_MS;
+        progress.style.transition = 'none';
+        progress.style.width = Math.min((elapsed / SLIDE_MS) * 100, 100) + '%';
+        if (elapsed >= SLIDE_MS) goToSlide(slideIdx + 1);
+      }, TICK_MS);
+
+      viewport.addEventListener('click', () => {
+        paused = !paused;
+        viewport.classList.toggle('paused', paused);
+      });
+
+      prevBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx - 1); });
+      nextBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx + 1); });
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft')  goToSlide(slideIdx - 1);
+        if (e.key === 'ArrowRight') goToSlide(slideIdx + 1);
+      });
+    }());
+  </script>
+
+</body>
+</html>

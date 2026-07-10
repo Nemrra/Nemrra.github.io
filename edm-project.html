@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Electromagnetic Device Modelling — David Shmail</title>
+  <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep:       #0a0a0e;
+      --bg-image:      #0c0c10;
+      --text-primary:  #e8e8ec;
+      --text-secondary:#a8a8b0;
+      --text-muted:    #78788a;
+      --border:        rgba(255,255,255,0.04);
+      --blue:          #5b9cf6;
+      --green-border:  rgba(118,190,0,0.2);
+      --green-dim:     rgba(118,190,0,0.03);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-deep);
+      background-image: radial-gradient(circle, rgba(91,156,246,0.028) 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      padding-bottom: 100px;
+    }
+
+    .page-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 20px clamp(20px, 5vw, 80px);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .page-nav a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+    .page-nav a:hover { color: var(--blue); }
+    .nav-sep { color: var(--text-muted); }
+    .nav-current { color: var(--text-primary); }
+
+    .project-wrap {
+      width: min(92%, 1080px);
+      margin: 0 auto;
+    }
+
+    .project-hero { padding: 52px 0 36px; }
+    .project-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .project-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(22px, 2.8vw, 38px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.18;
+      margin-bottom: 18px;
+    }
+    .project-intro {
+      font-size: clamp(13px, 1vw, 15px);
+      color: var(--text-secondary);
+      line-height: 1.72;
+      margin-bottom: 16px;
+    }
+    .project-tech {
+      font-size: clamp(11px, 0.85vw, 13px);
+      color: #c0c0ca;
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 11px 15px;
+      background: var(--green-dim);
+      line-height: 1.6;
+    }
+
+    .project-body { border-top: 1px solid var(--border); padding-top: 8px; }
+    .project-section { padding-top: 32px; margin-bottom: 8px; }
+    .section-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(91,156,246,0.2);
+    }
+    .project-section ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .project-section ul li {
+      font-size: clamp(12px, 0.9vw, 13.5px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      padding-left: 22px;
+      position: relative;
+    }
+    .project-section ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+      opacity: 0.55;
+    }
+
+    .subsections-wrap { display: flex; flex-direction: column; }
+    .project-subsection {
+      padding: 20px 0 20px 20px;
+      border-left: 2px solid rgba(91,156,246,0.22);
+      margin-bottom: 4px;
+    }
+    .subsection-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(15px, 1.1vw, 19px);
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      font-weight: 400;
+    }
+    .project-subsection p {
+      font-size: clamp(12px, 0.9vw, 13.5px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .project-gallery {
+      margin-top: 52px;
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--blue);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-deep);
+      position: relative;
+    }
+    .slide-viewport {
+      height: clamp(280px, 52vh, 600px);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-deep);
+    }
+    .slide { display: none; width: 100%; height: 100%; align-items: center; justify-content: center; padding: 20px 60px; box-sizing: border-box; }
+    .slide.active { display: flex; }
+    .slide img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 5px; flex-shrink: 1; }
+    .slide-pause-icon {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(9,9,14,0.72); border: 1px solid var(--border);
+      color: var(--text-primary); font-size: 22px;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; opacity: 0; transition: opacity 0.25s ease; z-index: 3;
+    }
+    .slide-viewport.paused .slide-pause-icon { opacity: 1; }
+    .slide-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(14,14,18,0.82); border: 1px solid var(--border);
+      color: var(--text-primary); width: 40px; height: 40px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 16px; transition: all 0.2s ease; z-index: 5;
+    }
+    .slide-nav:hover { background: var(--blue); color: #09090e; border-color: var(--blue); }
+    .slide-prev { left: 12px; }
+    .slide-next { right: 12px; }
+    .slide-footer { padding: 10px 16px 12px; display: flex; align-items: center; gap: 12px; }
+    .slide-counter { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--text-muted); letter-spacing: 1px; white-space: nowrap; }
+    .slide-progress-track { flex: 1; height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; }
+    .slide-progress-fill { height: 100%; background: var(--blue); border-radius: 1px; width: 0%; }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="index.html">Portfolio</a>
+    <span class="nav-sep">/</span>
+    <a href="edm.html">Computational Electromagnetics</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-current">Electromagnetic Device Modelling</span>
+  </nav>
+
+  <div class="project-wrap">
+
+    <div class="project-hero">
+      <div class="project-tag">Computational Electromagnetics</div>
+      <h1 class="project-title">Electromagnetic Device Modelling for High-frequency Semiconductor Applications</h1>
+      <p class="project-intro">Field-based modelling track spanning vector integro-differential descriptions, to hardware-validated high-frequency power electronics, building electromagnetic device models from open-ended physical phenomena rather than lumped-circuit abstractions. Work spans analytical field derivations, visualisation tool development, and SPICE-to-breadboard validation &mdash; each result cross-checked against symmetry arguments, closed-form solutions, and measured waveforms rather than accepted from a single method.</p>
+      <div class="project-tech">MATLAB (Antenna, RF, PDE toolboxes, Simscape electrical, Simulink) &middot; LTspice &amp; OrCad (transient identification, transmission-line modelling) &middot; breadboard and geometry-aware PCB deployments &middot; SymPy (closed-form, symbolic solvers)</div>
+    </div>
+
+    <div class="project-body">
+
+      <div class="project-section">
+        <div class="section-title">Field and Numerical Skills</div>
+        <ul>
+          <li>Derived and transformed vector fields across rectangular, cylindrical, and spherical geometry primitives, distinguishing the field point from the represented vector via point-dependent transformation matrices.</li>
+          <li>Applied grad/div/curl operators, elaborated to theorems (Gauss&rsquo; divergence, Stokes&rsquo;) to compute flux, circulation, and potential, identifying conservative fields, scalar potentials, and source/sink behaviour.</li>
+          <li>Resolved Maxwell&rsquo;s formulations in integro-differential forms under symmetry to recover piecewise field solutions for spherical and coaxial geometries, including conductor charge separation and electrostatic shielding.</li>
+          <li>Modelled normalised capacitance and inductance from electromagnetic and vector calculus primitives, then applied the result into transmission-line, characteristic-impedance, and signal-integrity analysis.</li>
+          <li>Designed and analysed nonlinear device circuits (Zener references, BJT current gain, op-amp negative feedback, LM555 oscillation), with attention to biasing, loop stability, regulation failure, and high-voltage safety.</li>
+        </ul>
+      </div>
+
+      <div class="project-section">
+        <div class="section-title">Studies</div>
+        <div class="subsections-wrap">
+
+          <div class="project-subsection">
+            <div class="subsection-title">Field Foundations &amp; Vector Calculus</div>
+            <p>Established the coordinate machinery underpinning all field modelling, then worked the differential operators and line/surface/volume integrals, visualising E&thinsp;=&thinsp;&minus;&nabla;V normal to equipotential contours, and confirming Stokes&rsquo; theorem by matching curl-flux through a parametrised open surface to its perimeter circulation.</p>
+          </div>
+
+          <div class="project-subsection">
+            <div class="subsection-title">Canonical Field Geometries</div>
+            <p>Applied Gauss&rsquo; and Amp&egrave;re&rsquo;s principles in integral form to a radially-graded sphere in a concentric conducting shell (piecewise E(r) with induced surface charges and zero interior field) and to an infinite coaxial core-and-shield with opposing currents (piecewise azimuthal H(r) and justified vanishing external field).</p>
+          </div>
+
+          <div class="project-subsection">
+            <div class="subsection-title">Capacitance to Signal Integrity</div>
+            <p>Built a capacitance-per-unit-length model for two parallel wires from offset equivalent line charges and the equipotential condition, then applied it to CAT5e cable &mdash; extracting Z<sub>0</sub> and investigating reflection-induced distortion via ringing/knee-frequency comparison, SPICE, and termination matching on hardware.</p>
+          </div>
+
+          <div class="project-subsection">
+            <div class="subsection-title">Power-Electronic Device Design</div>
+            <p>Designed, simulated, and built a switch-mode boost converter (LM555 oscillator, inductor&ndash;diode charge pump, Zener over-voltage protection, feedback regulation) and a linear voltage regulator (Zener reference, op-amp difference amplifier, NPN current gain, current-sense limit) &mdash; validating regulation limits and failure points on the bench.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="project-gallery">
+      <div class="slide-viewport" id="edm-slide-viewport">
+        <div class="slide active"><img src="assets/edm_assets/edm3_assets/Screenshot%202026-02-20%20162531.png" alt="EDM 1"></div>
+        <div class="slide"><img src="assets/edm_assets/edm3_assets/Screenshot%202026-02-20%20162553.png" alt="EDM 2"></div>
+        <div class="slide"><img src="assets/edm_assets/edm3_assets/Screenshot%202026-02-20%20162609.png" alt="EDM 3"></div>
+        <div class="slide"><img src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162803.png" alt="EDM 4"></div>
+        <div class="slide"><img src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162836.png" alt="EDM 5"></div>
+        <div class="slide"><img src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162854.png" alt="EDM 6"></div>
+        <div class="slide"><img src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162935.png" alt="EDM 7"></div>
+        <div class="slide"><img src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20163003.png" alt="EDM 8"></div>
+        <div class="slide"><img src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20163012.png" alt="EDM 9"></div>
+        <div class="slide"><img src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20163041.png" alt="EDM 10"></div>
+        <div class="slide"><img src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163228.png" alt="EDM 11"></div>
+        <div class="slide"><img src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163256.png" alt="EDM 12"></div>
+        <div class="slide"><img src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163312.png" alt="EDM 13"></div>
+        <div class="slide"><img src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163339.png" alt="EDM 14"></div>
+        <div class="slide"><img src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163353.png" alt="EDM 15"></div>
+        <div class="slide"><img src="assets/edm_assets/edm6_assets/Screenshot%202026-02-20%20164702.png" alt="EDM 16"></div>
+        <div class="slide-pause-icon">&#9646;&#9646;</div>
+      </div>
+      <button class="slide-nav slide-prev" id="edm-prev">&#8592;</button>
+      <button class="slide-nav slide-next" id="edm-next">&#8594;</button>
+      <div class="slide-footer">
+        <span class="slide-counter" id="edm-counter">1 / 16</span>
+        <div class="slide-progress-track">
+          <div class="slide-progress-fill" id="edm-progress"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      const viewport = document.getElementById('edm-slide-viewport');
+      const slides   = viewport.querySelectorAll('.slide');
+      const prevBtn  = document.getElementById('edm-prev');
+      const nextBtn  = document.getElementById('edm-next');
+      const counter  = document.getElementById('edm-counter');
+      const progress = document.getElementById('edm-progress');
+
+      const SLIDE_MS = 4000, TICK_MS = 40;
+      let slideIdx = 0, elapsed = 0, paused = false;
+
+      function goToSlide(n) {
+        slides[slideIdx].classList.remove('active');
+        slideIdx = (n + slides.length) % slides.length;
+        slides[slideIdx].classList.add('active');
+        counter.textContent = (slideIdx + 1) + ' / ' + slides.length;
+        elapsed = 0;
+        progress.style.transition = 'none';
+        progress.style.width = '0%';
+      }
+
+      setInterval(() => {
+        if (paused) return;
+        elapsed += TICK_MS;
+        progress.style.transition = 'none';
+        progress.style.width = Math.min((elapsed / SLIDE_MS) * 100, 100) + '%';
+        if (elapsed >= SLIDE_MS) goToSlide(slideIdx + 1);
+      }, TICK_MS);
+
+      viewport.addEventListener('click', () => {
+        paused = !paused;
+        viewport.classList.toggle('paused', paused);
+      });
+      prevBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx - 1); });
+      nextBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx + 1); });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft')  goToSlide(slideIdx - 1);
+        if (e.key === 'ArrowRight') goToSlide(slideIdx + 1);
+      });
+    }());
+  </script>
+
+</body>
+</html>

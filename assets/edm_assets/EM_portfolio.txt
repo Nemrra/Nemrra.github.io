@@ -1,0 +1,22 @@
+Electromagnetic Device Modelling for High-frequency Semiconductor Applications 
+
+Field-based modelling track spanning vector integro-differential descriptions, to hardware-validated high-frequency power electronics, building electromagnetic device models from open-ended physical phenomena rather than lumped-circuit abstractions. Work spans analytical field derivations, visualisation tool development, and SPICE-to-breadboard validation — each result cross-checked against symmetry arguments, closed-form solutions, and measured waveforms rather than accepted from a single method.
+
+Tech stack: MATLAB (Antenna, RF, PDE toolboxes, Simscape electrical, Simulink), LTspice & OrCad (transient identification, transmission-line modelling), breadboard and geometry-aware PCB deployments, SymPy (closed-form, symbolic solvers)
+
+Field and Numerical Skills:
+    - Derived and transformed vector fields across rectangular, cylindrical, and spherical geometry primitives, distinguishing the field point from the represented vector via point-dependent transformation matrices.
+    - Applied grad/div/curl operators, elaborated to theorems (Gauss' divergence, Stokes') to compute flux, circulation, and potential, identifying conservative fields, scalar potentials, and source/sink behaviour.
+    - Resolved Maxwell's formulations in integro-differential forms under symmetry to recover piecewise field solutions for spherical and coaxial geometries, including conductor charge separation and electrostatic shielding.
+    - Modelled normalised capacitance and inductance from electromagnetic and vector calculus primitives, then applied the result into transmission-line, characteristic-impedance, and signal-integrity analysis.
+    - Designed and analysed nonlinear device circuits (Zener references, BJT current gain, op-amp negative feedback, LM555 oscillation), with attention to biasing, loop stability, regulation failure, and high-voltage safety.
+
+Studies:
+    - Field foundations & vector calculus:
+        - Established the coordinate machinery underpinning all field modelling, then worked the differential operators and line/surface/volume integrals, visualising E = -grad V normal to equipotential contours, and confirming Stokes' theorem by matching curl-flux through a parametrised open surface to its perimeter circulation.
+    - Canonical field geometries:
+        - Applied Gauss' and Ampère's principles in integral form to a radially-graded sphere in a concentric conducting shell (piecewise E(r) with induced surface charges and zero interior field) and to an infinite coaxial core-and-shield with opposing currents (piecewise azimuthal H(r) and justified vanishing external field).
+    - Capacitance to signal integrity:
+        - Built a capacitance-per-unit-length model for two parallel wires from offset equivalent line charges and the equipotential condition, then applied it to CAT5e cable — extracting Z0 and investigating reflection-induced distortion via ringing/knee-frequency comparison, SPICE, and termination matching on hardware.
+    - Power-electronic device design:
+        - Designed, simulated, and built a switch-mode boost converter (LM555 oscillator, inductor–diode charge pump, Zener over-voltage protection, feedback regulation) and a linear voltage regulator (Zener reference, op-amp difference amplifier, NPN current gain, current-sense limit) - validating regulation limits and failure points on the bench.

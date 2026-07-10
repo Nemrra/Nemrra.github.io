@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Computational Electromagnetics — David Shmail</title>
+  <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep:       #0a0a0e;
+      --bg-card:       #131317;
+      --bg-card-hover: #17171c;
+      --bg-image:      #0c0c10;
+      --bg-panel:      #141418;
+      --text-primary:  #e8e8ec;
+      --text-secondary:#a8a8b0;
+      --text-muted:    #78788a;
+      --border:        rgba(255,255,255,0.04);
+      --border-hover:  rgba(255,255,255,0.08);
+      --blue:          #5b9cf6;
+      --green-border:  rgba(118,190,0,0.2);
+      --green-dim:     rgba(118,190,0,0.03);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-deep);
+      background-image: radial-gradient(circle, rgba(91,156,246,0.028) 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    .page-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 20px clamp(20px, 5vw, 80px);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .page-nav a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+    .page-nav a:hover { color: var(--blue); }
+    .nav-sep { color: var(--text-muted); }
+    .nav-current { color: var(--text-primary); }
+
+    .page-header {
+      padding: 52px clamp(20px, 5vw, 80px) 44px;
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+    .page-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .page-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(26px, 3.2vw, 44px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.13;
+      max-width: 720px;
+      margin-bottom: 16px;
+    }
+    .page-desc {
+      font-size: clamp(13px, 1vw, 15px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 640px;
+    }
+
+    .projects-section {
+      padding: 0 clamp(20px, 5vw, 80px);
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+    .projects-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+    }
+
+    .featured-card {
+      flex: 0 0 calc(50% - 14px);
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 0.35s ease;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+    .featured-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+
+    .fc-info {
+      height: 50%;
+      flex-shrink: 0;
+      overflow: clip;
+      box-sizing: border-box;
+      padding: 14px 18px 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: rgba(14,14,18,0.85);
+    }
+    .fc-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(13px, 1.35vw, 18px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+    .fc-summary {
+      font-size: clamp(11px, 1vw, 14px);
+      color: var(--text-secondary);
+      line-height: 1.55;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.25) transparent;
+      flex: 1;
+      min-height: 0;
+    }
+    .fc-summary::-webkit-scrollbar { width: 3px; }
+    .fc-summary::-webkit-scrollbar-track { background: transparent; }
+    .fc-summary::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 2px; }
+    .fc-tech {
+      font-size: clamp(10px, 0.75vw, 12px);
+      color: #c0c0ca;
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      background: var(--green-dim);
+      line-height: 1.5;
+      flex-shrink: 0;
+    }
+    .fc-dot { color: #cc3333; margin: 0 3px; font-size: 1.1em; }
+
+    .fc-collage {
+      height: 50%;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-image);
+    }
+    .fc-img {
+      position: absolute;
+      object-fit: cover;
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.55);
+    }
+
+    /* EDM collage — 4×4 grid for 16 images */
+    .fc-img-e1  { width: 20%; top:  1%; left:  1%; }
+    .fc-img-e2  { width: 20%; top:  3%; left: 27%; }
+    .fc-img-e3  { width: 20%; top:  2%; left: 52%; }
+    .fc-img-e4  { width: 20%; top:  1%; left: 78%; }
+    .fc-img-e5  { width: 20%; top: 27%; left:  2%; }
+    .fc-img-e6  { width: 20%; top: 29%; left: 28%; }
+    .fc-img-e7  { width: 20%; top: 28%; left: 53%; }
+    .fc-img-e8  { width: 20%; top: 27%; left: 79%; }
+    .fc-img-e9  { width: 20%; top: 53%; left:  1%; }
+    .fc-img-e10 { width: 20%; top: 55%; left: 27%; }
+    .fc-img-e11 { width: 20%; top: 54%; left: 52%; }
+    .fc-img-e12 { width: 20%; top: 53%; left: 78%; }
+    .fc-img-e13 { width: 20%; top: 79%; left:  2%; }
+    .fc-img-e14 { width: 20%; top: 81%; left: 28%; }
+    .fc-img-e15 { width: 20%; top: 80%; left: 53%; }
+    .fc-img-e16 { width: 20%; top: 79%; left: 79%; }
+
+    .fc-details {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      padding: 10px 22px;
+      border-radius: 8px;
+      background: var(--blue);
+      border: 1px solid var(--blue);
+      color: #09090e;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+      z-index: 10;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    .fc-details::after { content: '→'; margin-left: 8px; font-size: 14px; }
+    .featured-card:hover .fc-details {
+      background: #74aeff;
+      border-color: #74aeff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(91,156,246,0.3);
+    }
+
+    @media (max-width: 900px) {
+      .featured-card { flex: 0 0 min(520px, 80%); }
+    }
+    @media (max-width: 600px) {
+      .featured-card { flex: 0 0 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="index.html">Portfolio</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-current">Computational Electromagnetics</span>
+  </nav>
+
+  <header class="page-header">
+    <div class="page-tag">Category 01</div>
+    <h1 class="page-title">Computational Electromagnetics &amp; Field-Based Device Modelling</h1>
+    <p class="page-desc">First-principles electromagnetic and device-level models built from Maxwell&rsquo;s equations, vector calculus, and nonlinear semiconductor theory — each result cross-checked against symmetry arguments, closed-form solutions, and measured waveforms.</p>
+  </header>
+
+  <section class="projects-section">
+    <div class="projects-grid">
+
+      <!-- EDM Card -->
+      <a href="edm-project.html" class="featured-card">
+        <div class="fc-info">
+          <div class="fc-title">Electromagnetic Device Modelling for High-frequency Semiconductor Applications</div>
+          <p class="fc-summary">Field-based modelling track spanning vector integro-differential descriptions, to hardware-validated high-frequency power electronics, building electromagnetic device models from open-ended physical phenomena rather than lumped-circuit abstractions. Work spans analytical field derivations, visualisation tool development, and SPICE-to-breadboard validation &mdash; each result cross-checked against symmetry arguments, closed-form solutions, and measured waveforms rather than accepted from a single method.</p>
+          <div class="fc-tech">MATLAB (Antenna, RF, PDE toolboxes, Simscape electrical, Simulink)<span class="fc-dot">·</span>LTspice &amp; OrCad<span class="fc-dot">·</span>SymPy (closed-form, symbolic solvers)<span class="fc-dot">·</span>breadboard and geometry-aware PCB deployments</div>
+        </div>
+        <div class="fc-collage">
+          <img class="fc-img fc-img-e1"  src="assets/edm_assets/edm3_assets/Screenshot%202026-02-20%20162531.png" alt="">
+          <img class="fc-img fc-img-e2"  src="assets/edm_assets/edm3_assets/Screenshot%202026-02-20%20162553.png" alt="">
+          <img class="fc-img fc-img-e3"  src="assets/edm_assets/edm3_assets/Screenshot%202026-02-20%20162609.png" alt="">
+          <img class="fc-img fc-img-e4"  src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162803.png" alt="">
+          <img class="fc-img fc-img-e5"  src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162836.png" alt="">
+          <img class="fc-img fc-img-e6"  src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162854.png" alt="">
+          <img class="fc-img fc-img-e7"  src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162935.png" alt="">
+          <img class="fc-img fc-img-e8"  src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20163003.png" alt="">
+          <img class="fc-img fc-img-e9"  src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20163012.png" alt="">
+          <img class="fc-img fc-img-e10" src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20163041.png" alt="">
+          <img class="fc-img fc-img-e11" src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163228.png" alt="">
+          <img class="fc-img fc-img-e12" src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163256.png" alt="">
+          <img class="fc-img fc-img-e13" src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163312.png" alt="">
+          <img class="fc-img fc-img-e14" src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163339.png" alt="">
+          <img class="fc-img fc-img-e15" src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163353.png" alt="">
+          <img class="fc-img fc-img-e16" src="assets/edm_assets/edm6_assets/Screenshot%202026-02-20%20164702.png" alt="">
+        </div>
+        <div class="fc-details">See Work</div>
+      </a>
+
+    </div>
+  </section>
+
+</body>
+</html>

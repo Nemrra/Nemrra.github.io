@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Numerical Methods Library — David Shmail</title>
+  <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep:       #0a0a0e;
+      --bg-image:      #0c0c10;
+      --text-primary:  #e8e8ec;
+      --text-secondary:#a8a8b0;
+      --text-muted:    #78788a;
+      --border:        rgba(255,255,255,0.04);
+      --blue:          #5b9cf6;
+      --green-border:  rgba(118,190,0,0.2);
+      --green-dim:     rgba(118,190,0,0.03);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-deep);
+      background-image: radial-gradient(circle, rgba(91,156,246,0.028) 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      padding-bottom: 100px;
+    }
+
+    .page-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 20px clamp(20px, 5vw, 80px);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .page-nav a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+    .page-nav a:hover { color: var(--blue); }
+    .nav-sep { color: var(--text-muted); }
+    .nav-current { color: var(--text-primary); }
+
+    .project-wrap {
+      width: min(92%, 1080px);
+      margin: 0 auto;
+    }
+
+    .project-hero { padding: 52px 0 36px; }
+    .project-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .project-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(22px, 2.8vw, 38px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.18;
+      margin-bottom: 18px;
+    }
+    .project-intro {
+      font-size: clamp(13px, 1vw, 15px);
+      color: var(--text-secondary);
+      line-height: 1.72;
+      margin-bottom: 16px;
+    }
+    .project-tech {
+      font-size: clamp(11px, 0.85vw, 13px);
+      color: #c0c0ca;
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 11px 15px;
+      background: var(--green-dim);
+      line-height: 1.6;
+    }
+
+    .project-body { border-top: 1px solid var(--border); padding-top: 8px; }
+    .project-section { padding-top: 32px; margin-bottom: 8px; }
+    .section-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(91,156,246,0.2);
+    }
+    .project-section ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .project-section ul li {
+      font-size: clamp(12px, 0.9vw, 13.5px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      padding-left: 22px;
+      position: relative;
+    }
+    .project-section ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+      opacity: 0.55;
+    }
+
+    .project-gallery {
+      margin-top: 52px;
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--blue);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-deep);
+      position: relative;
+    }
+    .slide-viewport {
+      height: clamp(280px, 52vh, 600px);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-deep);
+    }
+    .slide { display: none; width: 100%; height: 100%; align-items: center; justify-content: center; padding: 20px 60px; box-sizing: border-box; }
+    .slide.active { display: flex; }
+    .slide img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 5px; flex-shrink: 1; }
+    .slide-pause-icon {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(9,9,14,0.72); border: 1px solid var(--border);
+      color: var(--text-primary); font-size: 22px;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; opacity: 0; transition: opacity 0.25s ease; z-index: 3;
+    }
+    .slide-viewport.paused .slide-pause-icon { opacity: 1; }
+    .slide-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(14,14,18,0.82); border: 1px solid var(--border);
+      color: var(--text-primary); width: 40px; height: 40px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 16px; transition: all 0.2s ease; z-index: 5;
+    }
+    .slide-nav:hover { background: var(--blue); color: #09090e; border-color: var(--blue); }
+    .slide-prev { left: 12px; }
+    .slide-next { right: 12px; }
+    .slide-footer { padding: 10px 16px 12px; display: flex; align-items: center; gap: 12px; }
+    .slide-counter { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--text-muted); letter-spacing: 1px; white-space: nowrap; }
+    .slide-progress-track { flex: 1; height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; }
+    .slide-progress-fill { height: 100%; background: var(--blue); border-radius: 1px; width: 0%; }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="index.html">Portfolio</a>
+    <span class="nav-sep">/</span>
+    <a href="simulation.html">Multiphysics Simulation</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-current">Numerical Methods Library</span>
+  </nav>
+
+  <div class="project-wrap">
+
+    <div class="project-hero">
+      <div class="project-tag">Numerical Methods &amp; Scientific Computing</div>
+      <h1 class="project-title">Custom Numerical Methods &amp; Solver Library &mdash; Root-Finding, Adaptive ODE Integration &amp; Scientific Computing Toolkit</h1>
+      <p class="project-intro">A personal multi-purpose numerical toolkit, built once so root-finders, integrators, and interpolation routines don&rsquo;t get reimplemented from scratch on every project that needs them. The library covers root-finding methods, a generalised Runge-Kutta family for IVP/BVP integration, interpolation routines, quadrature, and numerical differentiation &mdash; most of it built with configurable tolerances, selectable method variants, explicit convergence criteria, structured input validation, and data-structure and memory choices made on purpose rather than left to defaults.</p>
+      <div class="project-tech">MATLAB &middot; Python &middot; C++ (structured, parameterised numerical implementations)</div>
+    </div>
+
+    <div class="project-body">
+
+      <div class="project-section">
+        <div class="section-title">Numerical Methods &amp; Software Engineering</div>
+        <ul>
+          <li>Implemented classical root-finding (bisection, Newton&ndash;Raphson, secant) with configurable tolerance and iteration-cap convergence criteria, plus input validation for bracket failure and ill-conditioning.</li>
+          <li>Built the Runge-Kutta family around a generic Butcher-tableau stepper (c, A, b coefficients), so explicit Euler, Heun/RK2, and classical RK4 all instantiate the same core routine instead of being hand-coded separately &mdash; adding a new scheme means adding a coefficient table, nothing else.</li>
+          <li>Added embedded adaptive step-size control (higher/lower-order pairs, RK45-style): estimated local truncation error from the two embedded solutions per step, applied a safety-factored step-update rule, and rejected and retried steps that exceeded tolerance.</li>
+          <li>Checked each scheme&rsquo;s convergence order empirically against its theoretical order by halving step size and confirming the error ratio scaled correctly (roughly 2<sup>p</sup> for a p<sup>th</sup>-order method) &mdash; the kind of test that catches bugs a single test case won&rsquo;t, such as an order-4 method quietly behaving like order-3 because a stage weight is off.</li>
+          <li>Ran into stiffness directly: explicit RK&rsquo;s bounded stability region forced impractically small steps on stiff test systems, which drove adding an implicit option (backward Euler / implicit trapezoidal), solving per-step nonlinear stage equations with the library&rsquo;s own Newton&ndash;Raphson root-finder.</li>
+          <li>Handled vector-valued state (systems of ODEs) the same way as the scalar case, and built dense output between accepted steps using the library&rsquo;s own interpolation routines instead of a separate code path.</li>
+        </ul>
+      </div>
+
+      <div class="project-section">
+        <div class="section-title">Applied Across</div>
+        <ul>
+          <li>Dynamic system &amp; control-loop modelling: the RK stepper drove motor/inertia ramp-sizing and closed-loop thermal-control logic through a full ramp/steady/dwell duty cycle on a compound-drivetrain electromechanical system, where step-size and stiffness sensitivity affected which solver variant made sense.</li>
+          <li>Finite-element &amp; field-computation contexts: supported flux/potential quadrature and piecewise field-solution work across canonical electromagnetic geometries, checked against closed-form and commercial-solver results.</li>
+          <li>Simulation post-processing: general-purpose interpolation, differentiation, and convergence-checking utilities reused across bench and simulation datasets instead of rebuilt per project.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="project-gallery">
+      <div class="slide-viewport" id="nm-slide-viewport">
+        <div class="slide active"><img src="assets/numericalmethods_portfolio/Screenshot%202026-07-08%20222806.png" alt="BVP matrix system"></div>
+        <div class="slide"><img src="assets/numericalmethods_portfolio/Screenshot%202026-07-08%20222837.png" alt="ODE solver comparison — Explicit Euler, Implicit Euler, Crank-Nicolson vs true solution"></div>
+        <div class="slide"><img src="assets/numericalmethods_portfolio/Screenshot%202026-07-08%20222854.png" alt="Implicit Euler stability region in complex plane"></div>
+        <div class="slide"><img src="assets/numericalmethods_portfolio/Screenshot%202026-07-08%20222945.png" alt="3D surface interpolation"></div>
+        <div class="slide-pause-icon">&#9646;&#9646;</div>
+      </div>
+      <button class="slide-nav slide-prev" id="nm-prev">&#8592;</button>
+      <button class="slide-nav slide-next" id="nm-next">&#8594;</button>
+      <div class="slide-footer">
+        <span class="slide-counter" id="nm-counter">1 / 4</span>
+        <div class="slide-progress-track">
+          <div class="slide-progress-fill" id="nm-progress"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      const viewport = document.getElementById('nm-slide-viewport');
+      const slides   = viewport.querySelectorAll('.slide');
+      const prevBtn  = document.getElementById('nm-prev');
+      const nextBtn  = document.getElementById('nm-next');
+      const counter  = document.getElementById('nm-counter');
+      const progress = document.getElementById('nm-progress');
+
+      const SLIDE_MS = 4000, TICK_MS = 40;
+      let slideIdx = 0, elapsed = 0, paused = false;
+
+      function goToSlide(n) {
+        slides[slideIdx].classList.remove('active');
+        slideIdx = (n + slides.length) % slides.length;
+        slides[slideIdx].classList.add('active');
+        counter.textContent = (slideIdx + 1) + ' / ' + slides.length;
+        elapsed = 0;
+        progress.style.transition = 'none';
+        progress.style.width = '0%';
+      }
+
+      setInterval(() => {
+        if (paused) return;
+        elapsed += TICK_MS;
+        progress.style.transition = 'none';
+        progress.style.width = Math.min((elapsed / SLIDE_MS) * 100, 100) + '%';
+        if (elapsed >= SLIDE_MS) goToSlide(slideIdx + 1);
+      }, TICK_MS);
+
+      viewport.addEventListener('click', () => {
+        paused = !paused;
+        viewport.classList.toggle('paused', paused);
+      });
+      prevBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx - 1); });
+      nextBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx + 1); });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft')  goToSlide(slideIdx - 1);
+        if (e.key === 'ArrowRight') goToSlide(slideIdx + 1);
+      });
+    }());
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+# Claude Code local settings
+.claude/
+
+# Old experimental files
+archive/
+
+# Test assets
+assets/htmltest.png
+assets/htmlvideotest.mp4
+
+# Working documents not linked from the site
+assets/Portfolio Experience Entry.pdf
+
+# Assignment/workshop submission PDFs — not for public repo
+assets/ThermoFluid_portfolio/*.pdf
+assets/FEA_portfolio/*.pdf
+assets/ENAD_ws_portfolio/
+assets/SNS_portfolio/*.pdf

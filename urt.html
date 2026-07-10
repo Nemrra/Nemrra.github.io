@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planetary Rover Science Payload — David Shmail</title>
+  <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep:       #0a0a0e;
+      --bg-card:       #131317;
+      --bg-image:      #0c0c10;
+      --bg-panel:      #141418;
+      --text-primary:  #e8e8ec;
+      --text-secondary:#a8a8b0;
+      --text-muted:    #78788a;
+      --border:        rgba(255,255,255,0.04);
+      --border-subtle: rgba(255,255,255,0.08);
+      --blue:          #5b9cf6;
+      --blue-border:   rgba(91,156,246,0.22);
+      --green-border:  rgba(118,190,0,0.2);
+      --green-dim:     rgba(118,190,0,0.03);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-deep);
+      background-image: radial-gradient(circle, rgba(91,156,246,0.028) 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      padding-bottom: 100px;
+    }
+
+    /* NAV */
+    .page-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 20px clamp(20px, 5vw, 80px);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .page-nav a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+    .page-nav a:hover { color: var(--blue); }
+    .nav-sep { color: var(--text-muted); }
+    .nav-current { color: var(--text-primary); }
+
+    /* MAIN WRAPPER */
+    .project-wrap {
+      width: min(92%, 1080px);
+      margin: 0 auto;
+    }
+
+    /* HERO */
+    .project-hero {
+      padding: 52px 0 36px;
+    }
+    .project-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .project-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(22px, 2.8vw, 38px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.18;
+      margin-bottom: 18px;
+    }
+    .project-intro {
+      font-size: clamp(13px, 1vw, 15px);
+      color: var(--text-secondary);
+      line-height: 1.72;
+      margin-bottom: 16px;
+    }
+    .project-tech {
+      font-size: clamp(11px, 0.85vw, 13px);
+      color: #c0c0ca;
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 11px 15px;
+      background: var(--green-dim);
+      line-height: 1.6;
+    }
+
+    /* CONTENT SECTIONS */
+    .project-body {
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+    }
+    .project-section {
+      padding-top: 32px;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(91,156,246,0.2);
+    }
+    .project-section ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .project-section ul li {
+      font-size: clamp(12px, 0.9vw, 13.5px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      padding-left: 22px;
+      position: relative;
+    }
+    .project-section ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+      opacity: 0.55;
+    }
+
+    /* SUBSECTIONS */
+    .subsections-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    .project-subsection {
+      padding: 20px 0 20px 20px;
+      border-left: 2px solid rgba(91,156,246,0.22);
+      margin-bottom: 4px;
+    }
+    .subsection-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(15px, 1.1vw, 19px);
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      font-weight: 400;
+    }
+    .project-subsection p {
+      font-size: clamp(12px, 0.9vw, 13.5px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* GALLERY */
+    .project-gallery {
+      margin-top: 52px;
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--blue);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-deep);
+      position: relative;
+    }
+    .slide-viewport {
+      height: clamp(280px, 52vh, 600px);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-deep);
+    }
+    .slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 60px;
+      box-sizing: border-box;
+    }
+    .slide.active { display: flex; }
+    .slide img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 5px;
+      flex-shrink: 1;
+    }
+    .slide-pause-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(9,9,14,0.72);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      z-index: 3;
+    }
+    .slide-viewport.paused .slide-pause-icon { opacity: 1; }
+    .slide-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(14,14,18,0.82);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.2s ease;
+      z-index: 5;
+    }
+    .slide-nav:hover { background: var(--blue); color: #09090e; border-color: var(--blue); }
+    .slide-prev { left: 12px; }
+    .slide-next { right: 12px; }
+    .slide-footer {
+      padding: 10px 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .slide-counter {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    .slide-progress-track {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+    .slide-progress-fill {
+      height: 100%;
+      background: var(--blue);
+      border-radius: 1px;
+      width: 0%;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="index.html">Portfolio</a>
+    <span class="nav-sep">/</span>
+    <a href="systems.html">Systems</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-current">Rover Science Payload</span>
+  </nav>
+
+  <div class="project-wrap">
+
+    <div class="project-hero">
+      <div class="project-tag">Mechanical Design &amp; Integration</div>
+      <h1 class="project-title">Planetary Rover Science Payload &mdash; Precision Gantry &amp; ISRU Instrument Integration (Unimelb Rover Team)</h1>
+      <p class="project-intro">Co-developed the science-payload motion and integration hardware for a planetary-analogue rover: a precision gantry providing stable linear translation and repeatable positioning for a spectrometer, focused imaging module, and regolith-preparation brush and drill. Engineered through the late-design and manufacturing stages of the 2025&ndash;26 development cycle, under strict mass, volume, and competition-rule constraints &mdash; where positioning repeatability and vibration isolation directly bound measurement quality for in-situ resource analysis.</p>
+      <div class="project-tech">Onshape (collaborative parametric CAD, part-based modelling) &middot; SOLIDWORKS &middot; first-order FEA validation &middot; FDM additive-manufacturing iteration pipeline &middot; workshop manufacturing workflows (Telstra Creator Space)</div>
+    </div>
+
+    <div class="project-body">
+
+      <div class="project-section">
+        <div class="section-title">Mechanical Design &amp; Integration Skills</div>
+        <ul>
+          <li>Precision linear-motion design under coupled constraints &mdash; stable translation and repeatable instrument alignment traded against a hard mass and packaging envelope.</li>
+          <li>Stiffness-to-weight-driven structural design of framing and gantry members, validated with first-order FEA rather than section-guessing.</li>
+          <li>Tolerance control across mating interfaces so that as-manufactured assemblies preserve the alignment repeatability the instruments require.</li>
+          <li>Mounting-interface design for vibration-sensitive instrumentation, managing transmitted vibration for measurement reliability.</li>
+          <li>Subsystem integration within a shared rover architecture &mdash; packaging the gantry, drilling, and water-extraction processing units against interfaces owned by other subteams.</li>
+          <li>Design-for-manufacture iteration: rapid FDM print-test-revise loops enabling frequent design turns through the manufacturing stage.</li>
+        </ul>
+      </div>
+
+      <div class="project-section">
+        <div class="section-title">Subsystem Contributions</div>
+        <div class="subsections-wrap">
+
+          <div class="project-subsection">
+            <div class="subsection-title">Precision Gantry</div>
+            <p>Linear-translation stage carrying the spectrometer, focused imaging module, and regolith-preparation tooling &mdash; designed for repeatable re-positioning between sample-preparation and measurement operations, where alignment error and structural compliance appear directly as measurement degradation.</p>
+          </div>
+
+          <div class="project-subsection">
+            <div class="subsection-title">Structural Framing &amp; Instrument Mounts</div>
+            <p>Load-bearing framing and mounting interfaces for sensitive instrumentation, balancing stiffness-to-weight efficiency against the payload mass budget and rover packaging envelope.</p>
+          </div>
+
+          <div class="project-subsection">
+            <div class="subsection-title">ISRU Processing Integration</div>
+            <p>Integration of drilling and water-extraction processing enclosures into the rover architecture for in-situ resource analysis &mdash; interface definition, packaging, and access for sample flow between preparation and analysis stages.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="project-gallery">
+      <div class="slide-viewport" id="urt-slide-viewport">
+        <div class="slide active"><img src="assets/URT_portfolio/IMG_7320.jpg" alt="URT 1"></div>
+        <div class="slide"><img src="assets/URT_portfolio/sai_urt1_asset.jpg" alt="URT 2"></div>
+        <div class="slide"><img src="assets/URT_portfolio/Screenshot%202026-02-27%20155726.png" alt="URT 3"></div>
+        <div class="slide"><img src="assets/URT_portfolio/Screenshot%202026-02-27%20171647.png" alt="URT 4"></div>
+        <div class="slide-pause-icon">&#9646;&#9646;</div>
+      </div>
+      <button class="slide-nav slide-prev" id="urt-prev">&#8592;</button>
+      <button class="slide-nav slide-next" id="urt-next">&#8594;</button>
+      <div class="slide-footer">
+        <span class="slide-counter" id="urt-counter">1 / 4</span>
+        <div class="slide-progress-track">
+          <div class="slide-progress-fill" id="urt-progress"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      const viewport = document.getElementById('urt-slide-viewport');
+      const slides   = viewport.querySelectorAll('.slide');
+      const prevBtn  = document.getElementById('urt-prev');
+      const nextBtn  = document.getElementById('urt-next');
+      const counter  = document.getElementById('urt-counter');
+      const progress = document.getElementById('urt-progress');
+
+      const SLIDE_MS = 4000;
+      const TICK_MS  = 40;
+      let slideIdx   = 0;
+      let elapsed    = 0;
+      let paused     = false;
+
+      function goToSlide(n) {
+        slides[slideIdx].classList.remove('active');
+        slideIdx = (n + slides.length) % slides.length;
+        slides[slideIdx].classList.add('active');
+        counter.textContent = (slideIdx + 1) + ' / ' + slides.length;
+        elapsed = 0;
+        progress.style.transition = 'none';
+        progress.style.width = '0%';
+      }
+
+      setInterval(() => {
+        if (paused) return;
+        elapsed += TICK_MS;
+        progress.style.transition = 'none';
+        progress.style.width = Math.min((elapsed / SLIDE_MS) * 100, 100) + '%';
+        if (elapsed >= SLIDE_MS) goToSlide(slideIdx + 1);
+      }, TICK_MS);
+
+      viewport.addEventListener('click', () => {
+        paused = !paused;
+        viewport.classList.toggle('paused', paused);
+      });
+
+      prevBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx - 1); });
+      nextBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx + 1); });
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft')  goToSlide(slideIdx - 1);
+        if (e.key === 'ArrowRight') goToSlide(slideIdx + 1);
+      });
+    }());
+  </script>
+
+</body>
+</html>

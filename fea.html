@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prosthetic Hip Implant FEA — David Shmail</title>
+  <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep:       #0a0a0e;
+      --bg-image:      #0c0c10;
+      --text-primary:  #e8e8ec;
+      --text-secondary:#a8a8b0;
+      --text-muted:    #78788a;
+      --border:        rgba(255,255,255,0.04);
+      --blue:          #5b9cf6;
+      --green-border:  rgba(118,190,0,0.2);
+      --green-dim:     rgba(118,190,0,0.03);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-deep);
+      background-image: radial-gradient(circle, rgba(91,156,246,0.028) 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      padding-bottom: 100px;
+    }
+
+    .page-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 20px clamp(20px, 5vw, 80px);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .page-nav a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+    .page-nav a:hover { color: var(--blue); }
+    .nav-sep { color: var(--text-muted); }
+    .nav-current { color: var(--text-primary); }
+
+    .project-wrap {
+      width: min(92%, 1080px);
+      margin: 0 auto;
+    }
+
+    .project-hero { padding: 52px 0 36px; }
+    .project-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .project-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(22px, 2.8vw, 38px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.18;
+      margin-bottom: 18px;
+    }
+    .project-intro {
+      font-size: clamp(13px, 1vw, 15px);
+      color: var(--text-secondary);
+      line-height: 1.72;
+      margin-bottom: 16px;
+    }
+    .project-tech {
+      font-size: clamp(11px, 0.85vw, 13px);
+      color: #c0c0ca;
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 11px 15px;
+      background: var(--green-dim);
+      line-height: 1.6;
+    }
+
+    .project-body { border-top: 1px solid var(--border); padding-top: 8px; }
+    .project-section { padding-top: 32px; margin-bottom: 8px; }
+    .section-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(91,156,246,0.2);
+    }
+    .project-section ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .project-section ul li {
+      font-size: clamp(12px, 0.9vw, 13.5px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      padding-left: 22px;
+      position: relative;
+    }
+    .project-section ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+      opacity: 0.55;
+    }
+
+    .subsections-wrap { display: flex; flex-direction: column; }
+    .project-subsection {
+      padding: 20px 0 20px 20px;
+      border-left: 2px solid rgba(91,156,246,0.22);
+      margin-bottom: 4px;
+    }
+    .subsection-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(15px, 1.1vw, 19px);
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      font-weight: 400;
+    }
+    .project-subsection p {
+      font-size: clamp(12px, 0.9vw, 13.5px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .project-gallery {
+      margin-top: 52px;
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--blue);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-deep);
+      position: relative;
+    }
+    .slide-viewport {
+      height: clamp(280px, 52vh, 600px);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-deep);
+    }
+    .slide { display: none; width: 100%; height: 100%; align-items: center; justify-content: center; padding: 20px 60px; box-sizing: border-box; }
+    .slide.active { display: flex; }
+    .slide img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 5px; flex-shrink: 1; }
+    .slide-pause-icon {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(9,9,14,0.72); border: 1px solid var(--border);
+      color: var(--text-primary); font-size: 22px;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; opacity: 0; transition: opacity 0.25s ease; z-index: 3;
+    }
+    .slide-viewport.paused .slide-pause-icon { opacity: 1; }
+    .slide-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(14,14,18,0.82); border: 1px solid var(--border);
+      color: var(--text-primary); width: 40px; height: 40px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 16px; transition: all 0.2s ease; z-index: 5;
+    }
+    .slide-nav:hover { background: var(--blue); color: #09090e; border-color: var(--blue); }
+    .slide-prev { left: 12px; }
+    .slide-next { right: 12px; }
+    .slide-footer { padding: 10px 16px 12px; display: flex; align-items: center; gap: 12px; }
+    .slide-counter { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--text-muted); letter-spacing: 1px; white-space: nowrap; }
+    .slide-progress-track { flex: 1; height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; }
+    .slide-progress-fill { height: 100%; background: var(--blue); border-radius: 1px; width: 0%; }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="index.html">Portfolio</a>
+    <span class="nav-sep">/</span>
+    <a href="simulation.html">Multiphysics Simulation</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-current">Prosthetic Hip Implant</span>
+  </nav>
+
+  <div class="project-wrap">
+
+    <div class="project-hero">
+      <div class="project-tag">Multiphysics Simulation &amp; FEA</div>
+      <h1 class="project-title">Ti-6Al-4V Prosthetic Hip Implant &mdash; Structural Simulation, Failure Analysis &amp; Mass Optimisation</h1>
+      <p class="project-intro">A finite-element study spanning hand-derived stiffness formulation, MATLAB PDE solvers, and CAD-based simulation &mdash; validating each result across analytical, numerical, and commercial-solver methods. Work covers 2D truss FEM from first principles, Kirsch hole stress-concentration verification, and a full design&ndash;analyse&ndash;optimise loop on a prosthetic hip implant, emphasising mesh convergence and physically-grounded boundary conditions over black-box solver output.</p>
+      <div class="project-tech">MATLAB (PDE Toolbox) &middot; SOLIDWORKS (Simulation (FEA), Non-linear &amp; Fatigue Analysis, Advanced Meshing (curvature based, growth-rate control))</div>
+    </div>
+
+    <div class="project-body">
+
+      <div class="project-section">
+        <div class="section-title">Multiphysics Simulation and Solid Mechanics Skills</div>
+        <ul>
+          <li>Derived element stiffness matrices from force equilibrium and assembled global FEM systems via coordinate-transform rotation and like-DOF superposition.</li>
+          <li>Partitioned systems into essential/free DOFs to solve for unknown displacements and reaction forces under mixed boundary conditions.</li>
+          <li>Cross-validated results three ways &mdash; analytical (Kirsch), custom MATLAB solver, and SOLIDWORKS &mdash; quantifying divergence and its physical/numerical causes.</li>
+          <li>Mesh refinement and convergence studies with localised control, exposing a ~50% peak-stress underestimate that coarse meshing missed.</li>
+          <li>Boundary-condition design balancing stability, realism, load flow, and avoidance of artificial over-constraint.</li>
+          <li>Design iteration against quantitative failure criteria &mdash; von Mises vs. yield, safety factor, mass reduction.</li>
+        </ul>
+      </div>
+
+      <div class="project-section">
+        <div class="section-title">Studies</div>
+        <div class="subsections-wrap">
+
+          <div class="project-subsection">
+            <div class="subsection-title">2D Planar Truss FEM (from first principles)</div>
+            <p>Discretised a pin-jointed truss into 2D rod elements, deriving the element stiffness matrix under axial equilibrium and transforming local-to-global via rotation matrices. Assembled the global stiffness system, partitioned into essential/free DOFs, and solved for nodal displacements, reaction forces, and per-member axial stress &mdash; implemented as a parameterised MATLAB script.</p>
+          </div>
+
+          <div class="project-subsection">
+            <div class="subsection-title">Stress Concentration at a Hole (Kirsch Verification)</div>
+            <p>Modelled a uniaxially-loaded thin plate with a central hole in MATLAB&rsquo;s PDE framework, sweeping the d/w ratio to recover the classical factor-of-three stress concentration as the geometry approaches an infinite plate. Benchmarked against both Kirsch&rsquo;s analytical solution and a 3D SOLIDWORKS model, characterising mesh- and dimensionality-driven divergence.</p>
+          </div>
+
+          <div class="project-subsection">
+            <div class="subsection-title">Prosthetic Hip Implant (Design&ndash;Analyse&ndash;Optimise)</div>
+            <p>Full CAD-to-FEA workflow on a Ti-6Al-4V hip implant: parametric SOLIDWORKS model, physically-reasoned fixturing (fixing only high-contact faces to avoid artificial stiffness), and static loading emulating body weight. Identified a mesh-sensitive neck stress concentration and bending failure mode, then resolved it through geometry strengthening (flush stem, enlarged fillet) to reach a safety factor of 2, and ran a hole-diameter design study trading mass against structural integrity.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="project-gallery">
+      <div class="slide-viewport" id="fea-slide-viewport">
+        <div class="slide active"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145700.png" alt="FEA 1"></div>
+        <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145726.png" alt="FEA 2"></div>
+        <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145749.png" alt="FEA 3"></div>
+        <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145801.png" alt="FEA 4"></div>
+        <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145828.png" alt="FEA 5"></div>
+        <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145849.png" alt="FEA 6"></div>
+        <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145913.png" alt="FEA 7"></div>
+        <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145926.png" alt="FEA 8"></div>
+        <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145940.png" alt="FEA 9"></div>
+        <div class="slide-pause-icon">&#9646;&#9646;</div>
+      </div>
+      <button class="slide-nav slide-prev" id="fea-prev">&#8592;</button>
+      <button class="slide-nav slide-next" id="fea-next">&#8594;</button>
+      <div class="slide-footer">
+        <span class="slide-counter" id="fea-counter">1 / 9</span>
+        <div class="slide-progress-track">
+          <div class="slide-progress-fill" id="fea-progress"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      const viewport = document.getElementById('fea-slide-viewport');
+      const slides   = viewport.querySelectorAll('.slide');
+      const prevBtn  = document.getElementById('fea-prev');
+      const nextBtn  = document.getElementById('fea-next');
+      const counter  = document.getElementById('fea-counter');
+      const progress = document.getElementById('fea-progress');
+
+      const SLIDE_MS = 4000, TICK_MS = 40;
+      let slideIdx = 0, elapsed = 0, paused = false;
+
+      function goToSlide(n) {
+        slides[slideIdx].classList.remove('active');
+        slideIdx = (n + slides.length) % slides.length;
+        slides[slideIdx].classList.add('active');
+        counter.textContent = (slideIdx + 1) + ' / ' + slides.length;
+        elapsed = 0;
+        progress.style.transition = 'none';
+        progress.style.width = '0%';
+      }
+
+      setInterval(() => {
+        if (paused) return;
+        elapsed += TICK_MS;
+        progress.style.transition = 'none';
+        progress.style.width = Math.min((elapsed / SLIDE_MS) * 100, 100) + '%';
+        if (elapsed >= SLIDE_MS) goToSlide(slideIdx + 1);
+      }, TICK_MS);
+
+      viewport.addEventListener('click', () => {
+        paused = !paused;
+        viewport.classList.toggle('paused', paused);
+      });
+      prevBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx - 1); });
+      nextBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx + 1); });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft')  goToSlide(slideIdx - 1);
+        if (e.key === 'ArrowRight') goToSlide(slideIdx + 1);
+      });
+    }());
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+Formally-Verified Multi-Mode Digital Timepiece — Feature-Layered SystemVerilog 
+RTL on Cyclone V FPGA
+
+Tech stack: SystemVerilog · Quartus Prime (Cyclone V, DE1-SoC) · 
+Yosys / SymbiYosys / Z3 (formal, SMT-LIB) · Icarus Verilog · Verilator · 
+cocotb + pytest · Verible · Docker dev containers · git · VaporView
+
+A multi-mode digital timepiece — settable clock, lap-capable stopwatch, 
+editable countdown timer, and PWM brightness control — implemented as fully 
+synchronous RTL and taken through a complete industry-representative flow: 
+lint-clean SystemVerilog, cocotb/pytest regression, k-induction formal proof 
+of every sequential submodule, Quartus synthesis and place-and-route, and 
+gate-level netlist inspection. Built by feature layering (Watch V1→V4) from 
+small, parametrised, single-responsibility modules, with correctness treated 
+as a first-class deliverable rather than an afterthought.
+
+ARCHITECTURE & RTL DESIGN
+
+- Decomposed the system into ~20 reusable parametrised modules — up/down 
+  counters, modulo-N and cascaded HMS counters (17 FFs of timekeeping state), 
+  restartable rate generators, binary-to-BCD converters with explicit width 
+  casting, PWM generators, rising-edge detectors, button hold/auto-repeat 
+  logic, arming latches, and edit-mode selectors — composed via packed 
+  structs to route wide buses through multiplexers as single logic vectors.
+
+- Separated data path from control throughout: the stopwatch routes counter 
+  output through a snapshot multiplexer to the display driver, while an 
+  independent FSM drives reset/enable/freeze — so lap capture required zero 
+  modification to the counter itself, validating the decomposition.
+
+- Modelled the stopwatch as two orthogonal state machines (running/stopped × 
+  live/frozen), with control-FSM state output-encoded directly as its 
+  control signals rather than held in a separate state register, eliminating 
+  the output-decode layer entirely.
+
+- Encoded the timer FSM as {running, one-hot mode_enable[2:0]} (4 bits), 
+  letting each one-hot bit drive one counter's edit_mode directly with no 
+  decoder; resolved the documented edit-vs-run race (edit_mode_selector has 
+  no reset pin) by permitting both modes for exactly one clock cycle, with 
+  edit taking priority and cancelling the run transition — a resolution the 
+  formal proof accepts.
+
+- Derived the editable countdown's borrow-out semantics from the 74LS193 
+  datasheet — BO̅ = NAND(Q̅₀..Q̅₃, C̅P̅D̅), whose rising edge clocks the next 
+  cascaded stage exactly once per underflow — and mapped it to a synchronous 
+  equivalent gated by tick, edit_mode, and clr.
+
+TIMING, SYNCHRONISATION & CDC HYGIENE
+
+- Satisfied the first-tick timing constraint (first centisecond increment 
+  exactly 10 ms after start, never sooner) by gating the rate generator with 
+  .run(enable && !rst) rather than enable alone — otherwise the free-running 
+  generator desynchronises from the reset counter chain and the first tick 
+  arrives early.
+
+- Synchronised asynchronous active-low key inputs through a two-flip-flop 
+  cascade, trading two cycles of latency for an exponential reduction in 
+  metastability propagation probability into downstream FSMs.
+
+- Applied Gray-coded switch decoding to the brightness control so adjacent 
+  levels differ by a single bit, and set a 1 ms PWM period (12.5–100% duty) 
+  — above the flicker-fusion threshold — for visually steady dimming; 
+  deployed it as a non-invasive wrapper module intercepting the blanking 
+  path between timepiece and board top without modifying either.
+
+FORMAL VERIFICATION (Yosys → SMT-LIB → SymbiYosys/Z3)
+
+- Closed complete k-induction proofs (BMC base case + inductive step at 
+  matched depth) over every sequential submodule, with proofs parametrised 
+  across representative MAX/WIDTH configurations as parallel sby tasks.
+
+- Diagnosed why enable-bearing designs defeat naive depth escalation: a 
+  spurious counterexample (e.g. count initialised above MAX) adapts to any 
+  depth by prepending enable-low cycles, so the fix is inductive-invariant 
+  strengthening — restoring the always @(*) count <= MAX bound — not a 
+  bigger k.
+
+- Worked through the valid-vs-reachable distinction underpinning induction 
+  soundness, including the block-type subtlety that always @(posedge clk) 
+  assertions check the *previous* cycle's state (behaving as 0-induction), 
+  which is why the counter provably requires k = 2.
+
+- Applied the standard industrial division of labour: formal proof for local 
+  invariants at module level, cocotb simulation for sequence-dependent 
+  integration behaviour (start/lap/stop chains, mode transitions) where a 
+  formal spec would be as complex as the implementation itself.
+
+VERIFICATION INFRASTRUCTURE & SYNTHESIS INSIGHT
+
+- Maintained a zero-warning bar under Verilator --lint-only --Wall (width 
+  mismatches, implicit truncation/sign-extension) and Verible lint/format, 
+  with cocotb Python-coroutine testbenches orchestrated by pytest as a 
+  CI-style regression suite — estimated an order-of-magnitude cycle-time 
+  saving over a Quartus-only compile-and-probe loop.
+
+- Traced the Yosys synthesis pipeline stage-by-stage on real modules — 
+  elaboration ($lt/$add/$mux next-state logic), proc/opt (procedural blocks 
+  collapsed into an $sdffe with the declaration initialiser merged into the 
+  reset path), techmap (vector registers unrolled into per-bit 
+  $_SDFFE_PP0P_ primitives with explicit bit-slicing), and ABC gate mapping 
+  — including recognising when ABC passes a netlist through untouched 
+  because techmap's output already sits inside the target gate library, and 
+  how the same netlist would instead map to LUT fabric on FPGA versus 
+  standard cells on ASIC.

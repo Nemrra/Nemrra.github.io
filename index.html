@@ -1,0 +1,2909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>David Shmail — Engineering Portfolio</title>
+
+  <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep:       #0a0a0e;
+      --bg-card:       #131317;
+      --bg-card-hover: #17171c;
+      --bg-image:      #0c0c10;
+      --bg-panel:      #141418;
+      --text-primary:  #e8e8ec;
+      --text-secondary:#a8a8b0;
+      --text-muted:    #78788a;
+      --border:        rgba(255,255,255,0.04);
+      --border-hover:  rgba(255,255,255,0.08);
+      --border-subtle: rgba(255,255,255,0.08);
+      --blue:          #5b9cf6;
+      --blue-dim:      rgba(91,156,246,0.08);
+      --blue-border:   rgba(91,156,246,0.22);
+      --green:         #76be00;
+      --green-border:  rgba(118,190,0,0.2);
+      --green-dim:     rgba(118,190,0,0.03);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-deep);
+      background-image: radial-gradient(circle, rgba(91,156,246,0.028) 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: var(--text-primary);
+      padding: 36px 0 56px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ===== ABOUT SECTION ===== */
+
+    .about-wrap {
+      width: min(96%, 1500px);
+      margin: 0 auto;
+      background: #1a1a1f url('assets/portfolio_summary_banner.jpg') center / cover no-repeat;
+      border-radius: 18px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+      border: 1px solid var(--border-subtle);
+      border-top: 1px solid var(--blue-border);
+      overflow: hidden;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+      padding: clamp(18px, 2.5vw, 36px);
+      align-items: start;
+    }
+
+    .profile {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .avatar {
+      width: 190px;
+      height: 190px;
+      border-radius: 18px;
+      object-fit: cover;
+      display: block;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-panel);
+    }
+
+    .name {
+      font-size: 22px;
+      line-height: 1.1;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.4;
+      font-weight: 300;
+    }
+
+    .social {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--text-secondary);
+      font-size: 13.5px;
+      font-weight: 300;
+      margin-top: 5px;
+    }
+
+    .contact-icon {
+      width: 13px;
+      height: 13px;
+      fill: var(--text-secondary);
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+
+    .icon-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .icon-btn:hover {
+      transform: translateY(-2px);
+      background: var(--bg-card-hover);
+      border-color: var(--blue-border);
+    }
+
+    .icon {
+      width: 26px;
+      height: 26px;
+      fill: var(--text-primary);
+      opacity: 0.85;
+    }
+
+    .cv-btn {
+      margin-top: 8px;
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      text-decoration: none;
+      width: fit-content;
+      font-size: 14px;
+      font-weight: 400;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .cv-btn:hover {
+      transform: translateY(-2px);
+      background: var(--bg-card-hover);
+      border-color: var(--blue-border);
+    }
+
+    .cv-icon {
+      width: 16px;
+      height: 16px;
+      fill: var(--text-primary);
+      opacity: 0.9;
+    }
+
+    .about-main {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      background: transparent;
+      padding: 0;
+    }
+
+    .about-main h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(22px, 2.2vw, 30px);
+      font-weight: 400;
+      margin-bottom: 10px;
+      line-height: 1.15;
+      color: var(--text-primary);
+    }
+
+    .about-main .blurb {
+      color: var(--text-secondary);
+      line-height: 1.65;
+      font-size: 15px;
+      font-weight: 300;
+      max-width: 72ch;
+    }
+
+    .two-col {
+      margin-top: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .panel {
+      background: rgba(20, 20, 24, 0.78);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .panel h2 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-family: 'DM Sans', sans-serif;
+      color: rgba(91,156,246,0.9);
+      margin-bottom: 14px;
+    }
+
+    .panel ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      color: var(--text-primary);
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.55;
+    }
+
+    .edu-item strong {
+      display: block;
+      color: var(--text-primary);
+      font-weight: 500;
+      margin-bottom: 5px;
+      font-size: 14.5px;
+    }
+
+    /* ── Education layout ── */
+    .edu-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+    }
+    .edu-logo {
+      height: 15px;
+      width: auto;
+      object-fit: contain;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .edu-content { flex: 1; min-width: 0; }
+    .edu-degree {
+      font-weight: 500;
+      color: var(--text-primary);
+      font-size: 14.5px;
+      line-height: 1.45;
+    }
+    .edu-meta-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 5px;
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .edu-sep { color: var(--text-muted); }
+    .edu-brace-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .edu-brace-char {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 2.05em;
+      line-height: 0.88;
+      font-weight: 400;
+      color: rgba(168,168,176,0.45);
+      align-self: center;
+    }
+    .edu-brace-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .edu-sub-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-top: 7px;
+      padding-left: 4px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .edu-arrow {
+      color: var(--blue);
+      opacity: 0.55;
+      flex-shrink: 0;
+      font-size: 13px;
+    }
+
+    /* ── Indicative Coursework button ── */
+    .coursework-btn {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border-radius: 8px;
+      background: var(--blue);
+      border: 1px solid var(--blue);
+      color: #09090e;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .coursework-btn:hover { background: #74aeff; border-color: #74aeff; }
+
+    /* ── Coursework modal ── */
+    .coursework-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.62);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .coursework-overlay[hidden] { display: none; }
+    .coursework-card {
+      background: #131317;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 28px 28px 24px;
+      max-width: 480px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.15) transparent;
+    }
+    .coursework-card-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+    }
+    .coursework-card-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      margin-bottom: 20px;
+    }
+    .coursework-list {
+      list-style: none;
+      padding: 0;
+    }
+    .coursework-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .coursework-list li:last-child { border-bottom: none; }
+    .cw-code {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.4px;
+      color: var(--blue);
+      opacity: 0.7;
+      flex-shrink: 0;
+      width: 74px;
+    }
+    .cw-name {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    .coursework-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 17px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+    .coursework-close:hover { color: var(--text-primary); }
+
+    /* ── Professional Experience panel ── */
+    .exp-panel { margin-top: 16px; }
+    .exp-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+    }
+    .exp-content { flex: 1; min-width: 0; }
+    .exp-header {
+      font-size: 13.5px;
+      line-height: 1.5;
+      margin-bottom: 5px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 4px;
+    }
+    .exp-role { font-weight: 600; color: var(--text-primary); }
+    .exp-sep { color: var(--text-muted); }
+    .exp-org { color: var(--text-secondary); }
+    .exp-dates { font-weight: 400; color: var(--text-muted); }
+    .exp-tagline {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-bottom: 9px;
+    }
+    .exp-bullets {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .exp-bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    /* modal entry divider for future entries */
+    .exp-modal-entry {
+      padding-bottom: 18px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .exp-modal-entry:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    /* wider exp modal */
+    .coursework-card--wide { max-width: min(92vw, 1000px); }
+
+    /* exp + leadership two-col layout */
+    .exp-two-col {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-top: 16px;
+      width: 100%;
+    }
+    .exp-two-col .lead-panel { flex: 1; min-width: 0; }
+    .exp-two-col .exp-panel  { flex: 1; min-width: 0; margin-top: 0; }
+    /* title + button on same row inside each compact panel */
+    .exp-two-col .panel {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .exp-two-col .panel h2 { flex: 1; min-width: 0; }
+    .exp-two-col .panel .coursework-btn { flex-shrink: 0; }
+
+    /* separator between adjacent entries in either panel */
+    .exp-entry + .exp-entry {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Technical skills preview rows */
+    .skills-preview { display: flex; flex-direction: column; gap: 9px; }
+    .skills-row { font-size: 12.5px; color: var(--text-secondary); line-height: 1.55; }
+    .skills-label { font-weight: 600; color: var(--text-primary); }
+
+    /* Skills modal */
+    .skills-modal-list { display: flex; flex-direction: column; gap: 14px; }
+    .skills-modal-row { display: flex; flex-direction: column; gap: 4px; }
+    .skills-modal-label {
+      font-size: 10px; font-weight: 600; color: var(--blue);
+      font-family: 'DM Sans', sans-serif;
+      text-transform: uppercase; letter-spacing: 1.5px;
+    }
+    .skills-modal-val { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+    .name-block {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+
+    .about-text-block {
+      background: rgba(20, 20, 24, 0.78);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+      width: fit-content;
+    }
+
+    /* ===== SECTION DIVIDER ===== */
+
+    .section-divider {
+      width: min(60%, 500px);
+      margin: 16px auto;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+    }
+
+    .section-divider.main-divider {
+      margin: 28px auto 22px;
+      width: min(80%, 800px);
+    }
+
+    /* ===== PORTFOLIO HEADING ===== */
+
+    .portfolio-heading {
+      width: min(96%, 1500px);
+      margin: 0 auto 22px auto;
+      display: flex;
+      justify-content: center;
+      background: transparent;
+      border: none;
+    }
+
+    .portfolio-heading h1 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(26px, 3.2vw, 44px);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-primary);
+      line-height: 1.1;
+      padding: 20px 52px;
+      border: 2px solid rgba(118,190,0,0.7);
+      border-radius: 10px;
+      background: rgba(118,190,0,0.03);
+      box-shadow: 0 0 28px rgba(118,190,0,0.08), inset 0 0 28px rgba(118,190,0,0.02);
+    }
+
+    /* ===== SECTION LABELS ===== */
+
+    .section-label {
+      width: min(96%, 1500px);
+      margin: 0 auto 16px auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    .section-label span {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(13px, 1.4vw, 18px);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-primary);
+      padding: 10px 34px;
+      border: 2px solid rgba(118,190,0,0.7);
+      border-radius: 8px;
+      background: rgba(118,190,0,0.03);
+      box-shadow: 0 0 18px rgba(118,190,0,0.07);
+    }
+
+    /* ===== FEATURED SECTION ===== */
+
+    .featured-section {
+      width: min(96%, 1500px);
+      margin: 0 auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: clamp(18px, 2.5vw, 30px);
+    }
+
+    .featured-scroll-track {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      cursor: grab;
+      padding-top: 30px;
+    }
+
+    .featured-scroll-track:active {
+      cursor: grabbing;
+    }
+
+    .featured-scroll-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .featured-card {
+      flex: 0 0 40%;
+      scroll-snap-align: start;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 0.35s ease;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+
+    .featured-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+
+    .featured-scrollbar {
+      height: 2px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 2px;
+      margin-top: 18px;
+      position: relative;
+    }
+
+    .featured-scrollbar-thumb {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0;
+      background: rgba(91,156,246,0.45);
+      border-radius: 2px;
+      transition: left 0.08s linear;
+    }
+
+    .featured-card-img {
+      flex: 1;
+      background: var(--bg-image);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .featured-card-img::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(91,156,246,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(91,156,246,0.035) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    .featured-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.4s ease;
+    }
+
+    .featured-card:hover .featured-card-img img {
+      transform: scale(1.05);
+    }
+
+    /* Featured card: info panel (card 01 top half) */
+    .fc-info {
+      height: 50%;
+      flex-shrink: 0;
+      overflow: clip;
+      box-sizing: border-box;
+      padding: 14px 18px 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: rgba(14,14,18,0.85);
+    }
+
+    .fc-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(13px, 1.35vw, 18px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .fc-summary {
+      font-size: clamp(11px, 1vw, 14px);
+      color: var(--text-secondary);
+      line-height: 1.55;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.25) transparent;
+      flex: 1;
+      min-height: 0;
+    }
+    .fc-summary::-webkit-scrollbar { width: 3px; }
+    .fc-summary::-webkit-scrollbar-track { background: transparent; }
+    .fc-summary::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 2px; }
+
+    .fc-tech {
+      font-size: clamp(10px, 0.75vw, 12px);
+      color: #c0c0ca;
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      background: var(--green-dim);
+      line-height: 1.5;
+      flex-shrink: 0;
+    }
+
+    .fc-dot {
+      color: #cc3333;
+      margin: 0 3px;
+      font-size: 1.1em;
+    }
+
+    /* Featured card: image collage (card 01 bottom half) */
+    .fc-collage {
+      height: 50%;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-image);
+    }
+
+    .fc-img {
+      position: absolute;
+      object-fit: cover;
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.55);
+    }
+
+    /* 3-column grid layout, no rotation, minimal overlap */
+    .fc-img-1  { width: 31%; top:  1%; left:  1%; }
+    .fc-img-2  { width: 31%; top:  3%; left: 34%; }
+    .fc-img-3  { width: 31%; top:  2%; left: 67%; }
+    .fc-img-4  { width: 31%; top: 27%; left:  2%; }
+    .fc-img-5  { width: 31%; top: 29%; left: 35%; }
+    .fc-img-6  { width: 31%; top: 26%; left: 68%; }
+    .fc-img-7  { width: 31%; top: 53%; left:  1%; }
+    .fc-img-8  { width: 31%; top: 55%; left: 34%; }
+    .fc-img-9  { width: 31%; top: 52%; left: 67%; }
+    .fc-img-10 { width: 31%; top: 78%; left:  3%; }
+    .fc-img-11 { width: 31%; top: 76%; left: 36%; }
+
+    /* FEA-specific collage positions — smaller images for landscape screenshots */
+    .fc-img-f1  { width: 25%; top:  1%; left:  1%; }
+    .fc-img-f2  { width: 25%; top:  3%; left: 37%; }
+    .fc-img-f3  { width: 25%; top:  2%; left: 73%; }
+    .fc-img-f4  { width: 25%; top: 37%; left:  2%; }
+    .fc-img-f5  { width: 25%; top: 39%; left: 38%; }
+    .fc-img-f6  { width: 25%; top: 38%; left: 74%; }
+    .fc-img-f7  { width: 25%; top: 73%; left:  1%; }
+    .fc-img-f8  { width: 25%; top: 75%; left: 37%; }
+    .fc-img-f9  { width: 25%; top: 74%; left: 73%; }
+
+    /* EDM collage — 4×4 grid, 20% width for 16 landscape screenshots */
+    .fc-img-e1  { width: 20%; top:  1%; left:  1%; }
+    .fc-img-e2  { width: 20%; top:  3%; left: 27%; }
+    .fc-img-e3  { width: 20%; top:  2%; left: 52%; }
+    .fc-img-e4  { width: 20%; top:  1%; left: 78%; }
+    .fc-img-e5  { width: 20%; top: 27%; left:  2%; }
+    .fc-img-e6  { width: 20%; top: 29%; left: 28%; }
+    .fc-img-e7  { width: 20%; top: 28%; left: 53%; }
+    .fc-img-e8  { width: 20%; top: 27%; left: 79%; }
+    .fc-img-e9  { width: 20%; top: 53%; left:  1%; }
+    .fc-img-e10 { width: 20%; top: 55%; left: 27%; }
+    .fc-img-e11 { width: 20%; top: 54%; left: 52%; }
+    .fc-img-e12 { width: 20%; top: 53%; left: 78%; }
+    .fc-img-e13 { width: 20%; top: 79%; left:  2%; }
+    .fc-img-e14 { width: 20%; top: 81%; left: 28%; }
+    .fc-img-e15 { width: 20%; top: 80%; left: 53%; }
+    .fc-img-e16 { width: 20%; top: 79%; left: 79%; }
+
+    /* DS collage — 5 images in a single-row strip (tall info panel) */
+    .fc-img-d1 { width: 19%; height: 82%; top: 9%; left:  1%; }
+    .fc-img-d2 { width: 19%; height: 82%; top: 9%; left: 21%; }
+    .fc-img-d3 { width: 19%; height: 82%; top: 9%; left: 41%; }
+    .fc-img-d4 { width: 19%; height: 82%; top: 9%; left: 61%; }
+    .fc-img-d5 { width: 19%; height: 82%; top: 9%; left: 81%; }
+
+    /* URT collage — 4 images, equal columns */
+    .fc-img-u1 { width: 22%; height: 90%; top: 5%; left:  1%; }
+    .fc-img-u2 { width: 22%; height: 90%; top: 5%; left: 26%; }
+    .fc-img-u3 { width: 22%; height: 90%; top: 5%; left: 51%; }
+    .fc-img-u4 { width: 22%; height: 90%; top: 5%; left: 76%; }
+
+    /* "Details" button — same style as .track-cta */
+    .fc-details {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      padding: 10px 22px;
+      border-radius: 8px;
+      background: var(--blue);
+      border: 1px solid var(--blue);
+      color: #09090e;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    .fc-details::after {
+      content: '→';
+      margin-left: 8px;
+      font-size: 14px;
+    }
+
+    .featured-card:hover .fc-details {
+      background: #74aeff;
+      border-color: #74aeff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(91,156,246,0.3);
+    }
+
+    /* DS card: tall info panel, collage fills remaining space */
+    .fc-no-collage .fc-info {
+      height: 70%;
+    }
+    .fc-no-collage .fc-collage {
+      height: auto;
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* NEW badge — book tab popping above the card */
+    .fc-new {
+      border-color: #c97c10;
+      overflow: visible;
+    }
+    .fc-new:hover {
+      border-color: #e08d18;
+    }
+    /* re-apply rounded corners to inner containers since card loses overflow:hidden */
+    .fc-new .fc-info {
+      border-radius: 12px 12px 0 0;
+    }
+    .fc-new .fc-collage,
+    .fc-new .featured-card-img {
+      border-radius: 0 0 12px 12px;
+    }
+    .fc-new-badge {
+      position: absolute;
+      top: -28px;
+      right: 20px;
+      z-index: 20;
+      background: #c97c10;
+      color: #09090e;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      padding: 5px 12px 5px;
+      border-radius: 8px 8px 0 0;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    /* ===== TRACK CARDS ===== */
+
+    .track-preview {
+      position: relative;
+      width: min(96%, 1500px);
+      margin: 0 auto 16px auto;
+      min-height: 440px;
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      border-radius: 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      overflow: hidden;
+      transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .track-preview.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .track-preview:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--blue-border);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.45), 0 0 0 1px var(--blue-border);
+      transform: translateY(-2px);
+    }
+
+    .track-preview.visible:hover {
+      transform: translateY(-2px);
+    }
+
+    .track-tag {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      color: var(--blue);
+      padding: 5px 0;
+      margin-bottom: 4px;
+      position: relative;
+    }
+
+    .track-tag::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 24px;
+      height: 1px;
+      background: var(--blue);
+      opacity: 0.55;
+    }
+
+    .track-text {
+      padding: clamp(28px, 3.2vw, 52px) clamp(28px, 4vw, 58px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: clamp(10px, 1.2vw, 16px);
+    }
+
+    .track-text h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(22px, 2.2vw, 32px);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+    }
+
+    .track-text p {
+      font-size: clamp(13px, 1vw, 14.5px);
+      font-weight: 300;
+      line-height: 1.65;
+      color: #c0c0ca;
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      background: var(--green-dim);
+    }
+
+    .track-preview:hover .track-text p {
+      border-color: rgba(118,190,0,0.34);
+      background: rgba(118,190,0,0.05);
+    }
+
+    .track-text ul {
+      font-size: clamp(12.5px, 0.95vw, 14px);
+      font-weight: 300;
+      line-height: 1.6;
+      padding-left: 0;
+      list-style: none;
+      color: #9898aa;
+    }
+
+    .track-text li {
+      margin-bottom: 7px;
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .track-text li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--blue);
+      opacity: 0.35;
+    }
+
+    .track-cta {
+      position: absolute;
+      bottom: 22px;
+      right: 22px;
+      padding: 13px 30px;
+      border-radius: 10px;
+      background: var(--blue);
+      border: 1px solid var(--blue);
+      color: #09090e;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    .track-cta::after {
+      content: '→';
+      margin-left: 10px;
+      font-size: 16px;
+    }
+
+    .track-preview:hover .track-cta {
+      background: #74aeff;
+      border-color: #74aeff;
+      box-shadow: 0 6px 24px rgba(91,156,246,0.4);
+      transform: translateY(-2px);
+    }
+
+    /* text-only track card — no image column */
+    .track-preview--wide {
+      grid-template-columns: 1fr;
+      min-height: unset;
+    }
+    .track-preview--wide .track-image { display: none; }
+    .track-preview--wide .track-text  { padding-right: clamp(160px, 16vw, 220px); }
+
+    .track-image {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-image);
+      border-left: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    /* blueprint grid overlay */
+    .track-image::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(91,156,246,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(91,156,246,0.045) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .track-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 60%, rgba(10,10,14,0.3));
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .track-image img {
+      position: relative;
+      z-index: 1;
+      max-width: 92%;
+      max-height: 92%;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .track-preview:hover .track-image img {
+      transform: scale(1.03);
+    }
+
+    /* track-image collage — absolutely positioned images */
+    .ti-img {
+      position: absolute !important;
+      object-fit: cover !important;
+      max-width: none !important;
+      max-height: none !important;
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      z-index: 1;
+    }
+    /* Embedded-Control-Dynamics: 2×2 grid */
+    .ti-spy1 { width: 44%; height: 43%; top:  4%; left:  3%; }
+    .ti-spy2 { width: 44%; height: 43%; top:  4%; left: 52%; }
+    .ti-spy3 { width: 44%; height: 43%; top: 52%; left:  3%; }
+    .ti-spy4 { width: 44%; height: 43%; top: 52%; left: 52%; }
+    /* Signal Processing: 3×3 grid */
+    .ti-sns1 { width: 32%; height: 32%; top:  1%; left:  1%; }
+    .ti-sns2 { width: 32%; height: 32%; top:  1%; left: 34%; }
+    .ti-sns3 { width: 32%; height: 32%; top:  1%; left: 67%; }
+    .ti-sns4 { width: 32%; height: 32%; top: 34%; left:  1%; }
+    .ti-sns5 { width: 32%; height: 32%; top: 34%; left: 34%; }
+    .ti-sns6 { width: 32%; height: 32%; top: 34%; left: 67%; }
+    .ti-sns7 { width: 32%; height: 32%; top: 67%; left:  1%; }
+    .ti-sns8 { width: 32%; height: 32%; top: 67%; left: 34%; }
+    .ti-sns9 { width: 32%; height: 32%; top: 67%; left: 67%; }
+
+    /* ===== RESPONSIVE ===== */
+
+    /* 1200px: typical 13–14" laptops — widen cards so text is more legible */
+    @media (max-width: 1200px) {
+      .featured-card { flex: 0 0 46%; }
+    }
+
+    /* 900px: small laptops / large tablets */
+    @media (max-width: 900px) {
+      .featured-card { flex: 0 0 64%; }
+    }
+
+    /* 600px: mobile */
+    @media (max-width: 600px) {
+      .featured-card { flex: 0 0 80%; }
+    }
+
+    @media (max-width: 960px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+      .avatar {
+        width: 150px;
+        height: 150px;
+      }
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+      .track-preview {
+        grid-template-columns: 1fr;
+      }
+      .track-image {
+        height: 300px;
+        border-left: none;
+        border-top: 1px solid var(--border);
+        order: -1;
+      }
+      .track-cta {
+        bottom: 14px;
+        right: 14px;
+        padding: 10px 20px;
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      body {
+        padding: 24px 0 40px;
+      }
+      .track-preview {
+        width: 98%;
+        border-radius: 10px;
+        margin-bottom: 14px;
+      }
+      .track-image {
+        height: 220px;
+      }
+    }
+    /* ===== DETAILS MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(5,5,8,0.88);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px 20px;
+      overflow-y: auto;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-overlay[hidden] { display: none; }
+
+    .modal-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--blue);
+      border-radius: 16px;
+      width: min(92vw, 1080px);
+      position: relative;
+      margin: auto;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--bg-image);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: all 0.2s ease;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--border);
+      color: var(--text-primary);
+    }
+
+    .modal-body {
+      padding: clamp(28px, 4vw, 56px);
+      padding-top: clamp(24px, 3vw, 40px);
+    }
+
+    .modal-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(22px, 2.8vw, 36px);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.18;
+      margin-bottom: 14px;
+      padding-right: 44px;
+    }
+
+    .modal-intro {
+      font-size: clamp(13px, 1vw, 15px);
+      color: var(--text-secondary);
+      line-height: 1.72;
+      margin-bottom: 14px;
+    }
+
+    .modal-techstack {
+      font-size: clamp(11px, 0.85vw, 13px);
+      color: #c0c0ca;
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 11px 15px;
+      background: var(--green-dim);
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+
+    .modal-section {
+      margin-bottom: 30px;
+    }
+
+    .modal-section-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.8px;
+      color: var(--blue);
+      text-transform: uppercase;
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid rgba(91,156,246,0.2);
+    }
+
+    .modal-section > ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .modal-section > ul > li {
+      font-size: clamp(12px, 0.9vw, 13.5px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .modal-section > ul > li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+      opacity: 0.55;
+    }
+
+    .modal-subsection {
+      margin-bottom: 22px;
+      padding-left: 18px;
+      border-left: 2px solid rgba(91,156,246,0.22);
+    }
+
+    .modal-subsection-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(14px, 1.1vw, 18px);
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      font-weight: 400;
+    }
+
+    .modal-subsection p {
+      font-size: clamp(12px, 0.9vw, 13.5px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* Slideshow */
+    .modal-slideshow {
+      border-top: 1px solid var(--border);
+      border-radius: 0 0 16px 16px;
+      overflow: hidden;
+      background: var(--bg-deep);
+      position: relative;
+    }
+
+    .slide-viewport {
+      height: clamp(280px, 48vh, 560px);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-deep);
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 60px;
+      box-sizing: border-box;
+      gap: 10px;
+    }
+
+    .slide.active { display: flex; }
+
+    .slide img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 5px;
+      flex-shrink: 1;
+    }
+
+    .slide-stacked {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .slide-stacked img {
+      max-height: 49%;
+      width: auto;
+      max-width: 100%;
+      flex-shrink: 0;
+    }
+
+    .slide-pause-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(9,9,14,0.72);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      z-index: 3;
+    }
+
+    .slide-viewport.paused .slide-pause-icon { opacity: 1; }
+
+    .slide-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(14,14,18,0.82);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.2s ease;
+      z-index: 5;
+    }
+
+    .slide-nav:hover {
+      background: var(--blue);
+      color: #09090e;
+      border-color: var(--blue);
+    }
+
+    .slide-prev { left: 12px; }
+    .slide-next { right: 12px; }
+
+    .slide-footer {
+      padding: 10px 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .slide-counter {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    .slide-progress-track {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+
+    .slide-progress-fill {
+      height: 100%;
+      background: var(--blue);
+      border-radius: 1px;
+      width: 0%;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== ABOUT ===== -->
+
+  <section class="about-wrap">
+    <div class="about-grid">
+
+      <aside class="profile">
+        <img class="avatar" src="assets/headshot.jpg" alt="Headshot">
+
+        <div class="name-block">
+          <div class="name">David Shmail</div>
+          <div class="contact-row">
+            <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.4 11.4 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.4 11.4 0 00.57 3.57 1 1 0 01-.25 1.01l-2.2 2.21z"/>
+            </svg>
+            
+          </div>
+          <div class="contact-row">
+            <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+            david.shmail1@gmail.com
+          </div>
+        </div>
+
+        <div class="social" aria-label="Social links">
+
+          <a class="icon-btn" href="https://github.com/Nemrra" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 .5C5.73.5.75 5.62.75 12c0 5.11 3.29 9.44 7.86 10.97.58.11.79-.26.79-.57v-2.1c-3.2.7-3.87-1.57-3.87-1.57-.53-1.38-1.29-1.75-1.29-1.75-1.05-.73.08-.72.08-.72 1.16.08 1.77 1.23 1.77 1.23 1.03 1.8 2.71 1.28 3.37.98.1-.76.4-1.28.73-1.58-2.55-.3-5.24-1.32-5.24-5.87 0-1.3.45-2.36 1.19-3.19-.12-.3-.52-1.52.11-3.17 0 0 .98-.32 3.21 1.22a10.8 10.8 0 0 1 2.92-.4c.99 0 1.98.14 2.92.4 2.23-1.54 3.21-1.22 3.21-1.22.63 1.65.23 2.87.11 3.17.74.83 1.19 1.9 1.19 3.19 0 4.56-2.7 5.56-5.27 5.86.41.37.78 1.09.78 2.2v3.27c0 .31.21.69.8.57A11.28 11.28 0 0 0 23.25 12C23.25 5.62 18.27.5 12 .5z"/>
+            </svg>
+          </a>
+
+          <a class="icon-btn" href="https://www.linkedin.com/in/davidshmail/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4.98 3.5C3.88 3.5 3 4.38 3 5.48c0 1.09.88 1.98 1.98 1.98h.02C6.1 7.46 7 6.57 7 5.48 7 4.38 6.1 3.5 4.98 3.5zM3.5 21h3V8.98h-3V21zM9 8.98V21h3v-6.65c0-1.78.34-3.5 2.54-3.5 2.17 0 2.2 2.03 2.2 3.62V21h3v-7.17c0-3.52-.76-6.22-4.88-6.22-1.98 0-3.3 1.09-3.84 2.12h-.04V8.98H9z"/>
+            </svg>
+          </a>
+
+        </div>
+
+        <a class="cv-btn" href="assets/David Shmail Resume.pdf" download="David Shmail Resume.pdf" rel="noopener">
+          <svg class="cv-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 20h14v-2H5v2zm7-18-5.5 5.5 1.42 1.42L11 6.84V16h2V6.84l3.08 3.08 1.42-1.42L12 2z"/>
+          </svg>
+          Download CV
+        </a>
+      </aside>
+
+      <main class="about-main">
+        <div class="about-text-block">
+          <h1>About Me</h1>
+          <p class="blurb">
+            I am a self-directed engineer actively building within signal processing, VLSI & ASIC design, and field-based device physics in the context of semiconductors, robotics and autonomous systems, and machine learning. <br><br>My approach to engineering is fundamentally first-principled and implementation-level, focused on building performant, scalable, and valuable proprietary systems - both socially and economically consequential.
+          </p>
+        </div>
+
+        <div class="two-col">
+          <section class="panel">
+            <h2>Technical Skills</h2>
+            <div class="skills-preview">
+              <div class="skills-row"><span class="skills-label">Languages:</span> C, C++, Python, MATLAB, Verilog, SystemVerilog&thinsp;&hellip;</div>
+              <div class="skills-row"><span class="skills-label">Simulation &amp; Analysis:</span> Matlab (Signal Processing, Control System, System ID&thinsp;&hellip;), Simulink, SPICE&thinsp;&hellip;</div>
+              <div class="skills-row"><span class="skills-label">RTL Silicon Engineering:</span> SystemVerilog RTL, Quartus Prime, formal verification&thinsp;&hellip;</div>
+              <div class="skills-row"><span class="skills-label">Electromechanical Integration:</span> Parametric CAD (Solidworks, Onshape), Embedded Control&thinsp;&hellip;</div>
+            </div>
+            <button class="coursework-btn" id="skills-expand-btn">Expand →</button>
+          </section>
+
+          <section class="panel">
+            <h2>Education</h2>
+            <ul>
+
+              <li class="edu-item">
+                <div class="edu-row">
+                  <img class="edu-logo" src="assets/unimelb_logo.png" alt="University of Melbourne">
+                  <div class="edu-content">
+                    <div class="edu-degree">Bachelor of Science &mdash; The University of Melbourne</div>
+                    <div class="edu-meta-line">
+                      <span>2023&ndash;2026</span>
+                      <span class="edu-sep">&middot;</span>
+                      <span><u>Completed Both Majors</u>:&thinsp;</span>
+                      <span class="edu-brace-wrap">
+                        <span class="edu-brace-char">{</span>
+                        <span class="edu-brace-items">
+                          <span>Electrical Engineering Systems</span>
+                          <span>Mechanical Engineering Systems</span>
+                        </span>
+                      </span>
+                    </div>
+                    <div class="edu-sub-line">
+                      <span class="edu-arrow">↳</span>
+                      <span>Supplementing majors with advanced Software Engineering and Physics classes.</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li class="edu-item">
+                <div class="edu-row">
+                  <img class="edu-logo" src="assets/unimelb_logo.png" alt="University of Melbourne">
+                  <div class="edu-content">
+                    <div class="edu-degree">Master of Electrical Engineering &mdash; Machine Learning &amp; Autonomous Systems &mdash; The University of Melbourne</div>
+                    <div class="edu-meta-line">Expected 2027</div>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+            <button class="coursework-btn" id="coursework-btn">Indicative Coursework →</button>
+          </section>
+        </div>
+
+        <div class="exp-two-col">
+
+          <!-- Leadership & Extracurricular Experience -->
+          <section class="panel lead-panel">
+            <h2>Leadership &amp; Extracurricular Experience</h2>
+            <button class="coursework-btn" id="lead-expand-btn">Expand →</button>
+          </section>
+
+          <!-- Professional Experience -->
+          <section class="panel exp-panel">
+            <h2>Professional Experience</h2>
+            <button class="coursework-btn" id="exp-expand-btn">Expand →</button>
+          </section>
+
+        </div>
+
+      </main>
+
+    </div>
+  </section>
+
+  <div class="section-divider main-divider"></div>
+
+  <div class="portfolio-heading">
+    <h1>Engineering Portfolio</h1>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="section-label"><span>Featured</span></div>
+
+  <div class="featured-section">
+
+    <div class="featured-scroll-track">
+
+      <a href="#" class="featured-card fc-new fc-no-collage">
+        <span class="fc-new-badge">NEW</span>
+        <div class="fc-info">
+          <div class="fc-title">Formally-Verified Multi-Mode Digital Timepiece — Feature-Layered SystemVerilog RTL on Cyclone V FPGA</div>
+          <p class="fc-summary">A multi-mode digital timepiece — settable clock, lap-capable stopwatch, editable countdown timer, and PWM brightness control — implemented as fully synchronous RTL and taken through a complete industry-representative flow: lint-clean SystemVerilog, cocotb/pytest regression, k-induction formal proof of every sequential submodule, Quartus synthesis and place-and-route, and gate-level netlist inspection. Built by feature layering (Watch V1→V4) from small, parametrised, single-responsibility modules, with correctness treated as a first-class deliverable rather than an afterthought.</p>
+          <div class="fc-tech">SystemVerilog<span class="fc-dot">·</span>Quartus Prime (Cyclone V, DE1-SoC)<span class="fc-dot">·</span>Yosys / SymbiYosys / Z3 (formal, SMT-LIB)<span class="fc-dot">·</span>Icarus Verilog<span class="fc-dot">·</span>Verilator<span class="fc-dot">·</span>cocotb + pytest<span class="fc-dot">·</span>Verible<span class="fc-dot">·</span>Docker dev containers<span class="fc-dot">·</span>git<span class="fc-dot">·</span>VaporView</div>
+        </div>
+        <div class="fc-collage">
+          <img class="fc-img fc-img-d1" src="assets/DS_portfolio/DS_portfolio_editModeSelector.png" alt="">
+          <img class="fc-img fc-img-d2" src="assets/DS_portfolio/DS_portfolio_larp.png" alt="">
+          <img class="fc-img fc-img-d3" src="assets/DS_portfolio/DS_portfolio_map.png" alt="">
+          <img class="fc-img fc-img-d4" src="assets/DS_portfolio/DS_portfolio_map2.png" alt="">
+          <img class="fc-img fc-img-d5" src="assets/DS_portfolio/DS_portfolio_timingDiagram.png" alt="">
+        </div>
+        <div class="fc-details">Details</div>
+      </a>
+
+      <a href="#" class="featured-card fc-new">
+        <span class="fc-new-badge">NEW</span>
+        <div class="fc-info">
+          <div class="fc-title">Broadband Amplitude-shift Keying Transceiver</div>
+          <p class="fc-summary">A broadband ASK modulation–demodulation transceiver taking analog design from theory to a debugged hardware prototype. The chain integrates a BJT series-switch mixer, a high-Q multiple-feedback bandpass filter, a Gilbert-cell four-quadrant multiplier, and a Schmitt-trigger decision device — each characterised in the frequency domain and validated from SPICE to hardware, emphasising working with device non-idealities rather than suppressing them.</p>
+          <div class="fc-tech">Matlab and Simulink (Signal Processing, System ID Toolboxes)<span class="fc-dot">·</span>Python (SciPy)<span class="fc-dot">·</span>SPICE (KiCad, LTspice)</div>
+        </div>
+        <div class="fc-collage">
+          <img class="fc-img fc-img-1"  src="assets/ENAD_portfolio/ENAD_portfolio_active_filtering.png" alt="">
+          <img class="fc-img fc-img-2"  src="assets/ENAD_portfolio/ENAD_portfolio_active_filtering_tf.png" alt="">
+          <img class="fc-img fc-img-3"  src="assets/ENAD_portfolio/ENAD_portfolio_bit_delay.png" alt="">
+          <img class="fc-img fc-img-4"  src="assets/ENAD_portfolio/ENAD_portfolio_demod_sync_mixer.png" alt="">
+          <img class="fc-img fc-img-5"  src="assets/ENAD_portfolio/ENAD_portfolio_envelope.png" alt="">
+          <img class="fc-img fc-img-6"  src="assets/ENAD_portfolio/ENAD_portfolio_envelope_2.png" alt="">
+          <img class="fc-img fc-img-7"  src="assets/ENAD_portfolio/ENAD_portfolio_full_design.png" alt="">
+          <img class="fc-img fc-img-8"  src="assets/ENAD_portfolio/ENAD_portfolio_initial_prototype.png" alt="">
+          <img class="fc-img fc-img-9"  src="assets/ENAD_portfolio/ENAD_portfolio_mixer_spectral_comparison.png" alt="">
+          <img class="fc-img fc-img-10" src="assets/ENAD_portfolio/ENAD_portfolio_mod_mixer.png" alt="">
+          <img class="fc-img fc-img-11" src="assets/ENAD_portfolio/ENAD_portfolio_mod_mixer_2.png" alt="">
+        </div>
+        <div class="fc-details">Details</div>
+      </a>
+
+      <a href="#" class="featured-card">
+        <div class="fc-info">
+          <div class="fc-title">Electromagnetic Device Modelling for High-frequency Semiconductor Applications</div>
+          <p class="fc-summary">Field-based modelling track spanning vector integro-differential descriptions, to hardware-validated high-frequency power electronics, building electromagnetic device models from open-ended physical phenomena rather than lumped-circuit abstractions. Work spans analytical field derivations, visualisation tool development, and SPICE-to-breadboard validation &mdash; each result cross-checked against symmetry arguments, closed-form solutions, and measured waveforms rather than accepted from a single method.</p>
+          <div class="fc-tech">MATLAB (Antenna, RF, PDE toolboxes, Simscape electrical, Simulink)<span class="fc-dot">·</span>LTspice &amp; OrCad (transient identification, transmission-line modelling)<span class="fc-dot">·</span>breadboard and geometry-aware PCB deployments<span class="fc-dot">·</span>SymPy (closed-form, symbolic solvers)</div>
+        </div>
+        <div class="fc-collage">
+          <img class="fc-img fc-img-e1"  src="assets/edm_assets/edm3_assets/Screenshot%202026-02-20%20162531.png" alt="">
+          <img class="fc-img fc-img-e2"  src="assets/edm_assets/edm3_assets/Screenshot%202026-02-20%20162553.png" alt="">
+          <img class="fc-img fc-img-e3"  src="assets/edm_assets/edm3_assets/Screenshot%202026-02-20%20162609.png" alt="">
+          <img class="fc-img fc-img-e4"  src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162803.png" alt="">
+          <img class="fc-img fc-img-e5"  src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162836.png" alt="">
+          <img class="fc-img fc-img-e6"  src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162854.png" alt="">
+          <img class="fc-img fc-img-e7"  src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162935.png" alt="">
+          <img class="fc-img fc-img-e8"  src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20163003.png" alt="">
+          <img class="fc-img fc-img-e9"  src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20163012.png" alt="">
+          <img class="fc-img fc-img-e10" src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20163041.png" alt="">
+          <img class="fc-img fc-img-e11" src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163228.png" alt="">
+          <img class="fc-img fc-img-e12" src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163256.png" alt="">
+          <img class="fc-img fc-img-e13" src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163312.png" alt="">
+          <img class="fc-img fc-img-e14" src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163339.png" alt="">
+          <img class="fc-img fc-img-e15" src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163353.png" alt="">
+          <img class="fc-img fc-img-e16" src="assets/edm_assets/edm6_assets/Screenshot%202026-02-20%20164702.png" alt="">
+        </div>
+        <div class="fc-details">Details</div>
+      </a>
+
+      <a href="#" class="featured-card">
+        <div class="fc-info">
+          <div class="fc-title">Planetary Rover Science Payload — Precision Gantry &amp; ISRU Instrument Integration (Unimelb Rover Team)</div>
+          <p class="fc-summary">Co-developed the science-payload motion and integration hardware for a planetary-analogue rover: a precision gantry providing stable linear translation and repeatable positioning for a spectrometer, focused imaging module, and regolith-preparation brush and drill. Engineered through the late-design and manufacturing stages of the 2025&ndash;26 development cycle, under strict mass, volume, and competition-rule constraints &mdash; where positioning repeatability and vibration isolation directly bound measurement quality for in-situ resource analysis.</p>
+          <div class="fc-tech">Onshape (collaborative parametric CAD, part-based modelling)<span class="fc-dot">·</span>SOLIDWORKS<span class="fc-dot">·</span>first-order FEA validation<span class="fc-dot">·</span>FDM additive-manufacturing iteration pipeline<span class="fc-dot">·</span>workshop manufacturing workflows (Telstra Creator Space)</div>
+        </div>
+        <div class="fc-collage">
+          <img class="fc-img fc-img-u1" src="assets/URT_portfolio/IMG_7320.jpg" alt="">
+          <img class="fc-img fc-img-u2" src="assets/URT_portfolio/sai_urt1_asset.jpg" alt="">
+          <img class="fc-img fc-img-u3" src="assets/URT_portfolio/Screenshot%202026-02-27%20155726.png" alt="">
+          <img class="fc-img fc-img-u4" src="assets/URT_portfolio/Screenshot%202026-02-27%20171647.png" alt="">
+        </div>
+        <div class="fc-details">Details</div>
+      </a>
+
+      <a href="#" class="featured-card">
+        <div class="fc-info">
+          <div class="fc-title">Ti-6Al-4V Prosthetic Hip Implant — Structural Simulation, Failure Analysis &amp; Mass Optimisation</div>
+          <p class="fc-summary">A finite-element study spanning hand-derived stiffness formulation, MATLAB PDE solvers, and CAD-based simulation &mdash; validating each result across analytical, numerical, and commercial-solver methods. Work covers 2D truss FEM from first principles, Kirsch hole stress-concentration verification, and a full design&ndash;analyse&ndash;optimise loop on a prosthetic hip implant, emphasising mesh convergence and physically-grounded boundary conditions over black-box solver output.</p>
+          <div class="fc-tech">MATLAB (PDE Toolbox)<span class="fc-dot">·</span>SOLIDWORKS (Simulation (FEA), Non-linear &amp; Fatigue Analysis, Advanced Meshing (curvature based, growth-rate control))</div>
+        </div>
+        <div class="fc-collage">
+          <img class="fc-img fc-img-f1" src="assets/FEA_portfolio/Screenshot%202026-02-21%20145700.png" alt="">
+          <img class="fc-img fc-img-f2" src="assets/FEA_portfolio/Screenshot%202026-02-21%20145726.png" alt="">
+          <img class="fc-img fc-img-f3" src="assets/FEA_portfolio/Screenshot%202026-02-21%20145749.png" alt="">
+          <img class="fc-img fc-img-f4" src="assets/FEA_portfolio/Screenshot%202026-02-21%20145801.png" alt="">
+          <img class="fc-img fc-img-f5" src="assets/FEA_portfolio/Screenshot%202026-02-21%20145828.png" alt="">
+          <img class="fc-img fc-img-f6" src="assets/FEA_portfolio/Screenshot%202026-02-21%20145849.png" alt="">
+          <img class="fc-img fc-img-f7" src="assets/FEA_portfolio/Screenshot%202026-02-21%20145913.png" alt="">
+          <img class="fc-img fc-img-f8" src="assets/FEA_portfolio/Screenshot%202026-02-21%20145926.png" alt="">
+          <img class="fc-img fc-img-f9" src="assets/FEA_portfolio/Screenshot%202026-02-21%20145940.png" alt="">
+        </div>
+        <div class="fc-details">Details</div>
+      </a>
+
+    </div>
+
+    <div class="featured-scrollbar">
+      <div class="featured-scrollbar-thumb"></div>
+    </div>
+
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="section-label"><span>By Category</span></div>
+
+  <!-- ===== TRACK CARDS ===== -->
+
+  <a href="edm.html" class="track-preview">
+    <div class="track-text">
+      <span class="track-tag">01</span>
+      <h2>Computational Electromagnetics & Field-Based Device Modelling</h2>
+      <p>
+        Developed first-principles electromagnetic and device-level models using Maxwell's equations,
+        vector calculus, and nonlinear semiconductor theory.
+      </p>
+      <ul>
+        <li>Derived field distributions from Maxwell formulations.</li>
+        <li>Modelled capacitance and inductance from geometry and material properties.</li>
+        <li>Analysed switching power systems with attention to EMI and dynamic behaviour.</li>
+        <li>Designed nonlinear voltage regulation systems with feedback amplification.</li>
+      </ul>
+    </div>
+    <div class="track-image">
+      <img src="assets/cefbdm_thumbnail.png" alt="Electromagnetics Thumbnail">
+    </div>
+    <div class="track-cta">See Work</div>
+  </a>
+
+  <div class="section-divider"></div>
+
+  <a href="simulation.html" class="track-preview">
+    <div class="track-text">
+      <span class="track-tag">02</span>
+      <h2>Multiphysics Simulation & Numerical Methods</h2>
+      <p>
+        Numerical implementation of structural mechanics and dynamic system solvers,
+        integrating finite element modelling with nonlinear and differential equation methods.
+      </p>
+      <ul>
+        <li>Derived element stiffness matrices and assembled global FEM systems with boundary partitioning.</li>
+        <li>Benchmarked stress concentration against analytical and CAD-based solutions.</li>
+        <li>Performed mesh refinement and geometry optimisation for stress and safety-factor control.</li>
+        <li>Developed a well-parameterised numerical solver library for root-finding, IVP/BVP integration, interpolation, quadrature, and differentiation with structured input validation and error handling.</li>
+        <li>Architected reusable solver frameworks with configurable tolerances, convergence criteria, and stability controls to support long-term use in dynamic system modelling and simulation workflows.</li>
+      </ul>
+    </div>
+    <div class="track-image">
+      <img src="assets/sce_thumbnail.png" alt="Simulation Thumbnail">
+    </div>
+    <div class="track-cta">See Work</div>
+  </a>
+
+  <div class="section-divider"></div>
+
+  <a href="systems.html" class="track-preview">
+    <div class="track-text">
+      <span class="track-tag">03</span>
+      <h2>System Architecture, Drivetrain Design & Embedded Integration</h2>
+      <p>
+        End-to-end mechatronic system development spanning drivetrain
+        optimisation, robust control systems, and subsystem packaging across
+        autonomous rover and electromechanical prototype platforms.
+      </p>
+      <ul>
+        <li>Co-developed a precision gantry system supporting a spectrometer, adjustable camera focus mount, and regolith preparation brush, integrating structural framing, sensor mounting, and lightweight processing enclosures within rover mass and packaging constraints.</li>
+        <li>Integrated C++ based embedded control systems with PWM speed profiling, autonomous motion cycles, sensor-based thermal-throttle protection, and manual override safety interlocks.</li>
+        <li>Led iterative mechanical refinement through failure testing — resolving gear shear, tolerance stack-up, housing redesign, and electronic durability issues to improve robustness and serviceability.</li>
+        <li>Designed and validated a compound spur gear drivetrain, balancing torque transmission, manufacturability, safety, and strict power profiles.</li>
+      </ul>
+    </div>
+    <div class="track-image">
+      <img src="assets/sai_thumbnail.png" alt="System Architecture Thumbnail">
+    </div>
+    <div class="track-cta">See Work</div>
+  </a>
+
+  <div class="section-divider"></div>
+
+  <a href="signal.html" class="track-preview">
+    <div class="track-text">
+      <span class="track-tag">04</span>
+      <h2>Signal Processing &amp; Machine Learning</h2>
+      <p>
+        Active filter synthesis, frequency-domain characterisation, and hardware-validated digital signal processing &mdash; extended into machine learning and data-driven methods.
+      </p>
+      <ul>
+        <li>Derived and cross-validated active filter transfer functions analytically, in simulation, and on hardware.</li>
+        <li>Applied FFT-based spectral analysis to identify and reject unknown noise tones from real audio recordings.</li>
+        <li>Discretised continuous-time filter designs for real-time digital execution and diagnosed architectural performance ceilings.</li>
+      </ul>
+    </div>
+    <div class="track-image">
+      <img class="ti-img ti-sns1" src="assets/SNS_portfolio/SNS_portfolio_filtering_TF.png" alt="">
+      <img class="ti-img ti-sns2" src="assets/SNS_portfolio/SNS_portfolio_filtering_bode.png" alt="">
+      <img class="ti-img ti-sns3" src="assets/SNS_portfolio/SNS_portfolio_filtering_bode2.png" alt="">
+      <img class="ti-img ti-sns4" src="assets/SNS_portfolio/SNS_portfolio_filtering_topology.png" alt="">
+      <img class="ti-img ti-sns5" src="assets/SNS_portfolio/SNS_portfolio_filtering_result_comparison.png" alt="">
+      <img class="ti-img ti-sns6" src="assets/SNS_portfolio/SNS_portfolio_filtering_bode3.png" alt="">
+      <img class="ti-img ti-sns7" src="assets/SNS_portfolio/SNS_portfolio_grid_block.png" alt="">
+      <img class="ti-img ti-sns8" src="assets/SNS_portfolio/SNS_portfolio_grid_simulink.png" alt="">
+      <img class="ti-img ti-sns9" src="assets/SNS_portfolio/SNS_portfolio_grid_table.png" alt="">
+    </div>
+    <div class="track-cta">See Work</div>
+  </a>
+
+  <div class="section-divider"></div>
+
+  <a href="embedded-control-dynamics.html" class="track-preview">
+    <div class="track-text">
+      <span class="track-tag">05</span>
+      <h2>Embedded Systems, Control &amp; Autonomous Dynamics</h2>
+      <p>
+        Development of distributed embedded systems and performance-oriented C++ architectures &mdash; integrating hardware control, real-time communication pipelines, and structured software design from firmware through to GUI &mdash; alongside designed-and-tuned feedback control for dynamic platforms, combining practical PID implementation with classical, stability-focused control analysis.
+      </p>
+      <ul>
+        <li>Built and tuned a PID-controlled drone platform, implementing stable attitude regulation under actuator saturation and disturbance inputs.</li>
+        <li>Designed a dedicated tuning stand / test rig to safely capture step responses, validate sign conventions, isolate axes, and iteratively tune gains.</li>
+        <li>Applied frequency- and time-domain control methods (transfer functions, Laplace-domain modelling, and closed-loop stability analysis) to predict and verify system behaviour.</li>
+        <li>Engineered a covert distributed audio surveillance system using ESP32 microcontrollers (C++), implementing low-latency data streaming over WebSockets to a Python backend for AI-triggered event handling and secure alert protocols.</li>
+        <li>Developed a performance-oriented C++ chess engine with clean object-oriented architecture, modular rule implementation (castling, en passant, promotion), and OpenGL/ImGui-based GUI for responsive state rendering.</li>
+      </ul>
+    </div>
+    <div class="track-image">
+      <img class="ti-img ti-spy1" src="assets/SPY_portfolio/Screenshot%202025-07-14%20214851.png" alt="">
+      <img class="ti-img ti-spy2" src="assets/SPY_portfolio/Screenshot%202025-07-15%20160217.png" alt="">
+      <img class="ti-img ti-spy3" src="assets/SPY_portfolio/Screenshot%202026-07-08%20162822.png" alt="">
+      <img class="ti-img ti-spy4" src="assets/EmbeddedControlDynamics_Portfolio/pid1.jpeg" alt="">
+    </div>
+    <div class="track-cta">See Work</div>
+  </a>
+
+  <div class="section-divider"></div>
+
+  <a href="misc.html" class="track-preview track-preview--wide">
+    <div class="track-text">
+      <span class="track-tag">07</span>
+      <h2>Miscellaneous</h2>
+      <p>
+        Thermal and fluid science work spanning experimental pipe flow characterisation and thermodynamic cycle analysis &mdash; cross-validated results with theoretical models and assessed performance against idealised benchmarks.
+      </p>
+      <ul>
+        <li>Measured friction factors across flow regimes and validated against the Moody chart and Darcy&ndash;Weisbach model.</li>
+        <li>Classified laminar and turbulent pipe flow from Reynolds number calculations derived from controlled experimental conditions.</li>
+        <li>Analysed thermodynamic cycle performance using first- and second-law methods, with entropy and efficiency benchmarking.</li>
+      </ul>
+    </div>
+    <div class="track-cta">See Work</div>
+  </a>
+
+  <!-- ===== ENAD DETAILS MODAL ===== -->
+  <div id="enad-modal" class="modal-overlay" hidden>
+    <div class="modal-card">
+      <button class="modal-close" id="enad-modal-close" aria-label="Close">&#x2715;</button>
+
+      <div class="modal-body">
+        <h1 class="modal-title">Broadband Amplitude-shift Keying Transceiver</h1>
+        <p class="modal-intro">A broadband ASK modulation&ndash;demodulation transceiver taking analog design from theory to a debugged hardware prototype. The chain integrates a BJT series-switch mixer, a high-Q multiple-feedback bandpass filter, a Gilbert-cell four-quadrant multiplier, and a Schmitt-trigger decision device &mdash; each characterised in the frequency domain and validated from SPICE to hardware, emphasising working with device non-idealities rather than suppressing them.</p>
+        <div class="modal-techstack">Tech stack: Matlab and Simulink (Signal Processing, System ID Toolboxes), Python (SciPy), SPICE (KiCad, LTspice)</div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Analogue Design Skills</div>
+          <ul>
+            <li>Complete frequency-domain characterisation of circuit modules (TF derivation, pole-zero shaping, high-Q active filter design).</li>
+            <li>Simulation-to-hardware validation, LTI system identification, non-ideal properties.</li>
+            <li>Modularity and cascade parasitics, and use of high-drive buffers.</li>
+            <li>IC selection and characterisation through documentation &mdash; accounting for non-ideal op-amp parameters: slew rate, finite open-loop gain, gain-bandwidth product, saturation-rail headroom, input offset, and CMRR, and approximating for such in the LTI transfer function model.</li>
+            <li>Biasing for operating point, transconductance, and headroom-vs-linearity trade-offs; feedback design (negative for linearity, positive for regenerative hysteresis).</li>
+            <li>Exploiting device non-idealities (parasitics, f<sub>T</sub> roll-off) rather than suppressing them.</li>
+          </ul>
+        </div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">ASK Modulation&ndash;Demodulation System</div>
+
+          <div class="modal-subsection">
+            <div class="modal-subsection-title">Modulating Mixer</div>
+            <p>BJT series-switch topology gating the carrier under binary control, tuned for hard saturation-to-cutoff switching (base overdrive for clean gating, full carrier suppression in the off-state) and near-unity modulation index across a wide carrier range.</p>
+          </div>
+
+          <div class="modal-subsection">
+            <div class="modal-subsection-title">Active High-Q (Multiple Feedback) Bandpass Filter</div>
+            <p>High-order frequency-domain transfer function derivation, designed for specified passband gain, centre-frequency and attenuation slope. Hardware-verified and debugged through LTI system identification. Intentionally tuned for Q-vs-bandwidth tradeoff.</p>
+          </div>
+
+          <div class="modal-subsection">
+            <div class="modal-subsection-title">Gilbert Cell: Four-Quadrant Multiplier</div>
+            <p>Tuned through emitter degeneration for input linearity and dynamic range, tail-current biasing to set transconductance and the operating point, and differential-pair matching for offset nulling and carrier feedthrough suppression. Balanced for port-to-port isolation (RF&ndash;LO&ndash;IF) with common-mode rejection, translinear-loop symmetry for four-quadrant operation, and headroom-vs-linearity trade-off across the stacked topology.</p>
+            <p style="margin-top:10px;">Characterised the cell&rsquo;s inherent single-pole low-pass roll-off &mdash; arising from transistor parasitic capacitances, Miller effect at the RF/IF nodes, and finite device f<sub>T</sub> rather than an added filter &mdash; and exploited it to attenuate the sum-frequency mixing product and residual carrier, smoothing the recovered baseband envelope ahead of the downstream Schmitt trigger&rsquo;s hysteresis decision.</p>
+          </div>
+
+          <div class="modal-subsection">
+            <div class="modal-subsection-title">Schmitt Trigger Decision Device</div>
+            <p>Op-amp topology using positive feedback for regenerative switching between saturation rails, with a tuned hysteresis window for noise immunity against envelope logic-high ripple, and a supply-derived reference divider so the switching thresholds track positive supply drift for reliable single-supply operation.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-slideshow">
+        <div class="slide-viewport" id="enad-slide-viewport">
+          <div class="slide slide-stacked active">
+            <img src="assets/ENAD_portfolio/ENAD_portfolio_active_filtering.png" alt="Active filtering">
+            <img src="assets/ENAD_portfolio/ENAD_portfolio_active_filtering_tf.png" alt="Active filtering TF">
+          </div>
+          <div class="slide">
+            <img src="assets/ENAD_portfolio/ENAD_portfolio_bit_delay.png" alt="Bit delay">
+          </div>
+          <div class="slide">
+            <img src="assets/ENAD_portfolio/ENAD_portfolio_demod_sync_mixer.png" alt="Demod sync mixer">
+          </div>
+          <div class="slide">
+            <img src="assets/ENAD_portfolio/ENAD_portfolio_envelope.png" alt="Envelope">
+          </div>
+          <div class="slide">
+            <img src="assets/ENAD_portfolio/ENAD_portfolio_envelope_2.png" alt="Envelope 2">
+          </div>
+          <div class="slide">
+            <img src="assets/ENAD_portfolio/ENAD_portfolio_full_design.png" alt="Full design">
+          </div>
+          <div class="slide">
+            <img src="assets/ENAD_portfolio/ENAD_portfolio_initial_prototype.png" alt="Initial prototype">
+          </div>
+          <div class="slide">
+            <img src="assets/ENAD_portfolio/ENAD_portfolio_mixer_spectral_comparison.png" alt="Mixer spectral comparison">
+          </div>
+          <div class="slide">
+            <img src="assets/ENAD_portfolio/ENAD_portfolio_mod_mixer.png" alt="Mod mixer">
+          </div>
+          <div class="slide">
+            <img src="assets/ENAD_portfolio/ENAD_portfolio_mod_mixer_2.png" alt="Mod mixer 2">
+          </div>
+          <div class="slide-pause-icon">&#9646;&#9646;</div>
+        </div>
+        <button class="slide-nav slide-prev" id="enad-prev">&#8592;</button>
+        <button class="slide-nav slide-next" id="enad-next">&#8594;</button>
+        <div class="slide-footer">
+          <span class="slide-counter" id="enad-counter">1 / 10</span>
+          <div class="slide-progress-track">
+            <div class="slide-progress-fill" id="enad-progress"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FEA DETAILS MODAL ===== -->
+  <div id="fea-modal" class="modal-overlay" hidden>
+    <div class="modal-card">
+      <button class="modal-close" id="fea-modal-close" aria-label="Close">&#x2715;</button>
+
+      <div class="modal-body">
+        <h1 class="modal-title">Ti-6Al-4V Prosthetic Hip Implant — Structural Simulation, Failure Analysis &amp; Mass Optimisation</h1>
+        <p class="modal-intro">A finite-element study spanning hand-derived stiffness formulation, MATLAB PDE solvers, and CAD-based simulation &mdash; validating each result across analytical, numerical, and commercial-solver methods. Work covers 2D truss FEM from first principles, Kirsch hole stress-concentration verification, and a full design&ndash;analyse&ndash;optimise loop on a prosthetic hip implant, emphasising mesh convergence and physically-grounded boundary conditions over black-box solver output.</p>
+        <div class="modal-techstack">Tech stack: MATLAB (PDE Toolbox), SOLIDWORKS (Simulation (FEA), Non-linear &amp; Fatigue Analysis, Advanced Meshing (curvature based, growth-rate control))</div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Multiphysics Simulation and Solid Mechanics Skills</div>
+          <ul>
+            <li>Derived element stiffness matrices from force equilibrium and assembled global FEM systems via coordinate-transform rotation and like-DOF superposition.</li>
+            <li>Partitioned systems into essential/free DOFs to solve for unknown displacements and reaction forces under mixed boundary conditions.</li>
+            <li>Cross-validated results three ways &mdash; analytical (Kirsch), custom MATLAB solver, and SOLIDWORKS &mdash; quantifying divergence and its physical/numerical causes.</li>
+            <li>Mesh refinement and convergence studies with localised control, exposing a ~50% peak-stress underestimate that coarse meshing missed.</li>
+            <li>Boundary-condition design balancing stability, realism, load flow, and avoidance of artificial over-constraint.</li>
+            <li>Design iteration against quantitative failure criteria &mdash; von Mises vs. yield, safety factor, mass reduction.</li>
+          </ul>
+        </div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Studies</div>
+
+          <div class="modal-subsection">
+            <div class="modal-subsection-title">2D Planar Truss FEM (from first principles)</div>
+            <p>Discretised a pin-jointed truss into 2D rod elements, deriving the element stiffness matrix under axial equilibrium and transforming local-to-global via rotation matrices. Assembled the global stiffness system, partitioned into essential/free DOFs, and solved for nodal displacements, reaction forces, and per-member axial stress &mdash; implemented as a parameterised MATLAB script.</p>
+          </div>
+
+          <div class="modal-subsection">
+            <div class="modal-subsection-title">Stress Concentration at a Hole (Kirsch Verification)</div>
+            <p>Modelled a uniaxially-loaded thin plate with a central hole in MATLAB&rsquo;s PDE framework, sweeping the d/w ratio to recover the classical factor-of-three stress concentration as the geometry approaches an infinite plate. Benchmarked against both Kirsch&rsquo;s analytical solution and a 3D SOLIDWORKS model, characterising mesh- and dimensionality-driven divergence.</p>
+          </div>
+
+          <div class="modal-subsection">
+            <div class="modal-subsection-title">Prosthetic Hip Implant (Design&ndash;Analyse&ndash;Optimise)</div>
+            <p>Full CAD-to-FEA workflow on a Ti-6Al-4V hip implant: parametric SOLIDWORKS model, physically-reasoned fixturing (fixing only high-contact faces to avoid artificial stiffness), and static loading emulating body weight. Identified a mesh-sensitive neck stress concentration and bending failure mode, then resolved it through geometry strengthening (flush stem, enlarged fillet) to reach a safety factor of 2, and ran a hole-diameter design study trading mass against structural integrity.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-slideshow">
+        <div class="slide-viewport" id="fea-slide-viewport">
+          <div class="slide active"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145700.png" alt="FEA 1"></div>
+          <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145726.png" alt="FEA 2"></div>
+          <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145749.png" alt="FEA 3"></div>
+          <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145801.png" alt="FEA 4"></div>
+          <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145828.png" alt="FEA 5"></div>
+          <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145849.png" alt="FEA 6"></div>
+          <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145913.png" alt="FEA 7"></div>
+          <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145926.png" alt="FEA 8"></div>
+          <div class="slide"><img src="assets/FEA_portfolio/Screenshot%202026-02-21%20145940.png" alt="FEA 9"></div>
+          <div class="slide-pause-icon">&#9646;&#9646;</div>
+        </div>
+        <button class="slide-nav slide-prev" id="fea-prev">&#8592;</button>
+        <button class="slide-nav slide-next" id="fea-next">&#8594;</button>
+        <div class="slide-footer">
+          <span class="slide-counter" id="fea-counter">1 / 9</span>
+          <div class="slide-progress-track">
+            <div class="slide-progress-fill" id="fea-progress"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== EDM DETAILS MODAL ===== -->
+  <div id="edm-modal" class="modal-overlay" hidden>
+    <div class="modal-card">
+      <button class="modal-close" id="edm-modal-close" aria-label="Close">&#x2715;</button>
+
+      <div class="modal-body">
+        <h1 class="modal-title">Electromagnetic Device Modelling for High-frequency Semiconductor Applications</h1>
+        <p class="modal-intro">Field-based modelling track spanning vector integro-differential descriptions, to hardware-validated high-frequency power electronics, building electromagnetic device models from open-ended physical phenomena rather than lumped-circuit abstractions. Work spans analytical field derivations, visualisation tool development, and SPICE-to-breadboard validation &mdash; each result cross-checked against symmetry arguments, closed-form solutions, and measured waveforms rather than accepted from a single method.</p>
+        <div class="modal-techstack">Tech stack: MATLAB (Antenna, RF, PDE toolboxes, Simscape electrical, Simulink), LTspice &amp; OrCad (transient identification, transmission-line modelling), breadboard and geometry-aware PCB deployments, SymPy (closed-form, symbolic solvers)</div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Field and Numerical Skills</div>
+          <ul>
+            <li>Derived and transformed vector fields across rectangular, cylindrical, and spherical geometry primitives, distinguishing the field point from the represented vector via point-dependent transformation matrices.</li>
+            <li>Applied grad/div/curl operators, elaborated to theorems (Gauss&rsquo; divergence, Stokes&rsquo;) to compute flux, circulation, and potential, identifying conservative fields, scalar potentials, and source/sink behaviour.</li>
+            <li>Resolved Maxwell&rsquo;s formulations in integro-differential forms under symmetry to recover piecewise field solutions for spherical and coaxial geometries, including conductor charge separation and electrostatic shielding.</li>
+            <li>Modelled normalised capacitance and inductance from electromagnetic and vector calculus primitives, then applied the result into transmission-line, characteristic-impedance, and signal-integrity analysis.</li>
+            <li>Designed and analysed nonlinear device circuits (Zener references, BJT current gain, op-amp negative feedback, LM555 oscillation), with attention to biasing, loop stability, regulation failure, and high-voltage safety.</li>
+          </ul>
+        </div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Studies</div>
+
+          <div class="modal-subsection">
+            <div class="modal-subsection-title">Field Foundations &amp; Vector Calculus</div>
+            <p>Established the coordinate machinery underpinning all field modelling, then worked the differential operators and line/surface/volume integrals, visualising E&nbsp;=&nbsp;&minus;&nabla;V normal to equipotential contours, and confirming Stokes&rsquo; theorem by matching curl-flux through a parametrised open surface to its perimeter circulation.</p>
+          </div>
+
+          <div class="modal-subsection">
+            <div class="modal-subsection-title">Canonical Field Geometries</div>
+            <p>Applied Gauss&rsquo; and Amp&egrave;re&rsquo;s principles in integral form to a radially-graded sphere in a concentric conducting shell (piecewise E(r) with induced surface charges and zero interior field) and to an infinite coaxial core-and-shield with opposing currents (piecewise azimuthal H(r) and justified vanishing external field).</p>
+          </div>
+
+          <div class="modal-subsection">
+            <div class="modal-subsection-title">Capacitance to Signal Integrity</div>
+            <p>Built a capacitance-per-unit-length model for two parallel wires from offset equivalent line charges and the equipotential condition, then applied it to CAT5e cable &mdash; extracting Z<sub>0</sub> and investigating reflection-induced distortion via ringing/knee-frequency comparison, SPICE, and termination matching on hardware.</p>
+          </div>
+
+          <div class="modal-subsection">
+            <div class="modal-subsection-title">Power-Electronic Device Design</div>
+            <p>Designed, simulated, and built a switch-mode boost converter (LM555 oscillator, inductor&ndash;diode charge pump, Zener over-voltage protection, feedback regulation) and a linear voltage regulator (Zener reference, op-amp difference amplifier, NPN current gain, current-sense limit) &mdash; validating regulation limits and failure points on the bench.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-slideshow">
+        <div class="slide-viewport" id="edm-slide-viewport">
+          <div class="slide active"><img src="assets/edm_assets/edm3_assets/Screenshot%202026-02-20%20162531.png" alt="EDM 1"></div>
+          <div class="slide"><img src="assets/edm_assets/edm3_assets/Screenshot%202026-02-20%20162553.png" alt="EDM 2"></div>
+          <div class="slide"><img src="assets/edm_assets/edm3_assets/Screenshot%202026-02-20%20162609.png" alt="EDM 3"></div>
+          <div class="slide"><img src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162803.png" alt="EDM 4"></div>
+          <div class="slide"><img src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162836.png" alt="EDM 5"></div>
+          <div class="slide"><img src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162854.png" alt="EDM 6"></div>
+          <div class="slide"><img src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20162935.png" alt="EDM 7"></div>
+          <div class="slide"><img src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20163003.png" alt="EDM 8"></div>
+          <div class="slide"><img src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20163012.png" alt="EDM 9"></div>
+          <div class="slide"><img src="assets/edm_assets/edm4_assets/Screenshot%202026-02-20%20163041.png" alt="EDM 10"></div>
+          <div class="slide"><img src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163228.png" alt="EDM 11"></div>
+          <div class="slide"><img src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163256.png" alt="EDM 12"></div>
+          <div class="slide"><img src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163312.png" alt="EDM 13"></div>
+          <div class="slide"><img src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163339.png" alt="EDM 14"></div>
+          <div class="slide"><img src="assets/edm_assets/edm5_assets/Screenshot%202026-02-20%20163353.png" alt="EDM 15"></div>
+          <div class="slide"><img src="assets/edm_assets/edm6_assets/Screenshot%202026-02-20%20164702.png" alt="EDM 16"></div>
+          <div class="slide-pause-icon">&#9646;&#9646;</div>
+        </div>
+        <button class="slide-nav slide-prev" id="edm-prev">&#8592;</button>
+        <button class="slide-nav slide-next" id="edm-next">&#8594;</button>
+        <div class="slide-footer">
+          <span class="slide-counter" id="edm-counter">1 / 16</span>
+          <div class="slide-progress-track">
+            <div class="slide-progress-fill" id="edm-progress"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DS DETAILS MODAL ===== -->
+  <div id="ds-modal" class="modal-overlay" hidden>
+    <div class="modal-card">
+      <button class="modal-close" id="ds-modal-close" aria-label="Close">&#x2715;</button>
+
+      <div class="modal-body">
+        <h1 class="modal-title">Formally-Verified Multi-Mode Digital Timepiece &mdash; Feature-Layered SystemVerilog RTL on Cyclone V FPGA</h1>
+        <p class="modal-intro">A multi-mode digital timepiece &mdash; settable clock, lap-capable stopwatch, editable countdown timer, and PWM brightness control &mdash; implemented as fully synchronous RTL and taken through a complete industry-representative flow: lint-clean SystemVerilog, cocotb/pytest regression, k-induction formal proof of every sequential submodule, Quartus synthesis and place-and-route, and gate-level netlist inspection. Built by feature layering (Watch V1&rarr;V4) from small, parametrised, single-responsibility modules, with correctness treated as a first-class deliverable rather than an afterthought.</p>
+        <div class="modal-techstack">SystemVerilog &middot; Quartus Prime (Cyclone V, DE1-SoC) &middot; Yosys / SymbiYosys / Z3 (formal, SMT-LIB) &middot; Icarus Verilog &middot; Verilator &middot; cocotb + pytest &middot; Verible &middot; Docker dev containers &middot; git &middot; VaporView</div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Architecture &amp; RTL Design</div>
+          <ul>
+            <li>Decomposed the system into ~20 reusable parametrised modules &mdash; up/down counters, modulo-N and cascaded HMS counters (17 FFs of timekeeping state), restartable rate generators, binary-to-BCD converters with explicit width casting, PWM generators, rising-edge detectors, button hold/auto-repeat logic, arming latches, and edit-mode selectors &mdash; composed via packed structs to route wide buses through multiplexers as single logic vectors.</li>
+            <li>Separated data path from control throughout: the stopwatch routes counter output through a snapshot multiplexer to the display driver, while an independent FSM drives reset/enable/freeze &mdash; so lap capture required zero modification to the counter itself, validating the decomposition.</li>
+            <li>Modelled the stopwatch as two orthogonal state machines (running/stopped &times; live/frozen), with control-FSM state output-encoded directly as its control signals rather than held in a separate state register, eliminating the output-decode layer entirely.</li>
+            <li>Encoded the timer FSM as {running, one-hot mode_enable[2:0]} (4 bits), letting each one-hot bit drive one counter&rsquo;s edit_mode directly with no decoder; resolved the documented edit-vs-run race (edit_mode_selector has no reset pin) by permitting both modes for exactly one clock cycle, with edit taking priority and cancelling the run transition &mdash; a resolution the formal proof accepts.</li>
+            <li>Derived the editable countdown&rsquo;s borrow-out semantics from the 74LS193 datasheet &mdash; BO&#x305; = NAND(Q&#x305;&#x2080;..Q&#x305;&#x2083;, C&#x305;P&#x305;D&#x305;), whose rising edge clocks the next cascaded stage exactly once per underflow &mdash; and mapped it to a synchronous equivalent gated by tick, edit_mode, and clr.</li>
+          </ul>
+        </div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Timing, Synchronisation &amp; CDC Hygiene</div>
+          <ul>
+            <li>Satisfied the first-tick timing constraint (first centisecond increment exactly 10 ms after start, never sooner) by gating the rate generator with .run(enable &amp;&amp; !rst) rather than enable alone &mdash; otherwise the free-running generator desynchronises from the reset counter chain and the first tick arrives early.</li>
+            <li>Synchronised asynchronous active-low key inputs through a two-flip-flop cascade, trading two cycles of latency for an exponential reduction in metastability propagation probability into downstream FSMs.</li>
+            <li>Applied Gray-coded switch decoding to the brightness control so adjacent levels differ by a single bit, and set a 1 ms PWM period (12.5&ndash;100% duty) &mdash; above the flicker-fusion threshold &mdash; for visually steady dimming; deployed it as a non-invasive wrapper module intercepting the blanking path between timepiece and board top without modifying either.</li>
+          </ul>
+        </div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Formal Verification (Yosys &rarr; SMT-LIB &rarr; SymbiYosys/Z3)</div>
+          <ul>
+            <li>Closed complete k-induction proofs (BMC base case + inductive step at matched depth) over every sequential submodule, with proofs parametrised across representative MAX/WIDTH configurations as parallel sby tasks.</li>
+            <li>Diagnosed why enable-bearing designs defeat naive depth escalation: a spurious counterexample (e.g. count initialised above MAX) adapts to any depth by prepending enable-low cycles, so the fix is inductive-invariant strengthening &mdash; restoring the always @(*) count &le; MAX bound &mdash; not a bigger k.</li>
+            <li>Worked through the valid-vs-reachable distinction underpinning induction soundness, including the block-type subtlety that always @(posedge clk) assertions check the <em>previous</em> cycle&rsquo;s state (behaving as 0-induction), which is why the counter provably requires k&nbsp;=&nbsp;2.</li>
+            <li>Applied the standard industrial division of labour: formal proof for local invariants at module level, cocotb simulation for sequence-dependent integration behaviour (start/lap/stop chains, mode transitions) where a formal spec would be as complex as the implementation itself.</li>
+          </ul>
+        </div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Verification Infrastructure &amp; Synthesis Insight</div>
+          <ul>
+            <li>Maintained a zero-warning bar under Verilator --lint-only --Wall (width mismatches, implicit truncation/sign-extension) and Verible lint/format, with cocotb Python-coroutine testbenches orchestrated by pytest as a CI-style regression suite &mdash; estimated an order-of-magnitude cycle-time saving over a Quartus-only compile-and-probe loop.</li>
+            <li>Traced the Yosys synthesis pipeline stage-by-stage on real modules &mdash; elaboration ($lt/$add/$mux next-state logic), proc/opt (procedural blocks collapsed into an $sdffe with the declaration initialiser merged into the reset path), techmap (vector registers unrolled into per-bit $_SDFFE_PP0P_ primitives with explicit bit-slicing), and ABC gate mapping &mdash; including recognising when ABC passes a netlist through untouched because techmap&rsquo;s output already sits inside the target gate library, and how the same netlist would instead map to LUT fabric on FPGA versus standard cells on ASIC.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-slideshow">
+        <div class="slide-viewport" id="ds-slide-viewport">
+          <div class="slide active"><img src="assets/DS_portfolio/DS_portfolio_editModeSelector.png" alt="DS 1"></div>
+          <div class="slide"><img src="assets/DS_portfolio/DS_portfolio_larp.png" alt="DS 2"></div>
+          <div class="slide"><img src="assets/DS_portfolio/DS_portfolio_map.png" alt="DS 3"></div>
+          <div class="slide"><img src="assets/DS_portfolio/DS_portfolio_map2.png" alt="DS 4"></div>
+          <div class="slide"><img src="assets/DS_portfolio/DS_portfolio_timingDiagram.png" alt="DS 5"></div>
+          <div class="slide-pause-icon">&#9646;&#9646;</div>
+        </div>
+        <button class="slide-nav slide-prev" id="ds-prev">&#8592;</button>
+        <button class="slide-nav slide-next" id="ds-next">&#8594;</button>
+        <div class="slide-footer">
+          <span class="slide-counter" id="ds-counter">1 / 5</span>
+          <div class="slide-progress-track">
+            <div class="slide-progress-fill" id="ds-progress"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="urt-modal" class="modal-overlay" hidden>
+    <div class="modal-card">
+      <button class="modal-close" id="urt-modal-close" aria-label="Close">&#x2715;</button>
+
+      <div class="modal-body">
+        <h1 class="modal-title">Planetary Rover Science Payload &mdash; Precision Gantry &amp; ISRU Instrument Integration (Unimelb Rover Team)</h1>
+        <p class="modal-intro">Co-developed the science-payload motion and integration hardware for a planetary-analogue rover: a precision gantry providing stable linear translation and repeatable positioning for a spectrometer, focused imaging module, and regolith-preparation brush and drill. Engineered through the late-design and manufacturing stages of the 2025&ndash;26 development cycle, under strict mass, volume, and competition-rule constraints &mdash; where positioning repeatability and vibration isolation directly bound measurement quality for in-situ resource analysis.</p>
+        <div class="modal-techstack">Onshape (collaborative parametric CAD, part-based modelling) &middot; SOLIDWORKS &middot; first-order FEA validation &middot; FDM additive-manufacturing iteration pipeline &middot; workshop manufacturing workflows (Telstra Creator Space)</div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Mechanical Design &amp; Integration Skills</div>
+          <ul>
+            <li>Precision linear-motion design under coupled constraints &mdash; stable translation and repeatable instrument alignment traded against a hard mass and packaging envelope.</li>
+            <li>Stiffness-to-weight-driven structural design of framing and gantry members, validated with first-order FEA rather than section-guessing.</li>
+            <li>Tolerance control across mating interfaces so that as-manufactured assemblies preserve the alignment repeatability the instruments require.</li>
+            <li>Mounting-interface design for vibration-sensitive instrumentation, managing transmitted vibration for measurement reliability.</li>
+            <li>Subsystem integration within a shared rover architecture &mdash; packaging the gantry, drilling, and water-extraction processing units against interfaces owned by other subteams.</li>
+            <li>Design-for-manufacture iteration: rapid FDM print-test-revise loops enabling frequent design turns through the manufacturing stage.</li>
+          </ul>
+        </div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Subsystem Contributions</div>
+
+          <div class="modal-subsection">
+            <div class="modal-subsection-title">Precision Gantry</div>
+            <p>Linear-translation stage carrying the spectrometer, focused imaging module, and regolith-preparation tooling &mdash; designed for repeatable re-positioning between sample-preparation and measurement operations, where alignment error and structural compliance appear directly as measurement degradation.</p>
+          </div>
+
+          <div class="modal-subsection">
+            <div class="modal-subsection-title">Structural Framing &amp; Instrument Mounts</div>
+            <p>Load-bearing framing and mounting interfaces for sensitive instrumentation, balancing stiffness-to-weight efficiency against the payload mass budget and rover packaging envelope.</p>
+          </div>
+
+          <div class="modal-subsection">
+            <div class="modal-subsection-title">ISRU Processing Integration</div>
+            <p>Integration of drilling and water-extraction processing enclosures into the rover architecture for in-situ resource analysis &mdash; interface definition, packaging, and access for sample flow between preparation and analysis stages.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-slideshow">
+        <div class="slide-viewport" id="urt-slide-viewport">
+          <div class="slide active"><img src="assets/URT_portfolio/IMG_7320.jpg" alt="URT 1"></div>
+          <div class="slide"><img src="assets/URT_portfolio/sai_urt1_asset.jpg" alt="URT 2"></div>
+          <div class="slide"><img src="assets/URT_portfolio/Screenshot%202026-02-27%20155726.png" alt="URT 3"></div>
+          <div class="slide"><img src="assets/URT_portfolio/Screenshot%202026-02-27%20171647.png" alt="URT 4"></div>
+          <div class="slide-pause-icon">&#9646;&#9646;</div>
+        </div>
+        <button class="slide-nav slide-prev" id="urt-prev">&#8592;</button>
+        <button class="slide-nav slide-next" id="urt-next">&#8594;</button>
+        <div class="slide-footer">
+          <span class="slide-counter" id="urt-counter">1 / 4</span>
+          <div class="slide-progress-track">
+            <div class="slide-progress-fill" id="urt-progress"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PROFESSIONAL EXPERIENCE EXPAND MODAL ===== -->
+  <div id="exp-expand-overlay" class="coursework-overlay" hidden>
+    <div class="coursework-card coursework-card--wide">
+      <button class="coursework-close" id="exp-expand-close">&#x2715;</button>
+      <div class="coursework-card-title">Professional Experience</div>
+
+      <div class="exp-modal-entry">
+        <div class="exp-row" style="margin-bottom:6px;">
+          <img class="edu-logo" src="assets/URT_logo.jpg" alt="UniMelb Rover Team">
+          <div class="exp-content">
+            <div class="exp-header">
+              <span class="exp-role">Space Resources Engineer</span>
+              <span class="exp-sep">&nbsp;|&nbsp;</span>
+              <span class="exp-org">UniMelb Rover Team (Melbourne, Australia)</span>
+              <span class="exp-sep">&nbsp;|&nbsp;</span>
+              <span class="exp-dates">2025&ndash;2026</span>
+            </div>
+          </div>
+        </div>
+        <p class="exp-tagline">Year-long effort, placing 9/30th overall at the competitive 2026 Australian Rover Challenge. <u>Space Resources task scored Top 5.</u></p>
+        <ul class="exp-bullets">
+          <li class="exp-bullet-item"><span class="edu-arrow">↳</span><span>Delivered a precision gantry subsystem supporting a spectrometer, focused imaging module, and regolith preparation mechanism within strictly specified integration and competition rule constraints.</span></li>
+          <li class="exp-bullet-item"><span class="edu-arrow">↳</span><span>Instilled co-engineer initiatives, easing cross-subteam friction through structured biweekly design reviews and interface syncs, keeping a distributed ~50 person team aligned on shared deadlines and conscious of the wider system.</span></li>
+          <li class="exp-bullet-item"><span class="edu-arrow">↳</span><span>Integrated structural framing, instrumentation mounting interfaces, drilling and water-extraction subsystems in a shared rover architecture for in-situ resource analysis.</span></li>
+          <li class="exp-bullet-item"><span class="edu-arrow">↳</span><span>Engineered through design and manufacturing stages of the 2025&ndash;26 development cycle, in well-documented and version-controlled parametric Onshape and KiCad assemblies, designed with succession in mind. Manufactured through electronic benchtop, additive manufacturing and 3D printing, metal machining and laser cutting workflows.</span></li>
+        </ul>
+      </div>
+
+      <div class="exp-modal-entry">
+        <div class="exp-header" style="margin-bottom:6px;">
+          <span class="exp-role">Optical Calibration Hardware - Contract Mechanical Design</span>
+          <span class="exp-sep">&nbsp;|&nbsp;</span>
+          <span class="exp-org">Good Times Tech! (Melbourne, Australia)</span>
+          <span class="exp-sep">&nbsp;|&nbsp;</span>
+          <span class="exp-dates">2025</span>
+        </div>
+        <ul class="exp-bullets">
+          <li class="exp-bullet-item"><span class="edu-arrow">↳</span><span>Designed a calibration reference cone for a machine vision-based dart tracking system.</span></li>
+          <li class="exp-bullet-item"><span class="edu-arrow">↳</span><span>Produced tolerance-controlled CAD documentation - defined datum references, surface-finish callouts - for direct handoff to manufacturing.</span></li>
+          <li class="exp-bullet-item"><span class="edu-arrow">↳</span><span>Iterated 3D-printed prototypes against feedback from team principles, closing the gap between as-built hardware and software calibration accuracy.</span></li>
+        </ul>
+      </div>
+
+      <div class="exp-modal-entry">
+        <div class="exp-header" style="margin-bottom:6px;">
+          <span class="exp-role">Food and Beverage Assistant</span>
+          <span class="exp-sep">&nbsp;|&nbsp;</span>
+          <span class="exp-org">Ballers Clubhouse (Melbourne, Australia)</span>
+          <span class="exp-sep">&nbsp;|&nbsp;</span>
+          <span class="exp-dates">2023 - Present</span>
+        </div>
+        <ul class="exp-bullets">
+          <li class="exp-bullet-item"><span class="edu-arrow">↳</span><span>Assisted in event coordination and high-quality customer service in a fast-paced and high-volume hospitality environment. Reinforced leadership and communication skills.</span></li>
+        </ul>
+      </div>
+
+      <div class="exp-modal-entry">
+        <div class="exp-header" style="margin-bottom:6px;">
+          <span class="exp-role">Lead Educator</span>
+          <span class="exp-sep">&nbsp;|&nbsp;</span>
+          <span class="exp-org">STEM Academic Service (Melbourne, Australia)</span>
+          <span class="exp-sep">&nbsp;|&nbsp;</span>
+          <span class="exp-dates">2022 - 2023</span>
+        </div>
+        <ul class="exp-bullets">
+          <li class="exp-bullet-item"><span class="edu-arrow">↳</span><span>Founded a VCE-aligned tutoring service, providing tailored worksheets, assignments and marking of work in maths and physics contexts.</span></li>
+          <li class="exp-bullet-item"><span class="edu-arrow">↳</span><span>Lead local marketing which built a client base of 10+ concurrent students enabling sustained income opportunities for myself and three peers.</span></li>
+          <li class="exp-bullet-item"><span class="edu-arrow">↳</span><span>Maintained collaborative documentation in Notion for a structured, version-controlled educational library.</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== LEADERSHIP MODAL ===== -->
+  <div id="lead-expand-overlay" class="coursework-overlay" hidden>
+    <div class="coursework-card">
+      <button class="coursework-close" id="lead-expand-close">&#x2715;</button>
+      <div class="coursework-card-title">Leadership &amp; Extracurricular Experience</div>
+
+      <div class="exp-modal-entry">
+        <div class="exp-header" style="margin-bottom:6px;">
+          <span class="exp-role">Course Liaison</span>
+          <span class="exp-sep">&nbsp;|&nbsp;</span>
+          <span class="exp-org">Faculty of Engineering, University of Melbourne</span>
+          <span class="exp-sep">&nbsp;|&nbsp;</span>
+          <span class="exp-dates">2025&ndash;2026</span>
+        </div>
+        <ul class="exp-bullets">
+          <li class="exp-bullet-item"><span class="edu-arrow">↳</span><span>Course Liaison for Signals and Systems (ELEN30012), Numerical Algorithms (ENGR30004), and Thermodynamics and Fluid Mechanics (MCEN30018).</span></li>
+          <li class="exp-bullet-item"><span class="edu-arrow">↳</span><span>Provided deep technical guidance in course discussion forums. Liaised across committees within Electrical, Mechatronics, and Mechanical Engineering Departments.</span></li>
+        </ul>
+      </div>
+
+      <div class="exp-modal-entry">
+        <div class="exp-header" style="margin-bottom:4px;">
+          <span class="exp-role">Spy-o-T Hackathon</span>
+          <span class="exp-sep">&nbsp;|&nbsp;</span>
+          <span class="exp-org">Finalist</span>
+          <span class="exp-sep">&nbsp;|&nbsp;</span>
+          <span class="exp-dates">2025</span>
+        </div>
+        <p class="exp-tagline">Project ALARM: Covert, distributed keyword-detection system.</p>
+      </div>
+
+      <div class="exp-modal-entry">
+        <div class="exp-header" style="margin-bottom:4px;">
+          <span class="exp-role">Simon Marais Mathematical Competition</span>
+          <span class="exp-sep">&nbsp;|&nbsp;</span>
+          <span class="exp-dates">2025</span>
+        </div>
+        <p class="exp-tagline">Competed in the Asia-Pacific&rsquo;s premier university proof-based mathematics competition.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== TECHNICAL SKILLS MODAL ===== -->
+  <div id="skills-overlay" class="coursework-overlay" hidden>
+    <div class="coursework-card coursework-card--wide">
+      <button class="coursework-close" id="skills-close">&#x2715;</button>
+      <div class="coursework-card-title">Technical Skills</div>
+      <div class="coursework-card-sub">Full skills inventory</div>
+      <div class="skills-modal-list">
+        <div class="skills-modal-row">
+          <span class="skills-modal-label">Languages</span>
+          <span class="skills-modal-val">C, C++, Python, MATLAB, Verilog, SystemVerilog, VHDL, TCL, LaTeX &amp; Markdown, Basic Assembly, Basic Bash.</span>
+        </div>
+        <div class="skills-modal-row">
+          <span class="skills-modal-label">Simulation &amp; Analysis</span>
+          <span class="skills-modal-val">Matlab (Signal Processing, Control System, System ID, Antenna and RF, PDE, Symbolic Math Toolboxes), Simulink and Simscape, SPICE (LTspice, KiCad, OrCAD), SymPy, Solidworks Simulation (non-linear &amp; fatigue FEA, adaptive meshing), Ansys.</span>
+        </div>
+        <div class="skills-modal-row">
+          <span class="skills-modal-label">RTL Silicon Engineering</span>
+          <span class="skills-modal-val">SystemVerilog RTL, Quartus Prime (Cyclone V synthesis &amp; place-and-route), formal verification (Yosys/SymbiYosys/Z3, k-induction, SMT-LIB), cocotb + pytest regression, Verilator &amp; Verible lint, Icarus Verilog, gate-level netlist &amp; synthesis-pipeline analysis, transmission-line &amp; signal-integrity modelling, basic static timing analysis.</span>
+        </div>
+        <div class="skills-modal-row">
+          <span class="skills-modal-label">Electromechanical Integration</span>
+          <span class="skills-modal-val">Parametric CAD &amp; Assemblies (Solidworks, Onshape), Embedded Control (Arduino, ESP32, STM32Cube; PWM, PID, sensor systems, memory-optimised implementations, thermal &amp; safety cutoffs), Motor &amp; Gear Train Design, Bench Electronics (supplies, AWG, oscilloscopes, AD2, spectrum analyser, soldering), Manufacturing Workflows (FDM additive, metal machining, laser cutting), Thermally Managed &amp; Mission-Critical Enclosures.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INDICATIVE COURSEWORK MODAL ===== -->
+  <div id="coursework-overlay" class="coursework-overlay" hidden>
+    <div class="coursework-card">
+      <button class="coursework-close" id="coursework-close">&#x2715;</button>
+      <div class="coursework-card-title">Indicative Coursework</div>
+      <div class="coursework-card-sub">University of Melbourne &mdash; Bachelor of Science</div>
+      <ul class="coursework-list">
+        <li><span class="cw-code">—</span>       <span class="cw-name">Calculus 1, 2, Linear Algebra, Vector Calculus, Differential Equations</span></li>
+        <li><span class="cw-code">ELEN20006</span><span class="cw-name">Digital Systems</span></li>
+        <li><span class="cw-code">ELEN30011</span><span class="cw-name">Electrical Device Modelling</span></li>
+        <li><span class="cw-code">ELEN30009</span><span class="cw-name">Electrical Network Analysis and Design</span></li>
+        <li><span class="cw-code">ELEN30013</span><span class="cw-name">Electronic System Implementation</span></li>
+        <li><span class="cw-code">MCEN30021</span><span class="cw-name">Mechanical Systems Design</span></li>
+        <li><span class="cw-code">MCEN30017</span><span class="cw-name">Mechanics and Materials</span></li>
+        <li><span class="cw-code">ENGR20004</span><span class="cw-name">Engineering Mechanics</span></li>
+        <li><span class="cw-code">ENGR30004</span><span class="cw-name">Numerical Algorithms in Engineering</span></li>
+        <li><span class="cw-code">COMP20005</span><span class="cw-name">Numerical Computation in C</span></li>
+        <li><span class="cw-code">ELEN30012</span><span class="cw-name">Signals and Systems</span></li>
+        <li><span class="cw-code">MCEN30020</span><span class="cw-name">Systems Modelling and Analysis</span></li>
+        <li><span class="cw-code">MCEN30018</span><span class="cw-name">Thermodynamics and Fluid Mechanics</span></li>
+        <li><span class="cw-code">ELEN20005</span><span class="cw-name">Foundations of Electrical Networks</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Fade-in on scroll for track cards
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.track-preview').forEach(card => observer.observe(card));
+
+    // Featured carousel
+    const track  = document.querySelector('.featured-scroll-track');
+    const thumb  = document.querySelector('.featured-scrollbar-thumb');
+
+    function syncThumb() {
+      const { scrollLeft, scrollWidth, clientWidth } = track;
+      const scrollable = scrollWidth - clientWidth;
+      const thumbPct   = (clientWidth / scrollWidth) * 100;
+      const leftPct    = scrollable > 0 ? (scrollLeft / scrollable) * (100 - thumbPct) : 0;
+      thumb.style.width = thumbPct + '%';
+      thumb.style.left  = leftPct  + '%';
+    }
+
+    track.addEventListener('scroll', syncThumb);
+    syncThumb();
+
+    // Drag-to-scroll on desktop
+    let dragging = false, dragStartX, dragScrollLeft;
+    track.addEventListener('mousedown', e => {
+      dragging = true;
+      dragStartX    = e.pageX - track.getBoundingClientRect().left;
+      dragScrollLeft = track.scrollLeft;
+    });
+    window.addEventListener('mouseup',   () => { dragging = false; });
+    window.addEventListener('mousemove', e => {
+      if (!dragging) return;
+      e.preventDefault();
+      const x    = e.pageX - track.getBoundingClientRect().left;
+      const walk = (x - dragStartX) * 1.4;
+      track.scrollLeft = dragScrollLeft - walk;
+    });
+
+    // ===== ENAD DETAILS MODAL =====
+    const enadModal    = document.getElementById('enad-modal');
+    const enadClose    = document.getElementById('enad-modal-close');
+    const enadViewport = document.getElementById('enad-slide-viewport');
+    const enadSlides   = enadViewport.querySelectorAll('.slide');
+    const enadPrev     = document.getElementById('enad-prev');
+    const enadNext     = document.getElementById('enad-next');
+    const enadCounter  = document.getElementById('enad-counter');
+    const enadProgress = document.getElementById('enad-progress');
+
+    const SLIDE_MS  = 4000;
+    const TICK_MS   = 40;
+    let slideIdx    = 0;
+    let elapsed     = 0;
+    let paused      = false;
+    let slideTimer  = null;
+
+    function goToSlide(n) {
+      enadSlides[slideIdx].classList.remove('active');
+      slideIdx = (n + enadSlides.length) % enadSlides.length;
+      enadSlides[slideIdx].classList.add('active');
+      enadCounter.textContent = (slideIdx + 1) + ' / ' + enadSlides.length;
+      elapsed = 0;
+      enadProgress.style.transition = 'none';
+      enadProgress.style.width = '0%';
+    }
+
+    function startSlideshow() {
+      if (slideTimer) clearInterval(slideTimer);
+      slideTimer = setInterval(() => {
+        if (paused) return;
+        elapsed += TICK_MS;
+        const pct = Math.min((elapsed / SLIDE_MS) * 100, 100);
+        enadProgress.style.transition = 'none';
+        enadProgress.style.width = pct + '%';
+        if (elapsed >= SLIDE_MS) goToSlide(slideIdx + 1);
+      }, TICK_MS);
+    }
+
+    function stopSlideshow() {
+      clearInterval(slideTimer);
+      slideTimer = null;
+    }
+
+    function openModal() {
+      goToSlide(0);
+      paused = false;
+      enadViewport.classList.remove('paused');
+      enadModal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      startSlideshow();
+    }
+
+    function closeModal() {
+      enadModal.hidden = true;
+      document.body.style.overflow = '';
+      stopSlideshow();
+    }
+
+    // Open: ENAD is the first featured card
+    const featuredCards = document.querySelectorAll('.featured-card');
+    featuredCards[1].querySelector('.fc-details').addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      openModal();
+    });
+
+    // ===== FEA DETAILS MODAL =====
+    (function () {
+      const modal    = document.getElementById('fea-modal');
+      const closeBtn = document.getElementById('fea-modal-close');
+      const viewport = document.getElementById('fea-slide-viewport');
+      const slides   = viewport.querySelectorAll('.slide');
+      const prevBtn  = document.getElementById('fea-prev');
+      const nextBtn  = document.getElementById('fea-next');
+      const counter  = document.getElementById('fea-counter');
+      const progress = document.getElementById('fea-progress');
+
+      const SLIDE_MS = 4000;
+      const TICK_MS  = 40;
+      let slideIdx   = 0;
+      let elapsed    = 0;
+      let paused     = false;
+      let slideTimer = null;
+
+      function goToSlide(n) {
+        slides[slideIdx].classList.remove('active');
+        slideIdx = (n + slides.length) % slides.length;
+        slides[slideIdx].classList.add('active');
+        counter.textContent = (slideIdx + 1) + ' / ' + slides.length;
+        elapsed = 0;
+        progress.style.transition = 'none';
+        progress.style.width = '0%';
+      }
+
+      function startSlideshow() {
+        if (slideTimer) clearInterval(slideTimer);
+        slideTimer = setInterval(() => {
+          if (paused) return;
+          elapsed += TICK_MS;
+          progress.style.transition = 'none';
+          progress.style.width = Math.min((elapsed / SLIDE_MS) * 100, 100) + '%';
+          if (elapsed >= SLIDE_MS) goToSlide(slideIdx + 1);
+        }, TICK_MS);
+      }
+
+      function stopSlideshow() {
+        clearInterval(slideTimer);
+        slideTimer = null;
+      }
+
+      function openModal() {
+        goToSlide(0);
+        paused = false;
+        viewport.classList.remove('paused');
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        startSlideshow();
+      }
+
+      function closeModal() {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+        stopSlideshow();
+      }
+
+      featuredCards[4].querySelector('.fc-details').addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        openModal();
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+      document.addEventListener('keydown', e => {
+        if (modal.hidden) return;
+        if (e.key === 'Escape')      closeModal();
+        if (e.key === 'ArrowLeft')   goToSlide(slideIdx - 1);
+        if (e.key === 'ArrowRight')  goToSlide(slideIdx + 1);
+      });
+
+      viewport.addEventListener('click', () => {
+        paused = !paused;
+        viewport.classList.toggle('paused', paused);
+      });
+
+      prevBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx - 1); });
+      nextBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx + 1); });
+    }());
+
+    // ===== EDM DETAILS MODAL =====
+    (function () {
+      const modal    = document.getElementById('edm-modal');
+      const closeBtn = document.getElementById('edm-modal-close');
+      const viewport = document.getElementById('edm-slide-viewport');
+      const slides   = viewport.querySelectorAll('.slide');
+      const prevBtn  = document.getElementById('edm-prev');
+      const nextBtn  = document.getElementById('edm-next');
+      const counter  = document.getElementById('edm-counter');
+      const progress = document.getElementById('edm-progress');
+
+      const SLIDE_MS = 4000;
+      const TICK_MS  = 40;
+      let slideIdx   = 0;
+      let elapsed    = 0;
+      let paused     = false;
+      let slideTimer = null;
+
+      function goToSlide(n) {
+        slides[slideIdx].classList.remove('active');
+        slideIdx = (n + slides.length) % slides.length;
+        slides[slideIdx].classList.add('active');
+        counter.textContent = (slideIdx + 1) + ' / ' + slides.length;
+        elapsed = 0;
+        progress.style.transition = 'none';
+        progress.style.width = '0%';
+      }
+
+      function startSlideshow() {
+        if (slideTimer) clearInterval(slideTimer);
+        slideTimer = setInterval(() => {
+          if (paused) return;
+          elapsed += TICK_MS;
+          progress.style.transition = 'none';
+          progress.style.width = Math.min((elapsed / SLIDE_MS) * 100, 100) + '%';
+          if (elapsed >= SLIDE_MS) goToSlide(slideIdx + 1);
+        }, TICK_MS);
+      }
+
+      function stopSlideshow() { clearInterval(slideTimer); slideTimer = null; }
+
+      function openModal() {
+        goToSlide(0);
+        paused = false;
+        viewport.classList.remove('paused');
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        startSlideshow();
+      }
+
+      function closeModal() {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+        stopSlideshow();
+      }
+
+      featuredCards[2].querySelector('.fc-details').addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        openModal();
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+      document.addEventListener('keydown', e => {
+        if (modal.hidden) return;
+        if (e.key === 'Escape')      closeModal();
+        if (e.key === 'ArrowLeft')   goToSlide(slideIdx - 1);
+        if (e.key === 'ArrowRight')  goToSlide(slideIdx + 1);
+      });
+
+      viewport.addEventListener('click', () => {
+        paused = !paused;
+        viewport.classList.toggle('paused', paused);
+      });
+
+      prevBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx - 1); });
+      nextBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx + 1); });
+    }());
+
+    // ===== DS DETAILS MODAL =====
+    (function () {
+      const modal    = document.getElementById('ds-modal');
+      const closeBtn = document.getElementById('ds-modal-close');
+      const viewport = document.getElementById('ds-slide-viewport');
+      const slides   = viewport.querySelectorAll('.slide');
+      const prevBtn  = document.getElementById('ds-prev');
+      const nextBtn  = document.getElementById('ds-next');
+      const counter  = document.getElementById('ds-counter');
+      const progress = document.getElementById('ds-progress');
+
+      const SLIDE_MS = 4000;
+      const TICK_MS  = 40;
+      let slideIdx   = 0;
+      let elapsed    = 0;
+      let paused     = false;
+      let slideTimer = null;
+
+      function goToSlide(n) {
+        slides[slideIdx].classList.remove('active');
+        slideIdx = (n + slides.length) % slides.length;
+        slides[slideIdx].classList.add('active');
+        counter.textContent = (slideIdx + 1) + ' / ' + slides.length;
+        elapsed = 0;
+        progress.style.transition = 'none';
+        progress.style.width = '0%';
+      }
+
+      function startSlideshow() {
+        if (slideTimer) clearInterval(slideTimer);
+        slideTimer = setInterval(() => {
+          if (paused) return;
+          elapsed += TICK_MS;
+          progress.style.transition = 'none';
+          progress.style.width = Math.min((elapsed / SLIDE_MS) * 100, 100) + '%';
+          if (elapsed >= SLIDE_MS) goToSlide(slideIdx + 1);
+        }, TICK_MS);
+      }
+
+      function stopSlideshow() { clearInterval(slideTimer); slideTimer = null; }
+
+      function openModal() {
+        goToSlide(0);
+        paused = false;
+        viewport.classList.remove('paused');
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        startSlideshow();
+      }
+
+      function closeModal() {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+        stopSlideshow();
+      }
+
+      featuredCards[0].querySelector('.fc-details').addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        openModal();
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+      document.addEventListener('keydown', e => {
+        if (modal.hidden) return;
+        if (e.key === 'Escape')      closeModal();
+        if (e.key === 'ArrowLeft')   goToSlide(slideIdx - 1);
+        if (e.key === 'ArrowRight')  goToSlide(slideIdx + 1);
+      });
+
+      viewport.addEventListener('click', () => {
+        paused = !paused;
+        viewport.classList.toggle('paused', paused);
+      });
+
+      prevBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx - 1); });
+      nextBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx + 1); });
+    }());
+
+    // ===== URT DETAILS MODAL =====
+    (function () {
+      const modal    = document.getElementById('urt-modal');
+      const closeBtn = document.getElementById('urt-modal-close');
+      const viewport = document.getElementById('urt-slide-viewport');
+      const slides   = viewport.querySelectorAll('.slide');
+      const prevBtn  = document.getElementById('urt-prev');
+      const nextBtn  = document.getElementById('urt-next');
+      const counter  = document.getElementById('urt-counter');
+      const progress = document.getElementById('urt-progress');
+
+      const SLIDE_MS = 4000;
+      const TICK_MS  = 40;
+      let slideIdx   = 0;
+      let elapsed    = 0;
+      let paused     = false;
+      let slideTimer = null;
+
+      function goToSlide(n) {
+        slides[slideIdx].classList.remove('active');
+        slideIdx = (n + slides.length) % slides.length;
+        slides[slideIdx].classList.add('active');
+        counter.textContent = (slideIdx + 1) + ' / ' + slides.length;
+        elapsed = 0;
+        progress.style.transition = 'none';
+        progress.style.width = '0%';
+      }
+
+      function startSlideshow() {
+        if (slideTimer) clearInterval(slideTimer);
+        slideTimer = setInterval(() => {
+          if (paused) return;
+          elapsed += TICK_MS;
+          progress.style.transition = 'none';
+          progress.style.width = Math.min((elapsed / SLIDE_MS) * 100, 100) + '%';
+          if (elapsed >= SLIDE_MS) goToSlide(slideIdx + 1);
+        }, TICK_MS);
+      }
+
+      function stopSlideshow() { clearInterval(slideTimer); slideTimer = null; }
+
+      function openModal() {
+        goToSlide(0);
+        paused = false;
+        viewport.classList.remove('paused');
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        startSlideshow();
+      }
+
+      function closeModal() {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+        stopSlideshow();
+      }
+
+      featuredCards[3].querySelector('.fc-details').addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        openModal();
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+      document.addEventListener('keydown', e => {
+        if (modal.hidden) return;
+        if (e.key === 'Escape')      closeModal();
+        if (e.key === 'ArrowLeft')   goToSlide(slideIdx - 1);
+        if (e.key === 'ArrowRight')  goToSlide(slideIdx + 1);
+      });
+
+      viewport.addEventListener('click', () => {
+        paused = !paused;
+        viewport.classList.toggle('paused', paused);
+      });
+
+      prevBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx - 1); });
+      nextBtn.addEventListener('click', e => { e.stopPropagation(); goToSlide(slideIdx + 1); });
+    }());
+
+    enadClose.addEventListener('click', closeModal);
+
+    enadModal.addEventListener('click', e => {
+      if (e.target === enadModal) closeModal();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (enadModal.hidden) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft')  { goToSlide(slideIdx - 1); }
+      if (e.key === 'ArrowRight') { goToSlide(slideIdx + 1); }
+    });
+
+    enadViewport.addEventListener('click', e => {
+      if (e.target === enadPrev || e.target === enadNext) return;
+      paused = !paused;
+      enadViewport.classList.toggle('paused', paused);
+    });
+
+    enadPrev.addEventListener('click', e => {
+      e.stopPropagation();
+      goToSlide(slideIdx - 1);
+    });
+
+    enadNext.addEventListener('click', e => {
+      e.stopPropagation();
+      goToSlide(slideIdx + 1);
+    });
+
+    // Experience expand modal
+    const expOverlay = document.getElementById('exp-expand-overlay');
+    document.getElementById('exp-expand-btn').addEventListener('click', () => expOverlay.removeAttribute('hidden'));
+    document.getElementById('exp-expand-close').addEventListener('click', () => expOverlay.setAttribute('hidden', ''));
+    expOverlay.addEventListener('click', e => { if (e.target === expOverlay) expOverlay.setAttribute('hidden', ''); });
+
+    // Leadership expand modal
+    const leadOverlay = document.getElementById('lead-expand-overlay');
+    document.getElementById('lead-expand-btn').addEventListener('click', () => leadOverlay.removeAttribute('hidden'));
+    document.getElementById('lead-expand-close').addEventListener('click', () => leadOverlay.setAttribute('hidden', ''));
+    leadOverlay.addEventListener('click', e => { if (e.target === leadOverlay) leadOverlay.setAttribute('hidden', ''); });
+
+    // Technical skills modal
+    const skillsOverlay = document.getElementById('skills-overlay');
+    document.getElementById('skills-expand-btn').addEventListener('click', () => skillsOverlay.removeAttribute('hidden'));
+    document.getElementById('skills-close').addEventListener('click', () => skillsOverlay.setAttribute('hidden', ''));
+    skillsOverlay.addEventListener('click', e => { if (e.target === skillsOverlay) skillsOverlay.setAttribute('hidden', ''); });
+
+    // Coursework modal
+    const cwOverlay = document.getElementById('coursework-overlay');
+    document.getElementById('coursework-btn').addEventListener('click', () => cwOverlay.removeAttribute('hidden'));
+    document.getElementById('coursework-close').addEventListener('click', () => cwOverlay.setAttribute('hidden', ''));
+    cwOverlay.addEventListener('click', e => { if (e.target === cwOverlay) cwOverlay.setAttribute('hidden', ''); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') cwOverlay.setAttribute('hidden', ''); });
+  </script>
+
+</body>
+</html>

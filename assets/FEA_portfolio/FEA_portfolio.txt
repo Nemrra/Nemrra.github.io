@@ -1,0 +1,24 @@
+Prosthetic Hip Implant and FEA-driven Optimisation
+A finite-element study spanning hand-derived stiffness formulation, MATLAB PDE solvers, and CAD-based
+simulation - validating each result across analytical, numerical, and commercial-solver methods. Work
+covers 2D truss FEM from first principles, Kirsch hole stress-concentration verification, and a full design–analyse–
+optimise loop on a prosthetic hip implant, emphasising mesh convergence and physically-grounded boundary
+conditions over black-box solver output.
+
+Tech stack: MATLAB (PDE Toolbox), SOLIDWORKS (Simulation (FEA), Non-linear & Fatigue Analysis, Advanced Meshing (curvature based, growth-rate control))
+
+Multiphysics Simulation and Solid Mechanics Skills:
+    - Derived element stiffness matrices from force equilibrium and assembled global FEM systems via coordinate-transform rotation and like-DOF superposition.
+    - Partitioned systems into essential/free DOFs to solve for unknown displacements and reaction forces under mixed boundary conditions.
+    - Cross-validated results three ways — analytical (Kirsch), custom MATLAB solver, and SOLIDWORKS — quantifying divergence and its physical/numerical causes.
+    - Mesh refinement and convergence studies with localised control, exposing a ~50% peak-stress underestimate that coarse meshing missed.
+    - Boundary-condition design balancing stability, realism, load flow, and avoidance of artificial over-constraint.
+    - Design iteration against quantitative failure criteria — von Mises vs. yield, safety factor, mass reduction.
+
+Studies:
+    - 2D Planar Truss FEM (from first principles):
+        - Discretised a pin-jointed truss into 2D rod elements, deriving the element stiffness matrix under axial equilibrium and transforming local-to-global via rotation matrices. Assembled the global stiffness system, partitioned into essential/free DOFs, and solved for nodal displacements, reaction forces, and per-member axial stress — implemented as a parameterised MATLAB script.
+    - Stress Concentration at a Hole (Kirsch verification):
+        - Modelled a uniaxially-loaded thin plate with a central hole in MATLAB's PDE framework, sweeping the d/w ratio to recover the classical factor-of-three stress concentration as the geometry approaches an infinite plate. Benchmarked against both Kirsch's analytical solution and a 3D SOLIDWORKS model, characterising mesh- and dimensionality-driven divergence.
+    - Prosthetic Hip Implant (design–analyse–optimise):
+        - Full CAD-to-FEA workflow on a Ti-6Al-4V hip implant: parametric SOLIDWORKS model, physically-reasoned fixturing (fixing only high-contact faces to avoid artificial stiffness), and static loading emulating body weight. Identified a mesh-sensitive neck stress concentration and bending failure mode, then resolved it through geometry strengthening (flush stem, enlarged fillet) to reach a safety factor of 2, and ran a hole-diameter design study trading mass against structural integrity.

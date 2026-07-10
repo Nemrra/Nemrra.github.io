@@ -1,0 +1,37 @@
+Embedded Systems, Control & Autonomous Dynamics
+
+Development of distributed embedded systems and performance-oriented C++ 
+architectures — integrating hardware control, real-time communication 
+pipelines, and structured software design from firmware through to GUI — 
+alongside designed-and-tuned feedback control for dynamic platforms, 
+combining practical PID implementation with classical, stability-focused 
+control analysis.
+
+    - Built and tuned a PID-controlled drone platform, implementing stable 
+      attitude regulation under actuator saturation and disturbance inputs.
+    - Designed a dedicated tuning stand / test rig to safely capture step 
+      responses, validate sign conventions, isolate axes, and iteratively 
+      tune gains.
+    - Applied frequency- and time-domain control methods (transfer 
+      functions, Laplace-domain modelling, and closed-loop stability 
+      analysis) to predict and verify system behaviour.
+    - Performed controller refinement using root-locus / Bode intuition, 
+      gain/phase margin reasoning, and practical compensations (derivative 
+      filtering, anti-windup, and setpoint ramping).
+    - Implemented discrete-time control considerations including sampling 
+      effects, basic sensor filtering, and robust tuning for repeatable 
+      behaviour across operating conditions.
+    - Engineered a covert distributed audio surveillance system using ESP32 
+      microcontrollers (C++), implementing low-latency data streaming over 
+      WebSockets to a Python backend for AI-triggered event handling and 
+      secure alert protocols.
+    - Implemented deterministic firmware logic including sensor acquisition, 
+      interrupt-aware streaming, and remote command execution via Telegram 
+      API with timestamped alert feedback.
+    - Designed and fabricated a thermally managed embedded enclosure with 
+      custom 3D-printed housing, passive cooling strategy, structured power 
+      distribution, and modular mounting for multi-board integration.
+    - Developed a performance-oriented C++ chess engine with clean 
+      object-oriented architecture, modular rule implementation (castling, 
+      en passant, promotion), and OpenGL/ImGui-based GUI for responsive 
+      state rendering.
