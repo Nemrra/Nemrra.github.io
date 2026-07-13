@@ -621,6 +621,12 @@
       display: none;
     }
 
+    .featured-scroll-track img,
+    .featured-scroll-track a { -webkit-user-drag: none; }
+    .featured-scrollbar       { cursor: pointer; }
+    .featured-scrollbar-thumb { cursor: grab; }
+    .featured-scrollbar-thumb:active { cursor: grabbing; }
+
     .featured-card {
       flex: 0 0 40%;
       scroll-snap-align: start;
@@ -2465,19 +2471,62 @@
     syncThumb();
 
     // Drag-to-scroll on desktop
-    let dragging = false, dragStartX, dragScrollLeft;
+    let isDragging = false, dragStartX, dragScrollLeft, dragMoved;
+
     track.addEventListener('mousedown', e => {
-      dragging = true;
-      dragStartX    = e.pageX - track.getBoundingClientRect().left;
+      if (e.button !== 0) return;
+      isDragging    = true;
+      dragMoved     = false;
+      dragStartX    = e.pageX;
       dragScrollLeft = track.scrollLeft;
+      track.style.scrollSnapType = 'none'; // disable snap while dragging
+      e.preventDefault(); // block native image/link drag
     });
-    window.addEventListener('mouseup',   () => { dragging = false; });
+
+    window.addEventListener('mouseup', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      track.style.scrollSnapType = ''; // re-enable snap on release
+    });
+
     window.addEventListener('mousemove', e => {
-      if (!dragging) return;
+      if (!isDragging) return;
+      const dx = e.pageX - dragStartX;
+      if (Math.abs(dx) > 4) dragMoved = true;
+      track.scrollLeft = dragScrollLeft - dx;
+    });
+
+    // Prevent card links firing if the user was dragging
+    track.addEventListener('click', e => {
+      if (dragMoved) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
+
+    // Scrollbar thumb drag
+    const scrollbar = document.querySelector('.featured-scrollbar');
+    let thumbDragging = false, thumbStartX, thumbStartScroll;
+
+    thumb.addEventListener('mousedown', e => {
       e.preventDefault();
-      const x    = e.pageX - track.getBoundingClientRect().left;
-      const walk = (x - dragStartX) * 1.4;
-      track.scrollLeft = dragScrollLeft - walk;
+      e.stopPropagation(); // don't trigger track drag
+      thumbDragging  = true;
+      thumbStartX     = e.clientX;
+      thumbStartScroll = track.scrollLeft;
+    });
+
+    window.addEventListener('mouseup',   () => { thumbDragging = false; });
+    window.addEventListener('mousemove', e => {
+      if (!thumbDragging) return;
+      const barW  = scrollbar.offsetWidth;
+      const thumbW = thumb.offsetWidth;
+      const ratio = (track.scrollWidth - track.clientWidth) / Math.max(barW - thumbW, 1);
+      track.scrollLeft = thumbStartScroll + (e.clientX - thumbStartX) * ratio;
+    });
+
+    // Click on the scrollbar track (not the thumb) to seek
+    scrollbar.addEventListener('click', e => {
+      if (e.target === thumb) return;
+      const pct = (e.clientX - scrollbar.getBoundingClientRect().left) / scrollbar.offsetWidth;
+      track.scrollLeft = pct * (track.scrollWidth - track.clientWidth);
     });
 
     // ===== ENAD DETAILS MODAL =====
