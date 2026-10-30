@@ -1,71 +1,55 @@
-# David Shmail — Engineering Portfolio
+# davidshmail.com
 
-Personal engineering portfolio. Pure HTML/CSS/JS — no build step, no dependencies, no framework.
+This is the source for my engineering portfolio at [davidshmail.com](https://davidshmail.com). It's plain HTML, CSS and JavaScript, so there's no build step and nothing to install.
 
-## Site structure
+## How the site is laid out
+
+The home page links to six category pages, and each category page links to its projects.
 
 ```
-index.html                          ← home: about, skills, experience, category track cards
-│
-├── edm.html                        ← Category 01: Computational Electromagnetics & Device Modelling
-│   └── edm-project.html
-│
-├── simulation.html                 ← Category 02: Multiphysics Simulation & Numerical Methods
-│   ├── fea.html
-│   ├── numerical-methods.html
-│   └── algorithms.html
-│
-├── systems.html                    ← Category 03: System Architecture & Integration
-│   └── msd.html
-│
-├── signal.html                     ← Category 04: Signal Processing & Communications
-│   ├── sns-filtering.html
-│   └── sns-microgrid.html
-│
-├── embedded-control-dynamics.html  ← Category 05: Embedded Systems, Control & Autonomous Dynamics
-│   ├── drone.html
-│   ├── chess-engine.html
-│   └── alarm.html
-│
-├── misc.html                       ← Category 07: Miscellaneous
-│   ├── fluid-pipe.html
-│   └── thermo-workshop.html
-│
-└── urt.html                        ← standalone: URT project page
+index.html                        home: about, skills, experience, category cards
 
-assets/
-├── <project>_portfolio/            ← images and source notes per project
-├── David Shmail Resume.pdf         ← linked from CV download button on index.html
-├── transistorFavicon.png
-└── (thumbnails, headshot, logos)
+edm.html                          01  Computational Electromagnetics
+  edm-project.html
+
+simulation.html                   02  Multiphysics Simulation
+  fea.html
+  numerical-methods.html
+  algorithms.html
+
+systems.html                      03  System Architecture
+  msd.html
+  urt.html
+
+embedded-control-dynamics.html    05  Embedded Systems, Control & Autonomous Dynamics
+  drone.html
+  chess-engine.html
+  alarm.html
+
+signal.html                       06  Signal Processing & Machine Learning
+  sns-filtering.html
+  sns-microgrid.html
+
+misc.html                         07  Miscellaneous
+  fluid-pipe.html
+  thermo-workshop.html
 ```
+
+Images live in `assets/`, mostly in one folder per project. `project_notes/` has the notes each project page was written from. `embedded.html` is an older version of category 05 that nothing links to any more.
 
 ## Adding a project
 
-**1. Create the project page.**
-Copy an existing page (e.g. `algorithms.html`) and update: tag, title, intro paragraph, tech-stack pill, and skill bullets. Update the breadcrumb nav at the top.
+1. Copy a similar project page (`algorithms.html` is a good starting point) and change the tag, title, intro, tech stack and bullet points. Update the breadcrumb at the top, which follows `Portfolio / Category / Project`.
+2. Add a card on the category page by copying an existing `<a class="featured-card">` block. If the card has images, put them in `assets/<project>_portfolio/` and position them with a `.fc-img-*` rule. If it doesn't, add `fc-full` to the card's class and leave out the `.fc-collage` div.
+3. For a new category, also add a card to `index.html` using the `.track-preview` pattern. Text-only cards use `track-preview track-preview--wide` with no `.track-image` div.
 
-**2. Add a card to the category page.**
-Add an `<a href="yourpage.html" class="featured-card">` block following the existing pattern.
-- With images: put images in `assets/<name>_portfolio/`, add `.fc-img-*` CSS for positioning, reference them in the collage div.
-- Without images: add class `fc-full` to the `<a>` tag and omit the `.fc-collage` div entirely.
+## Editing content
 
-**3. Optionally add a track card on `index.html`** if this is a new top-level category.
-Follow the `.track-preview` pattern. Text-only (no thumbnail) cards use `class="track-preview track-preview--wide"` with no `.track-image` div.
+All the text is written directly into the HTML, so find the page, change it, and check it in a browser.
 
-Breadcrumb pattern: `Portfolio / Category Page / Project Title`
+- **CV:** the download button on the home page points to `assets/David-Shmail_Resume_2026.pdf`. Replace that file and keep the name, or update the link.
+- **Experience, leadership and skills pop-ups:** these sit near the bottom of `index.html`. Search for `exp-expand-overlay`, `lead-expand-overlay` or `skills-overlay`.
 
-## Updating existing content
+## Deploying
 
-All content is directly in the HTML — no templates or CMS. Find the relevant file, edit the `<p>`, `<li>`, or heading, and verify in browser.
-
-**To update the CV:** replace `assets/David Shmail Resume.pdf` with the new file, keeping the filename identical.
-
-**To update the skills / experience / leadership modals:** edit the modal `<div>` blocks near the bottom of `index.html` (search for `id="exp-expand-overlay"`, `id="lead-expand-overlay"`, `id="skills-overlay"`).
-
-## Deployment
-
-Static files — no build required. Push to `main` and enable GitHub Pages:
-Settings → Pages → Source: Deploy from branch → `main`, `/ (root)`.
-
-For a custom domain, add a `CNAME` file at the repo root containing just the domain (e.g. `davidshmail.com`).
+GitHub Pages serves the `main` branch from the repo root, and the `CNAME` file points it at davidshmail.com. Pushing to `main` updates the live site.

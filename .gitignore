@@ -1,4 +1,4 @@
-# Claude Code local settings
+# Local tool settings
 .claude/
 
 # Old experimental files
@@ -11,7 +11,7 @@ assets/htmlvideotest.mp4
 # Working documents not linked from the site
 assets/Portfolio Experience Entry.pdf
 
-# Assignment/workshop submission PDFs — not for public repo
+# Original PDFs that stay out of the public repo
 assets/ThermoFluid_portfolio/*.pdf
 assets/FEA_portfolio/*.pdf
 assets/ENAD_ws_portfolio/
