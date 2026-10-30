@@ -7,7 +7,7 @@ This is the source for my engineering portfolio at [davidshmail.com](https://dav
 The home page links to six category pages, and each category page links to its projects.
 
 ```
-index.html                        home: about, skills, experience, category cards
+index.html                        home: photo, about blurb, featured projects, category cards
 
 edm.html                          01  Computational Electromagnetics
   edm-project.html
@@ -45,10 +45,7 @@ Images live in `assets/`, mostly in one folder per project. `project_notes/` has
 
 ## Editing content
 
-All the text is written directly into the HTML, so find the page, change it, and check it in a browser.
-
-- **CV:** the download button on the home page points to `assets/David-Shmail_Resume_2026.pdf`. Replace that file and keep the name, or update the link.
-- **Experience, leadership and skills pop-ups:** these sit near the bottom of `index.html`. Search for `exp-expand-overlay`, `lead-expand-overlay` or `skills-overlay`.
+All the text is written directly into the HTML, so find the page, change it, and check it in a browser. The about blurb is near the top of `index.html`, and each featured project's Details pop-up sits further down in the same file.
 
 ## Deploying
 
