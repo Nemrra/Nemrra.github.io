@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stochastic Microgrid Energy Management — David Shmail</title>
+  <title>Stochastic Microgrid Energy Management - David Shmail</title>
   <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -117,7 +117,7 @@
       position: relative;
     }
     .project-section ul li::before {
-      content: '—';
+      content: '-';
       position: absolute;
       left: 0;
       color: var(--blue);
@@ -185,8 +185,8 @@
 
     <div class="project-hero">
       <div class="project-tag">Systems Modelling &amp; Optimisation</div>
-      <h1 class="project-title">Stochastic Microgrid Energy Management &mdash; State-Space Battery Modelling, Simulink Co-Simulation &amp; Techno-Economic Optimisation</h1>
-      <p class="project-intro">A closed-loop PV&ndash;battery&ndash;grid&ndash;load microgrid modelled end to end, from first-principles battery circuit dynamics through to dollar-denominated system economics: a hand-derived state-space battery model, driven by stochastic generation and demand profiles, dispatched by a rule-based controller, and evaluated for cost, payback, and sizing under both grid-tied and fully-islanded configurations &mdash; benchmarked throughout against real market pricing rather than simplified cost assumptions.</p>
+      <h1 class="project-title">Stochastic Microgrid Energy Management: State-Space Battery Modelling, Simulink Co-Simulation &amp; Techno-Economic Optimisation</h1>
+      <p class="project-intro">A closed-loop PV-battery-grid-load microgrid modelled end to end, from first-principles battery circuit dynamics through to dollar-denominated system economics: a hand-derived state-space battery model, driven by stochastic generation and demand profiles, dispatched by a rule-based controller, and evaluated for cost, payback, and sizing under both grid-tied and fully-islanded configurations, benchmarked throughout against real market pricing rather than simplified cost assumptions.</p>
       <div class="project-tech">MATLAB/Simulink (State-Space &amp; Bode Plot blocks, MATLAB Function blocks, model callbacks/InitFcn) &middot; stochastic signal modelling &middot; rule-based finite-state energy dispatch &middot; techno-economic and sensitivity/design-space analysis &middot; market-data literature benchmarking</div>
     </div>
 
@@ -205,7 +205,7 @@
         <div class="section-title">Simulink Architecture, Stochastic Simulation &amp; Rule-Based Dispatch</div>
         <ul>
           <li>Built the full closed-loop microgrid block diagram around a provided controller shell, wiring measured internal states into a function-block controller for hardware-representative closed-loop operation.</li>
-          <li>Modelled solar generation and residential load as realistic daily profiles corrupted by independent random disturbances, and modelled grid cost settlement as a filtered, integrated economic signal &mdash; with careful attention to unit consistency across the mixed electrical, energy, and financial timescales involved.</li>
+          <li>Modelled solar generation and residential load as realistic daily profiles corrupted by independent random disturbances, and modelled grid cost settlement as a filtered, integrated economic signal, with careful attention to unit consistency across the mixed electrical, energy, and financial timescales involved.</li>
           <li>Implemented a threshold-switching, rule-based charge/discharge controller that bounds requested battery power against its physical maximum-power-transfer limit, correctly handling distinct charge-priority, minimum-current, and discharge-limited operating regimes.</li>
           <li>Diagnosed a transient effect of initial battery state on operating cost, correctly attributing it to controller-threshold-crossing timing rather than any steady-state difference, and extended the system to support bidirectional grid export under an asymmetric feed-in tariff.</li>
         </ul>
@@ -214,7 +214,7 @@
       <div class="project-section">
         <div class="section-title">Techno-Economic Optimisation &amp; Sustainability Analysis</div>
         <ul>
-          <li>Quantified the battery&rsquo;s return on investment against a grid-only baseline, establishing a payback period of a few months under the workshop&rsquo;s cost assumptions &mdash; then substantially revised this estimate once realistic current-day solar and battery market pricing was substituted in.</li>
+          <li>Quantified the battery&rsquo;s return on investment against a grid-only baseline, establishing a payback period of a few months under the workshop&rsquo;s cost assumptions, then substantially revised this estimate once realistic current-day solar and battery market pricing was substituted in.</li>
           <li>Ran a full factorial design-space sweep over battery capacity and controller thresholds to jointly optimise total cost of ownership, correctly identifying and explaining a short-evaluation-horizon bias that favoured smaller batteries, then extrapolating to find the true break-even point favouring larger capacity over a longer service life.</li>
           <li>Sized a fully-islanded (off-grid) PV-and-battery system from first principles against worst-case seasonal generation and multi-day autonomy requirements, then benchmarked the workshop&rsquo;s simplified cost assumptions against live current-day market data to produce a defensible, literature-grounded long-term cost-of-ownership comparison between off-grid and grid-tied hybrid systems.</li>
           <li>Synthesised findings into a broader techno-economic argument for grid-coordinated distributed energy resources over individual off-grid adoption, properly citing and attributing external industry and market sources throughout.</li>
@@ -227,7 +227,7 @@
       <div class="slide-viewport" id="mg-slide-viewport">
         <div class="slide active"><img src="assets/SNS_portfolio/SNS_portfolio_grid_block.png" alt="Block diagram"></div>
         <div class="slide"><img src="assets/SNS_portfolio/SNS_portfolio_grid_eq.png" alt="State-space equations"></div>
-        <div class="slide"><img src="assets/SNS_portfolio/SNS_portfolio_grid_bode.png" alt="Bode plot — frequency response"></div>
+        <div class="slide"><img src="assets/SNS_portfolio/SNS_portfolio_grid_bode.png" alt="Bode plot: frequency response"></div>
         <div class="slide"><img src="assets/SNS_portfolio/SNS_portfolio_grid_simulink.png" alt="Simulink model"></div>
         <div class="slide"><img src="assets/SNS_portfolio/SNS_portfolio_grid_simulink2.png" alt="Simulink simulation results"></div>
         <div class="slide"><img src="assets/SNS_portfolio/SNS_portfolio_grid_simulink3.png" alt="Simulink simulation results 2"></div>

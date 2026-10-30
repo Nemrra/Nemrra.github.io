@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Numerical Methods Library — David Shmail</title>
+  <title>Numerical Methods Library - David Shmail</title>
   <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -117,7 +117,7 @@
       position: relative;
     }
     .project-section ul li::before {
-      content: '—';
+      content: '-';
       position: absolute;
       left: 0;
       color: var(--blue);
@@ -185,8 +185,8 @@
 
     <div class="project-hero">
       <div class="project-tag">Numerical Methods &amp; Scientific Computing</div>
-      <h1 class="project-title">Custom Numerical Methods &amp; Solver Library &mdash; Root-Finding, Adaptive ODE Integration &amp; Scientific Computing Toolkit</h1>
-      <p class="project-intro">A personal multi-purpose numerical toolkit, built once so root-finders, integrators, and interpolation routines don&rsquo;t get reimplemented from scratch on every project that needs them. The library covers root-finding methods, a generalised Runge-Kutta family for IVP/BVP integration, interpolation routines, quadrature, and numerical differentiation &mdash; most of it built with configurable tolerances, selectable method variants, explicit convergence criteria, structured input validation, and data-structure and memory choices made on purpose rather than left to defaults.</p>
+      <h1 class="project-title">Custom Numerical Methods &amp; Solver Library: Root-Finding, Adaptive ODE Integration &amp; Scientific Computing Toolkit</h1>
+      <p class="project-intro">A personal multi-purpose numerical toolkit, built once so root-finders, integrators, and interpolation routines don&rsquo;t get reimplemented from scratch on every project that needs them. The library covers root-finding methods, a generalised Runge-Kutta family for IVP/BVP integration, interpolation routines, quadrature, and numerical differentiation, most of it built with configurable tolerances, selectable method variants, explicit convergence criteria, structured input validation, and data-structure and memory choices made on purpose rather than left to defaults.</p>
       <div class="project-tech">MATLAB &middot; Python &middot; C++ (structured, parameterised numerical implementations)</div>
     </div>
 
@@ -195,11 +195,11 @@
       <div class="project-section">
         <div class="section-title">Numerical Methods &amp; Software Engineering</div>
         <ul>
-          <li>Implemented classical root-finding (bisection, Newton&ndash;Raphson, secant) with configurable tolerance and iteration-cap convergence criteria, plus input validation for bracket failure and ill-conditioning.</li>
-          <li>Built the Runge-Kutta family around a generic Butcher-tableau stepper (c, A, b coefficients), so explicit Euler, Heun/RK2, and classical RK4 all instantiate the same core routine instead of being hand-coded separately &mdash; adding a new scheme means adding a coefficient table, nothing else.</li>
+          <li>Implemented classical root-finding (bisection, Newton-Raphson, secant) with configurable tolerance and iteration-cap convergence criteria, plus input validation for bracket failure and ill-conditioning.</li>
+          <li>Built the Runge-Kutta family around a generic Butcher-tableau stepper (c, A, b coefficients), so explicit Euler, Heun/RK2, and classical RK4 all instantiate the same core routine instead of being hand-coded separately. Adding a new scheme means adding a coefficient table, nothing else.</li>
           <li>Added embedded adaptive step-size control (higher/lower-order pairs, RK45-style): estimated local truncation error from the two embedded solutions per step, applied a safety-factored step-update rule, and rejected and retried steps that exceeded tolerance.</li>
-          <li>Checked each scheme&rsquo;s convergence order empirically against its theoretical order by halving step size and confirming the error ratio scaled correctly (roughly 2<sup>p</sup> for a p<sup>th</sup>-order method) &mdash; the kind of test that catches bugs a single test case won&rsquo;t, such as an order-4 method quietly behaving like order-3 because a stage weight is off.</li>
-          <li>Ran into stiffness directly: explicit RK&rsquo;s bounded stability region forced impractically small steps on stiff test systems, which drove adding an implicit option (backward Euler / implicit trapezoidal), solving per-step nonlinear stage equations with the library&rsquo;s own Newton&ndash;Raphson root-finder.</li>
+          <li>Checked each scheme&rsquo;s convergence order empirically against its theoretical order by halving step size and confirming the error ratio scaled correctly (roughly 2<sup>p</sup> for a p<sup>th</sup>-order method): the kind of test that catches bugs a single test case won&rsquo;t, such as an order-4 method quietly behaving like order-3 because a stage weight is off.</li>
+          <li>Ran into stiffness directly: explicit RK&rsquo;s bounded stability region forced impractically small steps on stiff test systems, which drove adding an implicit option (backward Euler / implicit trapezoidal), solving per-step nonlinear stage equations with the library&rsquo;s own Newton-Raphson root-finder.</li>
           <li>Handled vector-valued state (systems of ODEs) the same way as the scalar case, and built dense output between accepted steps using the library&rsquo;s own interpolation routines instead of a separate code path.</li>
         </ul>
       </div>
@@ -218,7 +218,7 @@
     <div class="project-gallery">
       <div class="slide-viewport" id="nm-slide-viewport">
         <div class="slide active"><img src="assets/numericalmethods_portfolio/Screenshot%202026-07-08%20222806.png" alt="BVP matrix system"></div>
-        <div class="slide"><img src="assets/numericalmethods_portfolio/Screenshot%202026-07-08%20222837.png" alt="ODE solver comparison — Explicit Euler, Implicit Euler, Crank-Nicolson vs true solution"></div>
+        <div class="slide"><img src="assets/numericalmethods_portfolio/Screenshot%202026-07-08%20222837.png" alt="ODE solver comparison: Explicit Euler, Implicit Euler, Crank-Nicolson vs true solution"></div>
         <div class="slide"><img src="assets/numericalmethods_portfolio/Screenshot%202026-07-08%20222854.png" alt="Implicit Euler stability region in complex plane"></div>
         <div class="slide"><img src="assets/numericalmethods_portfolio/Screenshot%202026-07-08%20222945.png" alt="3D surface interpolation"></div>
         <div class="slide-pause-icon">&#9646;&#9646;</div>

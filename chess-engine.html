@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>C++ Chess Engine — David Shmail</title>
+  <title>C++ Chess Engine - David Shmail</title>
   <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -117,7 +117,7 @@
       position: relative;
     }
     .project-section ul li::before {
-      content: '—';
+      content: '-';
       position: absolute;
       left: 0;
       color: var(--blue);
@@ -150,7 +150,7 @@
         <div class="section-title">Engine Architecture &amp; Rule Logic</div>
         <ul>
           <li>Developed around an early interest in low-level systems programming and object-oriented design, alongside a long-standing interest in the game itself.</li>
-          <li>Implements full rule-complete move generation &mdash; castling rights tracking, en passant state, promotion handling, and legal move filtering via check detection.</li>
+          <li>Implements full rule-complete move generation: castling rights tracking, en passant state, promotion handling, and legal move filtering via check detection.</li>
           <li>Game state structured as a deterministic, serialisable representation with clear separation between board state, piece logic, and move history.</li>
           <li>Built using modular class hierarchies, RAII-based resource management, const-correctness, and strong type separation to enforce invariants at compile time.</li>
         </ul>
@@ -160,7 +160,7 @@
         <div class="section-title">GUI &amp; Software Design</div>
         <ul>
           <li>Responsive OpenGL GUI built with GLFW and ImGui, separating rendering, game state, and input handling into clean subsystems with well-defined interfaces.</li>
-          <li>Performance-aware design and predictable control flow throughout &mdash; avoiding dynamic allocation on hot paths and keeping frame-time costs bounded.</li>
+          <li>Performance-aware design and predictable control flow throughout, avoiding dynamic allocation on hot paths and keeping frame-time costs bounded.</li>
           <li>Comprehensive inline comments and structured project documentation covering architecture decisions, data structures, and rule implementation logic.</li>
           <li>The structured C++ architecture reflects the discipline required in avionics embedded software and telemetry-driven compute platforms.</li>
         </ul>

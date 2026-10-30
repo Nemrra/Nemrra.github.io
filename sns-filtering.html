@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Active Filter Design — David Shmail</title>
+  <title>Active Filter Design - David Shmail</title>
   <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -117,7 +117,7 @@
       position: relative;
     }
     .project-section ul li::before {
-      content: '—';
+      content: '-';
       position: absolute;
       left: 0;
       color: var(--blue);
@@ -185,8 +185,8 @@
 
     <div class="project-hero">
       <div class="project-tag">Signal Processing</div>
-      <h1 class="project-title">Active Filter Design &mdash; Frequency-Response Analysis and Hardware-Validated Signal Processing</h1>
-      <p class="project-intro">A pair of active-filter design studies: analogue low-pass, high-pass and band-stop filters derived from first-principles circuit analysis, characterised across three independent domains &mdash; analytical, simulated, and hardware-measured &mdash; and applied to remove an unknown noise tone from a real corrupted audio recording, closing with an open-ended investigation into the design&rsquo;s underlying performance ceiling.</p>
+      <h1 class="project-title">Active Filter Design: Frequency-Response Analysis and Hardware-Validated Signal Processing</h1>
+      <p class="project-intro">A pair of active-filter design studies: analogue low-pass, high-pass and band-stop filters derived from first-principles circuit analysis, characterised across three independent domains (analytical, simulated, and hardware-measured) and applied to remove an unknown noise tone from a real corrupted audio recording, closing with an open-ended investigation into the design&rsquo;s underlying performance ceiling.</p>
       <div class="project-tech">MATLAB/Simulink (Bode Plot &amp; Discrete Transfer Fcn blocks, Audio Toolbox, c2d discretisation) &middot; Digilent Analog Discovery 2 / WaveForms (Network Analyzer, Wavegen, oscilloscope, spectrum analyser) &middot; breadboard op-amp circuit prototyping &middot; FFT-based audio spectral analysis</div>
     </div>
 
@@ -204,9 +204,9 @@
       <div class="project-section">
         <div class="section-title">Frequency-Domain Characterisation &amp; Cross-Validation</div>
         <ul>
-          <li>Characterised each filter&rsquo;s frequency response three independent ways &mdash; closed-form derivation, Simulink&rsquo;s Bode Plot tooling, and a manually swept hardware measurement &mdash; confirming close agreement across all three and validating the design from theory through to a physical breadboard build.</li>
+          <li>Characterised each filter&rsquo;s frequency response three independent ways: closed-form derivation, Simulink&rsquo;s Bode Plot tooling, and a manually swept hardware measurement, confirming close agreement across all three and validating the design from theory through to a physical breadboard build.</li>
           <li>Explained subtler Bode-plot features (asymptotic slopes, corner-frequency magnitude offsets, phase behaviour at repeated poles and zeros) directly from pole-zero structure rather than treating them as simulation artefacts.</li>
-          <li>Diagnosed the modest gap between hardware measurement and theory by systematically ranking real-world contributors &mdash; component manufacturing tolerance, op-amp bandwidth limitations, breadboard parasitics, and instrument noise floor &mdash; by expected significance.</li>
+          <li>Diagnosed the modest gap between hardware measurement and theory by systematically ranking real-world contributors (component manufacturing tolerance, op-amp bandwidth limitations, breadboard parasitics, and instrument noise floor) by expected significance.</li>
           <li>Applied Fourier/LTI superposition reasoning to predict and verify the filtered output for a non-sinusoidal square-wave input, correctly reconciling the measured response against a naive prediction by accounting for the waveform&rsquo;s harmonic content.</li>
         </ul>
       </div>
@@ -214,10 +214,10 @@
       <div class="project-section">
         <div class="section-title">Band-Stop Filter Design &amp; Digital Signal Processing</div>
         <ul>
-          <li>Identified an unknown noise tone corrupting a recorded audio signal via FFT-based spectral analysis, then used the measured frequency &mdash; rather than an assumed one &mdash; to directly drive a hardware filter design.</li>
+          <li>Identified an unknown noise tone corrupting a recorded audio signal via FFT-based spectral analysis, then used the measured frequency (rather than an assumed one) to directly drive a hardware filter design.</li>
           <li>Synthesised a parallel low-pass/high-pass/summing-amplifier band-stop filter targeting the measured noise frequency, balancing the centre-frequency design constraint against the need to preserve nearby voice content, and sized all passive components against real, kit-available values.</li>
           <li>Discretised the continuous filter design to run in real time against a full audio stream in Simulink, correctly handling the mismatch between continuous-time design and discrete-time execution.</li>
-          <li>Cross-validated the resulting digital filter across simulated frequency response, spectral (FFT) comparison of filtered versus unfiltered audio, and physical hardware measurement &mdash; and derived an original insight into why the design&rsquo;s centre frequency proved more robust to component tolerance than its bandwidth.</li>
+          <li>Cross-validated the resulting digital filter across simulated frequency response, spectral (FFT) comparison of filtered versus unfiltered audio, and physical hardware measurement, and derived an original insight into why the design&rsquo;s centre frequency proved more robust to component tolerance than its bandwidth.</li>
         </ul>
       </div>
 
@@ -225,8 +225,8 @@
         <div class="section-title">Root-Cause Diagnosis &amp; Design Trade-offs</div>
         <ul>
           <li>Diagnosed the filter&rsquo;s incomplete noise rejection as an architectural limitation rather than a build defect: because each parallel branch has a fixed roll-off, notch depth and stopband width are inherently coupled, and no amount of component tuning alone could deepen the notch without encroaching on the voice band.</li>
-          <li>Identified a subtler underlying mechanism &mdash; that rejection actually arises from phase cancellation between the two branches rather than pure amplitude subtraction &mdash; explaining why hardware measurements underperformed simulation by more than component tolerance alone would predict.</li>
-          <li>Proposed and critically compared two alternative redesigns against the diagnosed root causes: a true notch-filter topology that decouples depth from bandwidth at the cost of added complexity, versus cascading repeated filter stages that trades duplicated components for compounding but imperfect attenuation &mdash; selecting between them based on the specific nature of the measured disturbance.</li>
+          <li>Identified a subtler underlying mechanism: rejection actually arises from phase cancellation between the two branches rather than pure amplitude subtraction, which explains why hardware measurements underperformed simulation by more than component tolerance alone would predict.</li>
+          <li>Proposed and critically compared two alternative redesigns against the diagnosed root causes: a true notch-filter topology that decouples depth from bandwidth at the cost of added complexity, versus cascading repeated filter stages that trades duplicated components for compounding but imperfect attenuation, selecting between them based on the specific nature of the measured disturbance.</li>
         </ul>
       </div>
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prosthetic Hip Implant FEA — David Shmail</title>
+  <title>Prosthetic Hip Implant FEA - David Shmail</title>
   <link rel="icon" type="image/png" href="assets/transistorFavicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -117,7 +117,7 @@
       position: relative;
     }
     .project-section ul li::before {
-      content: '—';
+      content: '-';
       position: absolute;
       left: 0;
       color: var(--blue);
@@ -204,8 +204,8 @@
 
     <div class="project-hero">
       <div class="project-tag">Multiphysics Simulation &amp; FEA</div>
-      <h1 class="project-title">Ti-6Al-4V Prosthetic Hip Implant &mdash; Structural Simulation, Failure Analysis &amp; Mass Optimisation</h1>
-      <p class="project-intro">A finite-element study spanning hand-derived stiffness formulation, MATLAB PDE solvers, and CAD-based simulation &mdash; validating each result across analytical, numerical, and commercial-solver methods. Work covers 2D truss FEM from first principles, Kirsch hole stress-concentration verification, and a full design&ndash;analyse&ndash;optimise loop on a prosthetic hip implant, emphasising mesh convergence and physically-grounded boundary conditions over black-box solver output.</p>
+      <h1 class="project-title">Ti-6Al-4V Prosthetic Hip Implant: Structural Simulation, Failure Analysis &amp; Mass Optimisation</h1>
+      <p class="project-intro">A finite-element study spanning hand-derived stiffness formulation, MATLAB PDE solvers, and CAD-based simulation, validating each result across analytical, numerical, and commercial-solver methods. Work covers 2D truss FEM from first principles, Kirsch hole stress-concentration verification, and a full design-analyse-optimise loop on a prosthetic hip implant, emphasising mesh convergence and physically-grounded boundary conditions over black-box solver output.</p>
       <div class="project-tech">MATLAB (PDE Toolbox) &middot; SOLIDWORKS (Simulation (FEA), Non-linear &amp; Fatigue Analysis, Advanced Meshing (curvature based, growth-rate control))</div>
     </div>
 
@@ -216,10 +216,10 @@
         <ul>
           <li>Derived element stiffness matrices from force equilibrium and assembled global FEM systems via coordinate-transform rotation and like-DOF superposition.</li>
           <li>Partitioned systems into essential/free DOFs to solve for unknown displacements and reaction forces under mixed boundary conditions.</li>
-          <li>Cross-validated results three ways &mdash; analytical (Kirsch), custom MATLAB solver, and SOLIDWORKS &mdash; quantifying divergence and its physical/numerical causes.</li>
+          <li>Cross-validated results three ways (Kirsch analytical solution, custom MATLAB solver, and SOLIDWORKS), quantifying divergence and its physical/numerical causes.</li>
           <li>Mesh refinement and convergence studies with localised control, exposing a ~50% peak-stress underestimate that coarse meshing missed.</li>
           <li>Boundary-condition design balancing stability, realism, load flow, and avoidance of artificial over-constraint.</li>
-          <li>Design iteration against quantitative failure criteria &mdash; von Mises vs. yield, safety factor, mass reduction.</li>
+          <li>Design iteration against quantitative failure criteria: von Mises vs. yield, safety factor, mass reduction.</li>
         </ul>
       </div>
 
@@ -229,7 +229,7 @@
 
           <div class="project-subsection">
             <div class="subsection-title">2D Planar Truss FEM (from first principles)</div>
-            <p>Discretised a pin-jointed truss into 2D rod elements, deriving the element stiffness matrix under axial equilibrium and transforming local-to-global via rotation matrices. Assembled the global stiffness system, partitioned into essential/free DOFs, and solved for nodal displacements, reaction forces, and per-member axial stress &mdash; implemented as a parameterised MATLAB script.</p>
+            <p>Discretised a pin-jointed truss into 2D rod elements, deriving the element stiffness matrix under axial equilibrium and transforming local-to-global via rotation matrices. Assembled the global stiffness system, partitioned into essential/free DOFs, and solved for nodal displacements, reaction forces, and per-member axial stress, implemented as a parameterised MATLAB script.</p>
           </div>
 
           <div class="project-subsection">
@@ -238,7 +238,7 @@
           </div>
 
           <div class="project-subsection">
-            <div class="subsection-title">Prosthetic Hip Implant (Design&ndash;Analyse&ndash;Optimise)</div>
+            <div class="subsection-title">Prosthetic Hip Implant (Design-Analyse-Optimise)</div>
             <p>Full CAD-to-FEA workflow on a Ti-6Al-4V hip implant: parametric SOLIDWORKS model, physically-reasoned fixturing (fixing only high-contact faces to avoid artificial stiffness), and static loading emulating body weight. Identified a mesh-sensitive neck stress concentration and bending failure mode, then resolved it through geometry strengthening (flush stem, enlarged fillet) to reach a safety factor of 2, and ran a hole-diameter design study trading mass against structural integrity.</p>
           </div>
 
