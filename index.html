@@ -486,6 +486,33 @@
     .fc-img-u3 { width: 22%; height: 90%; top: 5%; left: 51%; }
     .fc-img-u4 { width: 22%; height: 90%; top: 5%; left: 76%; }
 
+    /* NORDIC card: one full-width render instead of a collage */
+    .fc-single .fc-collage { background: #000; }
+    .fc-single-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .fc-subtitle {
+      font-size: clamp(11px, 1vw, 14px);
+      color: var(--text-primary);
+      opacity: 0.85;
+      line-height: 1.35;
+      margin-top: -2px;
+    }
+    .fc-link { color: var(--blue); }
+    .fc-credits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 14px;
+      font-size: clamp(10px, 0.85vw, 12.5px);
+      color: var(--blue);
+      flex-shrink: 0;
+    }
+
     /* "Details" button: same style as .track-cta */
     .fc-details {
       position: absolute;
@@ -1212,8 +1239,21 @@
 
     <div class="featured-scroll-track">
 
-      <a href="#" class="featured-card fc-new fc-no-collage">
+      <a href="https://nordic-cane.com" target="_blank" rel="noopener" class="featured-card fc-new fc-single">
         <span class="fc-new-badge">NEW</span>
+        <div class="fc-info">
+          <div class="fc-title">NORDIC</div>
+          <div class="fc-subtitle">A Hazard Perception System for the Long White Cane.</div>
+          <p class="fc-summary">Attitude-compensated terrain sensing that classifies drop-offs, steps and obstacles, alerting through real-time haptic feedback. Featuring capacitive grip, wake-on-motion, self-calibration in under a minute and a live digital twin.<br><br>See more at <span class="fc-link">nordic-cane.com</span></p>
+          <div class="fc-credits"><span>Haisong Qi</span><span>Wen Ying Gan</span></div>
+        </div>
+        <div class="fc-collage">
+          <img class="fc-single-img" src="assets/NORDIC_portfolio/nordic_render.jpg" alt="Cutaway render of the NORDIC sensing module and cane handle">
+        </div>
+        <div class="fc-details">Details</div>
+      </a>
+
+      <a href="#" class="featured-card fc-no-collage">
         <div class="fc-info">
           <div class="fc-title">Formally-Verified Multi-Mode Digital Timepiece: Feature-Layered SystemVerilog RTL on Cyclone V FPGA</div>
           <p class="fc-summary">A multi-mode digital timepiece (settable clock, lap-capable stopwatch, editable countdown timer, and PWM brightness control) implemented as fully synchronous RTL and taken through a complete industry-representative flow: lint-clean SystemVerilog, cocotb/pytest regression, k-induction formal proof of every sequential submodule, Quartus synthesis and place-and-route, and gate-level netlist inspection. Built by feature layering (Watch V1→V4) from small, parametrised, single-responsibility modules, with correctness treated as a first-class deliverable rather than an afterthought.</p>
@@ -1229,8 +1269,7 @@
         <div class="fc-details">Details</div>
       </a>
 
-      <a href="#" class="featured-card fc-new">
-        <span class="fc-new-badge">NEW</span>
+      <a href="#" class="featured-card">
         <div class="fc-info">
           <div class="fc-title">Broadband Amplitude-shift Keying Transceiver</div>
           <p class="fc-summary">A broadband ASK modulation-demodulation transceiver taking analog design from theory to a debugged hardware prototype. The chain integrates a BJT series-switch mixer, a high-Q multiple-feedback bandpass filter, a Gilbert-cell four-quadrant multiplier, and a Schmitt-trigger decision device, each characterised in the frequency domain and validated from SPICE to hardware, emphasising working with device non-idealities rather than suppressing them.</p>
@@ -1990,9 +2029,9 @@
       stopSlideshow();
     }
 
-    // Open: ENAD is the first featured card
+    // Open: ENAD is the third featured card (NORDIC is first and links out)
     const featuredCards = document.querySelectorAll('.featured-card');
-    featuredCards[1].querySelector('.fc-details').addEventListener('click', e => {
+    featuredCards[2].querySelector('.fc-details').addEventListener('click', e => {
       e.preventDefault();
       e.stopPropagation();
       openModal();
@@ -2057,7 +2096,7 @@
         stopSlideshow();
       }
 
-      featuredCards[4].querySelector('.fc-details').addEventListener('click', e => {
+      featuredCards[5].querySelector('.fc-details').addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
         openModal();
@@ -2138,7 +2177,7 @@
         stopSlideshow();
       }
 
-      featuredCards[2].querySelector('.fc-details').addEventListener('click', e => {
+      featuredCards[3].querySelector('.fc-details').addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
         openModal();
@@ -2219,7 +2258,7 @@
         stopSlideshow();
       }
 
-      featuredCards[0].querySelector('.fc-details').addEventListener('click', e => {
+      featuredCards[1].querySelector('.fc-details').addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
         openModal();
@@ -2300,7 +2339,7 @@
         stopSlideshow();
       }
 
-      featuredCards[3].querySelector('.fc-details').addEventListener('click', e => {
+      featuredCards[4].querySelector('.fc-details').addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
         openModal();
